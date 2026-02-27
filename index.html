@@ -1,0 +1,1272 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ficha Social - MVP</title>
+  <style>
+    :root {
+      --bg:#070a0d;
+      --bg2:#0b1116;
+      --panel:#0e1620;
+      --card:#0f1b26;
+      --text:#e6edf3;
+      --muted:#8aa0b2;
+      --border:rgba(255,255,255,.08);
+      --shadow:0 12px 30px rgba(0,0,0,.35);
+      --accent:#30d07a;
+      --accent2:#1fb86a;
+      --danger:#e05252;
+      --focus:rgba(48,208,122,.35);
+      --radius:16px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin:0; padding:0; font-family:system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color:var(--text); }
+    body {
+      min-height:100%;
+      line-height:1.45;
+      background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      position: relative;
+    }
+    body::before {
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(500px 260px at 12% 0%, rgba(48,208,122,.06), transparent 62%),
+        radial-gradient(500px 300px at 88% -10%, rgba(48,208,122,.04), transparent 66%);
+      z-index:-1;
+    }
+    body.modal-open { overflow:hidden; }
+    h1,h2,h3 { margin:0 0 10px; line-height:1.2; }
+    h1 { font-size:clamp(1.35rem,2vw,1.72rem); letter-spacing:.01em; }
+    h2 { font-size:clamp(1.12rem,1.7vw,1.3rem); }
+    .muted { color:var(--muted); font-size:.88rem; }
+    .hidden { display:none !important; }
+    .authWrap { min-height:100svh; display:grid; place-items:center; padding:24px; }
+    #authCard {
+      border-radius:18px;
+      background:var(--card);
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+    }
+    #authStatus {
+      margin-top:10px;
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.02);
+      min-height:38px;
+      display:flex;
+      align-items:center;
+    }
+    .loginFields {
+      display:grid;
+      gap:2px;
+    }
+    .loginFields > div {
+      min-width:100% !important;
+      width:100%;
+    }
+    .appShell { display:flex; min-height:100svh; width:100%; }
+    .sidebar {
+      width:268px;
+      background:color-mix(in srgb, var(--panel) 92%, transparent);
+      border-right:1px solid var(--border);
+      box-shadow:var(--shadow);
+      position:sticky;
+      top:0;
+      height:100svh;
+      padding:18px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      z-index:1000;
+      backdrop-filter:blur(8px);
+    }
+    .brandTitle { margin:0; font-size:1.3rem; font-weight:700; }
+    .profileCard { border:1px solid var(--border); border-radius:14px; padding:12px; background:var(--panel); }
+    .menu { display:flex; flex-direction:column; gap:8px; }
+    .sidebarFooter { margin-top:auto; }
+    .mainContent { flex:1; min-width:0; padding:18px 20px; display:flex; align-items:flex-start; justify-content:center; }
+    .contentWrap { width:min(1200px,100%); display:flex; flex-direction:column; gap:16px; }
+    .topBar {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      position:sticky;
+      top:10px;
+      z-index:900;
+      background:color-mix(in srgb, var(--panel) 86%, transparent);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:12px 15px;
+      box-shadow:0 6px 18px rgba(0,0,0,.2);
+      backdrop-filter:blur(8px);
+    }
+    .topBar .titleWrap p { margin:0; }
+    .topBarActions { display:flex; gap:8px; }
+    .iconBtn {
+      display:none;
+      width:38px;
+      height:38px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:var(--panel);
+      color:var(--text);
+      cursor:pointer;
+      font-size:1.1rem;
+    }
+    .card {
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:18px;
+      background:var(--card);
+      box-shadow:var(--shadow);
+      margin:0;
+    }
+    .sectionBlock { scroll-margin-top:88px; }
+    .row { display:flex; gap:12px; flex-wrap:wrap; }
+    label {
+      display:block;
+      font-size:.75rem;
+      color:var(--muted);
+      margin-top:10px;
+      margin-bottom:6px;
+      font-weight:600;
+      letter-spacing:.03em;
+      text-transform:uppercase;
+    }
+    input,select,textarea {
+      width:100%;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:10px;
+      background:#0b1219;
+      color:var(--text);
+      transition:border-color .16s ease, box-shadow .16s ease, background .16s ease;
+    }
+    input:focus,select:focus,textarea:focus {
+      outline:none;
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px var(--focus);
+      background:#0d1620;
+    }
+    textarea { min-height:96px; resize:vertical; }
+    button {
+      padding:10px 14px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:#17202b;
+      color:var(--text);
+      cursor:pointer;
+      font-weight:600;
+      transition:all .16s ease;
+    }
+    button:hover { transform:translateY(-1px); }
+    button:focus-visible { outline:none; box-shadow:0 0 0 3px var(--focus); }
+    button:disabled { opacity:.6; cursor:not-allowed; transform:none; }
+    button.primary, .btn-primary {
+      background:linear-gradient(180deg, var(--accent) 0%, var(--accent2) 100%);
+      border-color:transparent;
+      color:#03100a;
+    }
+    button.primary:hover, .btn-primary:hover { filter:brightness(1.04); box-shadow:0 6px 14px rgba(48,208,122,.25); }
+    button.secondary, .menu button, .btn-secondary {
+      background:#18212d;
+      border-color:var(--border);
+      color:#d7e2eb;
+    }
+    button.danger, .btn-danger {
+      background:#6d2a2a;
+      border-color:#9c4a4a;
+      color:#ffeaea;
+    }
+    .pill {
+      display:inline-block;
+      padding:4px 10px;
+      border:1px solid color-mix(in srgb, var(--accent) 40%, var(--border));
+      border-radius:999px;
+      font-size:.76rem;
+      font-weight:600;
+      background:rgba(48,208,122,.1);
+      color:#c8f5dd;
+    }
+    .tableWrap {
+      width:100%;
+      overflow-x:auto;
+      border:1px solid var(--border);
+      border-radius:12px;
+      margin-top:10px;
+      background:var(--panel);
+    }
+    table { width:100%; border-collapse:collapse; min-width:640px; background:transparent; }
+    th,td {
+      border-bottom:1px solid var(--border);
+      padding:9px 10px;
+      text-align:left;
+      font-size:.86rem;
+      vertical-align:top;
+      color:var(--text);
+    }
+    thead th {
+      background:var(--panel);
+      color:#a9bfce;
+      font-weight:700;
+      position:sticky;
+      top:0;
+      z-index:1;
+    }
+    tbody tr:nth-child(even) { background:rgba(255,255,255,.015); }
+    tbody tr:hover { background:rgba(48,208,122,.06); }
+    td.muted {
+      max-width:210px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    pre { margin:0; font-size:.76rem; white-space:pre-wrap; word-break:break-word; }
+    #adminModal {
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.65);
+      backdrop-filter:blur(3px);
+      -webkit-backdrop-filter:blur(3px);
+      z-index:1200;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+    .admin-modal-box {
+      background:var(--card);
+      width:min(1100px,96vw);
+      max-height:85vh;
+      overflow:auto;
+      border-radius:18px;
+      border:1px solid var(--border);
+      padding:18px;
+      box-shadow:0 18px 46px rgba(0,0,0,.45);
+    }
+    .adminHead { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:12px; }
+    .tabsRow {
+      display:flex;
+      gap:10px;
+      margin-bottom:12px;
+      flex-wrap:wrap;
+      border-bottom:1px solid var(--border);
+      padding-bottom:8px;
+    }
+    .tab-btn {
+      border:0;
+      border-bottom:2px solid transparent;
+      border-radius:0;
+      padding:8px 4px;
+      background:transparent;
+      color:#b9c7d4;
+      width:auto;
+    }
+    .tab-btn.active {
+      color:#dcf8e9;
+      border-bottom-color:var(--accent);
+      background:transparent;
+    }
+    .modalCard { border:1px solid var(--border); border-radius:14px; padding:14px; background:var(--panel); box-shadow:var(--shadow); }
+    #btnLogoutFloating { display:none !important; }
+    .muted.loading::after {
+      content:"";
+      display:inline-block;
+      width:12px;
+      height:12px;
+      margin-left:8px;
+      border:2px solid rgba(48,208,122,.35);
+      border-top-color:var(--accent);
+      border-radius:50%;
+      vertical-align:-2px;
+      animation:spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .sidebarBackdrop { display:none; }
+    @media (max-width:920px) {
+      .sidebar { position:fixed; left:-100%; width:min(82vw,300px); transition:left .22s ease; }
+      .sidebar.open { left:0; }
+      .sidebarBackdrop {
+        display:block;
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.5);
+        opacity:0;
+        pointer-events:none;
+        transition:opacity .2s ease;
+        z-index:950;
+      }
+      .sidebarBackdrop.open { opacity:1; pointer-events:auto; }
+      .mainContent { padding:12px; }
+      .iconBtn { display:inline-grid; place-items:center; }
+      .topBar { top:0; }
+      .sectionBlock { scroll-margin-top:74px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="authWrap" class="authWrap">
+    <div id="authCard" class="card" style="width:min(560px,95vw);">
+      <h1>Ficha Social - MVP</h1>
+      <p class="muted hidden">Login -> Crear Caso -> Grupo Familiar. (Supabase + RLS)</p>
+      <h2 style="margin-top:14px;">Login</h2>
+      <div class="row loginFields">
+        <div style="flex:1; min-width:240px;"><label>Email</label><input id="email" type="email" placeholder="tu@email.com" /></div>
+        <div style="flex:1; min-width:240px;"><label>Password</label><input id="password" type="password" placeholder="********" /></div>
+      </div>
+      <div style="margin-top:12px;" class="row"><button class="primary" id="btnLogin">Ingresar</button></div>
+      <p id="authStatus" class="muted"></p>
+    </div>
+  </div>
+
+  <div id="app" class="appShell hidden">
+    <aside id="sidebar" class="sidebar">
+      <div>
+        <p class="brandTitle">Ficha Social</p>
+        <p class="muted" style="margin:4px 0 0;">MVP municipal</p>
+      </div>
+      <div class="profileCard">
+        <div><span class="pill" id="rolePill">role</span></div>
+        <p class="muted" id="meInfo" style="margin:8px 0 0;"></p>
+      </div>
+      <nav class="menu" aria-label="Navegación interna">
+        <button type="button" class="secondary" data-scroll-target="sectionNewCase">Nuevo caso</button>
+        <button type="button" class="secondary" data-scroll-target="sectionFamily">Grupo familiar</button>
+        <button type="button" class="secondary" data-scroll-target="sectionMyCases">Mis casos</button>
+        <button type="button" class="secondary" data-scroll-target="sectionPersons">Personas</button>
+        <button id="btnOpenAdmin" type="button" class="secondary hidden">Panel SuperAdmin</button>
+      </nav>
+      <div class="sidebarFooter">
+        <button id="btnLogoutFloating" class="danger hidden">Salir</button>
+      </div>
+    </aside>
+
+    <div id="sidebarBackdrop" class="sidebarBackdrop"></div>
+
+    <main class="mainContent">
+      <div class="contentWrap">
+      <header class="topBar">
+        <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+          <button id="btnSidebarToggle" class="iconBtn" type="button" aria-label="Abrir menú">&#9776;</button>
+          <div class="titleWrap">
+            <h2 style="margin-bottom:2px;">Dashboard</h2>
+            <p class="muted">Gestión de casos y grupo familiar</p>
+          </div>
+        </div>
+        <div class="topBarActions"><button id="btnLogoutHeader" class="danger hidden" type="button">Salir</button></div>
+      </header>
+
+      <section id="sectionNewCase" class="sectionBlock card">
+        <h2>Crear nuevo caso</h2>
+        <div class="row">
+          <div style="flex:1; min-width:240px;"><label>Área</label><select id="areaSelect"></select></div>
+          <div style="flex:1; min-width:240px;">
+            <label>DNI</label>
+            <div class="row" style="gap:8px;">
+              <input id="dni" placeholder="DNI" />
+              <button class="secondary" id="btnFindPerson" type="button">Buscar</button>
+            </div>
+          </div>
+        </div>
+        <label>Apellido y Nombre</label><input id="apellidoNombre" placeholder="Apellido y Nombre" />
+        <div class="row">
+          <div style="flex:1; min-width:240px;"><label>Fecha de nacimiento</label><input id="fechaNac" type="date" /></div>
+          <div style="flex:1; min-width:240px;"><label>Teléfono</label><input id="telefono" placeholder="Teléfono" /></div>
+        </div>
+        <label>Domicilio</label><input id="domicilio" placeholder="Domicilio" />
+        <div class="row">
+          <div style="flex:1; min-width:240px;"><label>Estado civil</label><input id="estadoCivil" placeholder="Casado/Separado/Unión convivencial..." /></div>
+          <div style="flex:1; min-width:240px;"><label>Trabaja actualmente</label><input id="trabaja" placeholder="Relación de dependencia/Independiente/Jubilado..." /></div>
+          <div style="flex:1; min-width:240px;"><label>Ingresos (número)</label><input id="ingresos" type="number" step="0.01" placeholder="0" /></div>
+        </div>
+        <label>Motivo</label><textarea id="motivo" placeholder="Motivo de la consulta..."></textarea>
+        <div style="margin-top:12px;" class="row"><button class="primary" id="btnCreateCase">Guardar caso</button></div>
+        <p class="muted" id="personStatus"></p>
+        <p class="muted" id="caseStatus"></p>
+      </section>
+      <section id="sectionFamily" class="sectionBlock card">
+        <h2>Grupo familiar (de la persona)</h2>
+        <p class="muted" id="familyPersonRef">Seleccioná o creá una persona para empezar.</p>
+        <div class="row">
+          <div style="flex:1; min-width:240px;"><label>Apellido y nombres</label><input id="famNombre" placeholder="Apellido y nombres" /></div>
+          <div style="flex:1; min-width:200px;"><label>DNI</label><input id="famDni" placeholder="DNI (opcional)" /></div>
+        </div>
+        <label>Observaciones</label><input id="famObs" placeholder="Vínculo / observaciones" />
+        <div style="margin-top:12px;" class="row"><button class="primary" id="btnAddFamily">Agregar integrante</button></div>
+        <p class="muted" id="famStatus"></p>
+        <h3>Integrantes cargados</h3>
+        <div class="tableWrap"><table><thead><tr><th>Nombre</th><th>DNI</th><th>Obs</th></tr></thead><tbody id="famTable"></tbody></table></div>
+      </section>
+
+      <section id="sectionMyCases" class="sectionBlock card">
+        <h2>Mis casos (según permisos)</h2>
+        <p class="muted">Si sos superadmin o tenés can_view_all=true, vas a ver todo.</p>
+        <button id="btnLoadCases" class="secondary">Cargar casos</button>
+        <div class="tableWrap"><table><thead><tr><th>Creado</th><th>Área</th><th>DNI</th><th>Nombre</th><th>Motivo</th><th>Ingresos</th><th>Owner</th></tr></thead><tbody id="casesTable"></tbody></table></div>
+      </section>
+
+      <section id="sectionPersons" class="sectionBlock card">
+        <h2>Personas</h2>
+        <div class="row">
+          <div style="flex:1; min-width:240px;">
+            <label>Buscar por DNI o nombre</label>
+            <input id="peopleSearch" placeholder="Ej: 30123456 o Pérez" />
+          </div>
+          <div style="display:flex; align-items:flex-end;">
+            <button id="btnLoadPeople" class="secondary" type="button">Buscar personas</button>
+          </div>
+        </div>
+        <p class="muted" id="peopleStatus"></p>
+        <div class="tableWrap">
+          <table>
+            <thead><tr><th>DNI</th><th>Nombre</th><th>Teléfono</th><th>Domicilio</th><th>Actualizado</th></tr></thead>
+            <tbody id="peopleTable"></tbody>
+          </table>
+        </div>
+        <div id="personDetail" class="card hidden" style="margin-top:14px;">
+          <h3>Ficha de persona</h3>
+          <p class="muted" id="personDetailMeta"></p>
+          <div class="tableWrap">
+            <table>
+              <tbody id="personDetailTable"></tbody>
+            </table>
+          </div>
+          <h3>Historial de atenciones</h3>
+          <div class="tableWrap">
+            <table>
+              <thead><tr><th>Fecha</th><th>Área</th><th>Motivo</th><th>Ingresos</th><th>Owner</th></tr></thead>
+              <tbody id="personCasesTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+      </div>
+    </main>
+  </div>
+
+  <div id="adminModal" class="hidden">
+    <div class="admin-modal-box">
+      <div class="adminHead">
+        <h2 style="margin:0;">Panel SuperAdmin</h2>
+        <button id="btnCloseAdmin" class="danger">Cerrar</button>
+      </div>
+      <div class="tabsRow">
+        <button id="tabUsers" class="tab-btn">Usuarios</button>
+        <button id="tabAreas" class="tab-btn">Áreas</button>
+        <button id="tabAudit" class="tab-btn">Auditoría</button>
+      </div>
+
+      <div id="viewUsers" class="modalCard">
+        <h3>Crear usuario</h3>
+        <div class="row">
+          <div style="flex:1; min-width:240px;"><label>Email</label><input id="newUserEmail" type="email" placeholder="operador@correo.com" /></div>
+          <div style="flex:1; min-width:240px;"><label>Password</label><input id="newUserPass" type="text" placeholder="contraseña inicial" /></div>
+          <div style="flex:1; min-width:240px;"><label>Apellido y Nombre</label><input id="newUserFullName" type="text" placeholder="Ej: Pérez Juan" /></div>
+        </div>
+        <div class="row">
+          <div style="flex:1; min-width:240px;"><label>Role</label><select id="newUserRole"><option value="operator">operator</option><option value="admin">admin</option><option value="superadmin">superadmin</option></select></div>
+          <div style="flex:1; min-width:240px;"><label>can_view_all</label><select id="newUserViewAll"><option value="false">false</option><option value="true">true</option></select></div>
+        </div>
+        <div style="margin-top:12px;" class="row"><button class="primary" id="btnCreateUser">Crear usuario</button><button class="secondary" id="btnRefreshUsers">Refrescar lista</button></div>
+        <p class="muted" id="adminStatus"></p>
+        <h3>Usuarios</h3>
+        <div class="tableWrap"><table><thead><tr><th>Email</th><th>Role</th><th>View All</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="usersTable"></tbody></table></div>
+      </div>
+
+      <div id="viewAreas" class="hidden modalCard" style="margin-top:14px;">
+        <h3>Áreas</h3>
+        <div class="row">
+          <div style="flex:1; min-width:240px;"><label>Nueva área</label><input id="newAreaName" placeholder="Ej: Obras Públicas" /></div>
+          <div style="align-self:end;"><button class="primary" id="btnCreateArea">Crear área</button></div>
+          <div style="align-self:end;"><button class="secondary" id="btnRefreshAreas">Refrescar áreas</button></div>
+        </div>
+        <p class="muted" id="areasStatus"></p>
+        <div class="tableWrap"><table><thead><tr><th>Nombre</th><th>Activa</th><th>Acciones</th></tr></thead><tbody id="areasTable"></tbody></table></div>
+      </div>
+
+      <div id="viewAudit" class="hidden modalCard" style="margin-top:14px;">
+        <h3>Auditoría</h3>
+        <p class="muted">Solo SuperAdmin. Últimos eventos registrados.</p>
+        <div class="row">
+          <div style="flex:1; min-width:220px;"><label>Filtrar por acción</label><input id="auditActionFilter" placeholder="Ej: user_create, user_update, area_create..." /></div>
+          <div style="flex:1; min-width:220px;"><label>Filtrar por entidad</label><input id="auditEntityFilter" placeholder="Ej: auth.users, profiles, areas..." /></div>
+          <div style="flex:1; min-width:220px;"><label>Filtrar por actor (user_id)</label><input id="auditActorFilter" placeholder="UUID del superadmin/actor" /></div>
+        </div>
+        <div style="margin-top:12px;" class="row"><button class="primary" id="btnLoadAudit">Cargar auditoría</button><button class="secondary" id="btnClearAuditFilters">Limpiar filtros</button></div>
+        <div class="row" style="margin-top:8px;"><button class="secondary" id="btnAuditPrev"><- Anterior</button><button class="secondary" id="btnAuditNext">Siguiente -></button></div>
+        <p class="muted" id="auditStatus"></p>
+        <div class="tableWrap"><table><thead><tr><th>Fecha</th><th>Acción</th><th>Entidad</th><th>Entity ID</th><th>Actor</th><th>Meta</th></tr></thead><tbody id="auditTable"></tbody></table></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+    let auditPage = 0;
+    const AUDIT_PAGE_SIZE = 25;
+
+    const SUPABASE_URL = "https://vahpbprdugncspvxyktz.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_qjwGnx6tEIGxPlBFhUg83g_JotwZR8p";
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const $ = (id) => document.getElementById(id);
+
+    let currentUser = null;
+    let myProfile = null;
+    let lastCaseId = null;
+    let currentPersonId = null;
+    let currentPersonDni = null;
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, (m) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+      }[m]));
+    }
+
+    function closeSidebarMobile() {
+      if (!window.matchMedia("(max-width: 920px)").matches) return;
+      $("sidebar").classList.remove("open");
+      $("sidebarBackdrop").classList.remove("open");
+    }
+
+    const statusNodeIds = ["authStatus", "personStatus", "caseStatus", "famStatus", "peopleStatus", "adminStatus", "areasStatus", "auditStatus"];
+    const loadingTextRegex = /(cargando|guardando|ingresando|agregando|actualizando|creando)/i;
+
+    function refreshLoadingIndicators() {
+      statusNodeIds.forEach((id) => {
+        const el = $(id);
+        if (!el) return;
+        el.classList.toggle("loading", loadingTextRegex.test(el.textContent || ""));
+      });
+    }
+
+    function setAuthUI(loggedIn) {
+      $("app").classList.toggle("hidden", !loggedIn);
+      $("authWrap").classList.toggle("hidden", loggedIn);
+      $("authCard").classList.toggle("hidden", loggedIn);
+      $("btnLogoutFloating").classList.toggle("hidden", !loggedIn);
+      $("btnLogoutHeader").classList.toggle("hidden", !loggedIn);
+
+      if (!loggedIn) {
+        $("btnOpenAdmin").classList.add("hidden");
+        $("adminModal").classList.add("hidden");
+        document.body.classList.remove("modal-open");
+      }
+
+      $("authStatus").textContent = loggedIn ? "Sesión iniciada" : "No autenticado";
+    }
+
+    async function loadProfile() {
+      const { data: { user } } = await supabase.auth.getUser();
+      currentUser = user;
+      if (!user) return null;
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("user_id, full_name, role, can_view_all, default_area_id, is_active")
+        .eq("user_id", user.id)
+        .maybeSingle();
+      if (error) throw error;
+      myProfile = data;
+
+      if (myProfile && myProfile.is_active === false) {
+        await supabase.auth.signOut();
+        setAuthUI(false);
+        $("authStatus").textContent = "Tu cuenta está desactivada. Contactá al administrador.";
+        return null;
+      }
+
+      $("rolePill").textContent = `${data.role}${data.can_view_all ? " | view_all" : ""}`;
+      $("meInfo").textContent = myProfile?.full_name ? myProfile.full_name : currentUser.email;
+      $("btnOpenAdmin").classList.toggle("hidden", myProfile?.role !== "superadmin");
+
+      if (myProfile?.role !== "superadmin") {
+        $("adminModal").classList.add("hidden");
+      }
+
+      return data;
+    }
+
+    async function loadAreas() {
+      const { data, error } = await supabase
+        .from("areas")
+        .select("id, name, active")
+        .eq("active", true)
+        .order("name", { ascending: true });
+
+      if (error) throw error;
+      $("areaSelect").innerHTML = (data ?? []).map(a => `<option value="${a.id}">${a.name}</option>`).join("");
+    }
+
+    function getPersonFormData() {
+      return {
+        dni: $("dni").value.trim(),
+        apellido_nombre: $("apellidoNombre").value.trim(),
+        fecha_nacimiento: $("fechaNac").value || null,
+        domicilio: $("domicilio").value.trim() || null,
+        telefono: $("telefono").value.trim() || null,
+        estado_civil: $("estadoCivil").value.trim() || null,
+        trabaja_actualmente: $("trabaja").value.trim() || null,
+      };
+    }
+
+    function setPersonFormData(p) {
+      $("dni").value = p?.dni ?? "";
+      $("apellidoNombre").value = p?.apellido_nombre ?? "";
+      $("fechaNac").value = p?.fecha_nacimiento ?? "";
+      $("domicilio").value = p?.domicilio ?? "";
+      $("telefono").value = p?.telefono ?? "";
+      $("estadoCivil").value = p?.estado_civil ?? "";
+      $("trabaja").value = p?.trabaja_actualmente ?? "";
+    }
+
+    function updateFamilyHeader() {
+      const dni = $("dni").value.trim();
+      const nombre = $("apellidoNombre").value.trim();
+      if (currentPersonId && (dni || nombre)) {
+        $("familyPersonRef").textContent = `Persona actual: ${nombre || "(sin nombre)"} | DNI: ${dni || "(sin DNI)"}`;
+      } else {
+        $("familyPersonRef").textContent = "Seleccioná o creá una persona para empezar.";
+      }
+    }
+
+    async function findOrSelectPersonByDni() {
+      const dni = $("dni").value.trim();
+      if (!dni) {
+        currentPersonId = null;
+        currentPersonDni = null;
+        $("personStatus").textContent = "Ingresá un DNI para buscar persona.";
+        updateFamilyHeader();
+        return null;
+      }
+
+      $("personStatus").textContent = "Buscando persona...";
+      const { data, error } = await supabase
+        .from("persons")
+        .select("id, dni, apellido_nombre, fecha_nacimiento, domicilio, telefono, estado_civil, trabaja_actualmente, updated_at")
+        .eq("dni", dni)
+        .maybeSingle();
+
+      if (error) {
+        $("personStatus").textContent = `Error al buscar persona: ${error.message}`;
+        return null;
+      }
+
+      if (!data) {
+        currentPersonId = null;
+        currentPersonDni = null;
+        $("personStatus").textContent = "No existe persona con ese DNI. Completá los datos para crearla.";
+        updateFamilyHeader();
+        return null;
+      }
+
+      currentPersonId = data.id;
+      currentPersonDni = data.dni;
+      setPersonFormData(data);
+      $("personStatus").textContent = `Persona encontrada. Si editás los datos, se actualizará la persona.`;
+      updateFamilyHeader();
+      await loadFamilyMembers();
+      return data;
+    }
+
+    async function ensurePersonForCase() {
+      const personData = getPersonFormData();
+      if (!personData.dni || !personData.apellido_nombre) {
+        $("caseStatus").textContent = "Faltan: Apellido y Nombre y/o DNI.";
+        return null;
+      }
+
+      if (!currentPersonId) {
+        const existing = await findOrSelectPersonByDni();
+        if (existing?.id) currentPersonId = existing.id;
+      }
+
+      if (!currentPersonId) {
+        const { data, error } = await supabase
+          .from("persons")
+          .insert(personData)
+          .select("id")
+          .single();
+        if (error) {
+          $("caseStatus").textContent = `Error al crear persona: ${error.message}`;
+          return null;
+        }
+        currentPersonId = data.id;
+        currentPersonDni = personData.dni;
+        $("personStatus").textContent = "Persona creada y vinculada al caso.";
+      } else {
+        const { error } = await supabase
+          .from("persons")
+          .update(personData)
+          .eq("id", currentPersonId);
+        if (error) {
+          $("caseStatus").textContent = `Error al actualizar persona: ${error.message}`;
+          return null;
+        }
+        currentPersonDni = personData.dni;
+        $("personStatus").textContent = "Persona actualizada.";
+      }
+
+      updateFamilyHeader();
+      return { id: currentPersonId, ...personData };
+    }
+
+    async function createCase() {
+      $("caseStatus").textContent = "Guardando...";
+      const person = await ensurePersonForCase();
+      if (!person) return;
+
+      const payload = {
+        person_id: person.id,
+        area_id: $("areaSelect").value,
+        motivo: $("motivo").value.trim() || null,
+        ingresos: $("ingresos").value ? Number($("ingresos").value) : null,
+        created_by: currentUser.id,
+        dni: person.dni,
+        apellido_nombre: person.apellido_nombre,
+        fecha_nacimiento: person.fecha_nacimiento,
+        domicilio: person.domicilio,
+        telefono: person.telefono,
+        estado_civil: person.estado_civil,
+        trabaja_actualmente: person.trabaja_actualmente,
+      };
+
+      const { data, error } = await supabase.from("cases").insert(payload).select("id").single();
+      if (error) { $("caseStatus").textContent = `Error: ${error.message}`; return; }
+
+      lastCaseId = data.id;
+      $("caseStatus").textContent = `OK. Caso creado: ${lastCaseId}`;
+      $("famStatus").textContent = "Ahora podés agregar grupo familiar de la persona.";
+      $("famTable").innerHTML = "";
+      await loadFamilyMembers();
+    }
+
+    async function addFamilyMember() {
+      if (!currentPersonId) { $("famStatus").textContent = "Primero buscá/creá una persona por DNI."; return; }
+      $("famStatus").textContent = "Agregando...";
+
+      const payload = {
+        person_id: currentPersonId,
+        case_id: lastCaseId || null,
+        apellido_nombres: $("famNombre").value.trim(),
+        dni: $("famDni").value.trim() || null,
+        observaciones: $("famObs").value.trim() || null,
+      };
+
+      if (!payload.apellido_nombres) { $("famStatus").textContent = "Falta: Apellido y nombres."; return; }
+
+      const { error } = await supabase.from("family_members").insert(payload);
+      if (error) { $("famStatus").textContent = `Error: ${error.message}`; return; }
+
+      $("famStatus").textContent = "OK. Integrante agregado.";
+      $("famNombre").value = "";
+      $("famDni").value = "";
+      $("famObs").value = "";
+      await loadFamilyMembers();
+    }
+
+    async function loadFamilyMembers() {
+      if (!currentPersonId) { $("famTable").innerHTML = ""; return; }
+      const { data, error } = await supabase
+        .from("family_members")
+        .select("apellido_nombres, dni, observaciones")
+        .eq("person_id", currentPersonId)
+        .order("created_at", { ascending: true });
+
+      if (error) { $("famStatus").textContent = `Error: ${error.message}`; return; }
+
+      $("famTable").innerHTML = (data ?? []).map(r => `
+        <tr>
+          <td>${escapeHtml(r.apellido_nombres)}</td>
+          <td>${escapeHtml(r.dni ?? "")}</td>
+          <td>${escapeHtml(r.observaciones ?? "")}</td>
+        </tr>
+      `).join("");
+    }
+
+    async function getProfilesMap(userIds) {
+      const ids = [...new Set((userIds ?? []).filter(Boolean))];
+      if (!ids.length) return {};
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("user_id, full_name")
+        .in("user_id", ids);
+      if (error) return {};
+      const m = {};
+      (data ?? []).forEach((p) => { m[p.user_id] = p.full_name; });
+      return m;
+    }
+
+    async function getPersonsMap(personIds) {
+      const ids = [...new Set((personIds ?? []).filter(Boolean))];
+      if (!ids.length) return {};
+      const { data, error } = await supabase
+        .from("persons")
+        .select("id, dni, apellido_nombre")
+        .in("id", ids);
+      if (error) return {};
+      const m = {};
+      (data ?? []).forEach((p) => { m[p.id] = p; });
+      return m;
+    }
+
+    async function getAreasMap(areaIds) {
+      const ids = [...new Set((areaIds ?? []).filter(Boolean))];
+      if (!ids.length) return {};
+      const { data, error } = await supabase
+        .from("areas")
+        .select("id, name")
+        .in("id", ids);
+      if (error) return {};
+      const m = {};
+      (data ?? []).forEach((a) => { m[a.id] = a.name; });
+      return m;
+    }
+
+    async function loadCases() {
+      const { data, error } = await supabase
+        .from("cases")
+        .select("created_at, area_id, person_id, dni, apellido_nombre, motivo, ingresos, created_by, areas(name)")
+        .order("created_at", { ascending: false })
+        .limit(50);
+
+      if (error) { alert("Error cargando casos: " + error.message); return; }
+
+      const rows = data ?? [];
+      const [personsMap, profilesMap, areasMap] = await Promise.all([
+        getPersonsMap(rows.map((c) => c.person_id)),
+        getProfilesMap(rows.map((c) => c.created_by)),
+        getAreasMap(rows.map((c) => c.area_id)),
+      ]);
+
+      $("casesTable").innerHTML = rows.map(c => {
+        const person = personsMap[c.person_id] || {};
+        const ownerName = profilesMap[c.created_by] || c.created_by;
+        const areaName = c.areas?.name ?? areasMap[c.area_id] ?? "";
+        const personDni = person.dni ?? c.dni ?? "";
+        const personName = person.apellido_nombre ?? c.apellido_nombre ?? "";
+        return `
+          <tr>
+            <td>${new Date(c.created_at).toLocaleString()}</td>
+            <td>${escapeHtml(areaName)}</td>
+            <td>${escapeHtml(personDni)}</td>
+            <td>${escapeHtml(personName)}</td>
+            <td>${escapeHtml(c.motivo ?? "")}</td>
+            <td>${c.ingresos == null ? "" : escapeHtml(String(c.ingresos))}</td>
+            <td class="muted" title="${escapeHtml(c.created_by)}">${escapeHtml(ownerName)}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    async function loadPeople() {
+      $("peopleStatus").textContent = "Cargando personas...";
+      const search = $("peopleSearch").value.trim();
+      let q = supabase
+        .from("persons")
+        .select("id, dni, apellido_nombre, telefono, domicilio, updated_at")
+        .order("updated_at", { ascending: false })
+        .limit(100);
+
+      if (search) {
+        q = q.or(`dni.ilike.%${search}%,apellido_nombre.ilike.%${search}%`);
+      }
+
+      const { data, error } = await q;
+      if (error) { $("peopleStatus").textContent = `Error: ${error.message}`; return; }
+
+      const rows = data ?? [];
+      $("peopleTable").innerHTML = rows.map((p) => `
+        <tr>
+          <td>${escapeHtml(p.dni ?? "")}</td>
+          <td><button type="button" class="secondary openPersonBtn" data-person="${p.id}">${escapeHtml(p.apellido_nombre ?? "")}</button></td>
+          <td>${escapeHtml(p.telefono ?? "")}</td>
+          <td>${escapeHtml(p.domicilio ?? "")}</td>
+          <td>${p.updated_at ? new Date(p.updated_at).toLocaleString() : ""}</td>
+        </tr>
+      `).join("");
+
+      $("peopleStatus").textContent = `OK. ${rows.length} persona(s).`;
+    }
+
+    async function loadPersonDetail(personId) {
+      if (!personId) return;
+      $("personDetail").classList.remove("hidden");
+      $("personDetailMeta").textContent = "Cargando ficha...";
+
+      const { data: person, error: personError } = await supabase
+        .from("persons")
+        .select("id, dni, apellido_nombre, fecha_nacimiento, domicilio, telefono, estado_civil, trabaja_actualmente, created_at, updated_at")
+        .eq("id", personId)
+        .maybeSingle();
+      if (personError || !person) {
+        $("personDetailMeta").textContent = `Error: ${personError?.message ?? "Persona no encontrada."}`;
+        return;
+      }
+
+      $("personDetailMeta").textContent = `${person.apellido_nombre ?? ""} | DNI ${person.dni ?? ""}`;
+      $("personDetailTable").innerHTML = [
+        ["DNI", person.dni ?? ""],
+        ["Apellido y nombre", person.apellido_nombre ?? ""],
+        ["Fecha nacimiento", person.fecha_nacimiento ?? ""],
+        ["Domicilio", person.domicilio ?? ""],
+        ["Teléfono", person.telefono ?? ""],
+        ["Estado civil", person.estado_civil ?? ""],
+        ["Trabaja actualmente", person.trabaja_actualmente ?? ""],
+        ["Creado", person.created_at ? new Date(person.created_at).toLocaleString() : ""],
+        ["Actualizado", person.updated_at ? new Date(person.updated_at).toLocaleString() : ""],
+      ].map(([k, v]) => `<tr><th style="text-align:left;">${escapeHtml(k)}</th><td>${escapeHtml(v)}</td></tr>`).join("");
+
+      const { data: personCases, error: casesError } = await supabase
+        .from("cases")
+        .select("created_at, area_id, motivo, ingresos, created_by, areas(name)")
+        .eq("person_id", personId)
+        .order("created_at", { ascending: false });
+
+      if (casesError) {
+        $("personCasesTable").innerHTML = `<tr><td colspan="5">Error: ${escapeHtml(casesError.message)}</td></tr>`;
+        return;
+      }
+
+      const caseRows = personCases ?? [];
+      const [profilesMap, areasMap] = await Promise.all([
+        getProfilesMap(caseRows.map((c) => c.created_by)),
+        getAreasMap(caseRows.map((c) => c.area_id)),
+      ]);
+
+      $("personCasesTable").innerHTML = caseRows.map((c) => `
+        <tr>
+          <td>${new Date(c.created_at).toLocaleString()}</td>
+          <td>${escapeHtml(c.areas?.name ?? areasMap[c.area_id] ?? "")}</td>
+          <td>${escapeHtml(c.motivo ?? "")}</td>
+          <td>${c.ingresos == null ? "" : escapeHtml(String(c.ingresos))}</td>
+          <td>${escapeHtml(profilesMap[c.created_by] ?? c.created_by ?? "")}</td>
+        </tr>
+      `).join("");
+    }
+
+    async function adminListUsers() {
+      $("adminStatus").textContent = "Cargando usuarios...";
+      const { data, error } = await supabase.functions.invoke("admin-users", { method: "GET" });
+      if (error) { $("adminStatus").textContent = "Error: " + error.message; return; }
+
+      const users = data?.users ?? [];
+      $("usersTable").innerHTML = users.map(u => {
+        const active = (u.profile?.is_active ?? true);
+        return `
+          <tr>
+            <td>${escapeHtml(u.email ?? "")}</td>
+            <td>
+              <select data-user="${u.id}" class="roleSel">
+                ${["operator", "admin", "superadmin"].map(r => `
+                  <option value="${r}" ${u.profile?.role === r ? "selected" : ""}>${r}</option>
+                `).join("")}
+              </select>
+            </td>
+            <td>
+              <select data-user="${u.id}" class="viewAllSel">
+                <option value="false" ${(u.profile?.can_view_all === false || u.profile?.can_view_all == null) ? "selected" : ""}>false</option>
+                <option value="true" ${u.profile?.can_view_all === true ? "selected" : ""}>true</option>
+              </select>
+            </td>
+            <td><span class="pill">${active ? "activo" : "desactivado"}</span></td>
+            <td>
+              <button class="primary saveUserBtn" data-user="${u.id}">Guardar</button>
+              ${active ? `<button class="danger deactUserBtn" data-user="${u.id}">Desactivar</button>` : `<button class="primary reactUserBtn" data-user="${u.id}">Reactivar</button>`}
+            </td>
+          </tr>
+        `;
+      }).join("");
+
+      $("adminStatus").textContent = "OK.";
+    }
+
+    async function adminSetUserActive(userId, isActive) {
+      if (!confirm(isActive ? "¿Reactivar usuario?" : "¿Desactivar usuario?")) return;
+
+      $("adminStatus").textContent = "Actualizando estado...";
+      const { data, error } = await supabase.functions.invoke("admin-user-status", {
+        method: "POST",
+        body: { user_id: userId, is_active: isActive },
+      });
+
+      if (error) { $("adminStatus").textContent = "Error: " + error.message; return; }
+      if (data?.error) { $("adminStatus").textContent = "Error: " + data.error; return; }
+
+      $("adminStatus").textContent = "OK.";
+      await adminListUsers();
+    }
+
+    async function adminCreateUser() {
+      $("adminStatus").textContent = "Creando usuario...";
+      const payload = {
+        email: $("newUserEmail").value.trim(),
+        password: $("newUserPass").value,
+        role: $("newUserRole").value,
+        can_view_all: $("newUserViewAll").value === "true",
+        full_name: $("newUserFullName").value.trim(),
+      };
+
+      const { data, error } = await supabase.functions.invoke("admin-users", { method: "POST", body: payload });
+      if (error) { $("adminStatus").textContent = "Error: " + error.message; return; }
+      if (data?.error) { $("adminStatus").textContent = "Error: " + data.error; return; }
+
+      $("adminStatus").textContent = "Usuario creado: " + data.user_id;
+      await adminListUsers();
+    }
+
+    async function adminSaveUser(userId, role, can_view_all) {
+      $("adminStatus").textContent = "Guardando cambios...";
+      const { data, error } = await supabase.functions.invoke("admin-users", {
+        method: "PATCH",
+        body: { user_id: userId, role, can_view_all }
+      });
+      if (error) { $("adminStatus").textContent = "Error: " + error.message; return; }
+      if (data?.error) { $("adminStatus").textContent = "Error: " + data.error; return; }
+      $("adminStatus").textContent = "OK. Cambios guardados.";
+    }
+
+    async function adminListAreas() {
+      $("areasStatus").textContent = "Cargando áreas...";
+      const { data, error } = await supabase.functions.invoke("admin-areas", { method: "GET" });
+      if (error) { $("areasStatus").textContent = "Error: " + error.message; return; }
+
+      const areas = data?.areas ?? [];
+      $("areasTable").innerHTML = areas.map(a => `
+        <tr>
+          <td><input data-area="${a.id}" class="areaNameInp" value="${escapeHtml(a.name)}" /></td>
+          <td>
+            <select data-area="${a.id}" class="areaActiveSel">
+              <option value="true" ${a.active ? "selected" : ""}>true</option>
+              <option value="false" ${!a.active ? "selected" : ""}>false</option>
+            </select>
+          </td>
+          <td><button class="primary saveAreaBtn" data-area="${a.id}">Guardar</button></td>
+        </tr>
+      `).join("");
+
+      $("areasStatus").textContent = "OK.";
+    }
+
+    async function adminCreateArea() {
+      $("areasStatus").textContent = "Creando área...";
+      const name = $("newAreaName").value.trim();
+      if (!name) { $("areasStatus").textContent = "Falta el nombre."; return; }
+
+      const { data, error } = await supabase.functions.invoke("admin-areas", { method: "POST", body: { name } });
+      if (error) { $("areasStatus").textContent = "Error: " + error.message; return; }
+      if (data?.error) { $("areasStatus").textContent = "Error: " + data.error; return; }
+
+      $("newAreaName").value = "";
+      $("areasStatus").textContent = "OK. Área creada.";
+      await adminListAreas();
+      await loadAreas();
+    }
+
+    async function adminSaveArea(areaId) {
+      const name = document.querySelector(`.areaNameInp[data-area="${areaId}"]`).value.trim();
+      const active = document.querySelector(`.areaActiveSel[data-area="${areaId}"]`).value === "true";
+
+      $("areasStatus").textContent = "Guardando...";
+      const { data, error } = await supabase.functions.invoke("admin-areas", {
+        method: "PATCH",
+        body: { id: areaId, name, active }
+      });
+      if (error) { $("areasStatus").textContent = "Error: " + error.message; return; }
+      if (data?.error) { $("areasStatus").textContent = "Error: " + data.error; return; }
+
+      $("areasStatus").textContent = "OK.";
+      await adminListAreas();
+      await loadAreas();
+    }
+
+    async function loadAuditLog() {
+      $("auditStatus").textContent = "Cargando auditoría...";
+
+      let q = supabase
+        .from("audit_log")
+        .select("action, entity, entity_id, actor_user_id, meta, created_at", { count: "exact" })
+        .order("created_at", { ascending: false })
+        .range(auditPage * AUDIT_PAGE_SIZE, auditPage * AUDIT_PAGE_SIZE + AUDIT_PAGE_SIZE - 1);
+
+      const actionF = $("auditActionFilter").value.trim();
+      const entityF = $("auditEntityFilter").value.trim();
+      const actorF = $("auditActorFilter").value.trim();
+
+      if (actionF) q = q.ilike("action", `%${actionF}%`);
+      if (entityF) q = q.ilike("entity", `%${entityF}%`);
+      if (actorF) q = q.eq("actor_user_id", actorF);
+
+      const { data, error } = await q;
+      if (error) { $("auditStatus").textContent = "Error: " + error.message; return; }
+
+      const rows = data ?? [];
+      $("auditTable").innerHTML = rows.map(r => `
+        <tr>
+          <td>${new Date(r.created_at).toLocaleString()}</td>
+          <td><span class="pill">${escapeHtml(r.action)}</span></td>
+          <td>${escapeHtml(r.entity)}</td>
+          <td class="muted" title="${escapeHtml(r.entity_id ?? "")}">${escapeHtml(r.entity_id ?? "")}</td>
+          <td class="muted" title="${escapeHtml(r.actor_user_id ?? "")}">${escapeHtml(r.actor_user_id ?? "")}</td>
+          <td><pre>${escapeHtml(JSON.stringify(r.meta ?? {}, null, 2))}</pre></td>
+        </tr>
+      `).join("");
+
+      $("auditStatus").textContent = `Página ${auditPage + 1} | ${rows.length} registros`;
+    }
+
+    async function setAdminTab(tabName) {
+      const isUsers = tabName === "users";
+      const isAreas = tabName === "areas";
+      const isAudit = tabName === "audit";
+
+      $("viewUsers").classList.toggle("hidden", !isUsers);
+      $("viewAreas").classList.toggle("hidden", !isAreas);
+      $("viewAudit").classList.toggle("hidden", !isAudit);
+
+      $("tabUsers").classList.toggle("active", isUsers);
+      $("tabAreas").classList.toggle("active", isAreas);
+      $("tabAudit").classList.toggle("active", isAudit);
+
+      if (isUsers) await adminListUsers();
+      if (isAreas) await adminListAreas();
+      if (isAudit) { auditPage = 0; await loadAuditLog(); }
+    }
+
+    async function openAdminModal() {
+      if (myProfile?.role !== "superadmin") return;
+      $("adminModal").classList.remove("hidden");
+      document.body.classList.add("modal-open");
+      closeSidebarMobile();
+      await setAdminTab("users");
+    }
+
+    function closeAdminModal() {
+      $("adminModal").classList.add("hidden");
+      document.body.classList.remove("modal-open");
+    }
+
+    async function doLogout() {
+      await supabase.auth.signOut();
+      setAuthUI(false);
+      myProfile = null;
+      currentUser = null;
+      currentPersonId = null;
+      currentPersonDni = null;
+      lastCaseId = null;
+      $("meInfo").textContent = "";
+      $("rolePill").textContent = "";
+    }
+
+    $("btnLogin").addEventListener("click", async () => {
+      $("authStatus").textContent = "Ingresando...";
+      const email = $("email").value.trim();
+      const password = $("password").value;
+
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) { $("authStatus").textContent = "Error: " + error.message; return; }
+
+      setAuthUI(true);
+      await loadProfile();
+      await loadAreas();
+    });
+
+    $("btnLogoutFloating").addEventListener("click", doLogout);
+    $("btnLogoutHeader").addEventListener("click", doLogout);
+    $("btnOpenAdmin").addEventListener("click", openAdminModal);
+    $("btnCloseAdmin").addEventListener("click", closeAdminModal);
+    $("adminModal").addEventListener("click", (e) => { if (e.target.id === "adminModal") closeAdminModal(); });
+    $("tabUsers").addEventListener("click", () => setAdminTab("users"));
+    $("tabAreas").addEventListener("click", () => setAdminTab("areas"));
+    $("tabAudit").addEventListener("click", () => setAdminTab("audit"));
+    $("btnFindPerson").addEventListener("click", findOrSelectPersonByDni);
+    $("dni").addEventListener("blur", findOrSelectPersonByDni);
+    $("dni").addEventListener("input", () => {
+      if (!currentPersonId) return;
+      const dni = $("dni").value.trim();
+      if (dni !== currentPersonDni) {
+        currentPersonId = null;
+        currentPersonDni = null;
+        $("personStatus").textContent = "DNI modificado. Se buscará/creará una nueva persona al guardar.";
+        updateFamilyHeader();
+      }
+    });
+    $("apellidoNombre").addEventListener("input", updateFamilyHeader);
+    $("btnCreateCase").addEventListener("click", createCase);
+    $("btnAddFamily").addEventListener("click", addFamilyMember);
+    $("btnLoadCases").addEventListener("click", loadCases);
+    $("btnLoadPeople").addEventListener("click", loadPeople);
+    $("btnCreateUser").addEventListener("click", adminCreateUser);
+    $("btnRefreshUsers").addEventListener("click", adminListUsers);
+    $("btnCreateArea").addEventListener("click", adminCreateArea);
+    $("btnRefreshAreas").addEventListener("click", adminListAreas);
+
+    $("btnLoadAudit").addEventListener("click", async () => { auditPage = 0; await loadAuditLog(); });
+    $("btnClearAuditFilters").addEventListener("click", () => {
+      $("auditActionFilter").value = "";
+      $("auditEntityFilter").value = "";
+      $("auditActorFilter").value = "";
+    });
+    $("btnAuditPrev").addEventListener("click", async () => { if (auditPage > 0) { auditPage--; await loadAuditLog(); } });
+    $("btnAuditNext").addEventListener("click", async () => { auditPage++; await loadAuditLog(); });
+
+    $("btnSidebarToggle").addEventListener("click", () => {
+      $("sidebar").classList.toggle("open");
+      $("sidebarBackdrop").classList.toggle("open");
+    });
+    $("sidebarBackdrop").addEventListener("click", closeSidebarMobile);
+
+    document.querySelectorAll("[data-scroll-target]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const target = document.getElementById(btn.dataset.scrollTarget);
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+        closeSidebarMobile();
+      });
+    });
+
+    document.addEventListener("click", async (e) => {
+      const t = e.target;
+      if (t.classList?.contains("saveUserBtn")) {
+        const userId = t.dataset.user;
+        const role = document.querySelector(`.roleSel[data-user="${userId}"]`).value;
+        const viewAll = document.querySelector(`.viewAllSel[data-user="${userId}"]`).value === "true";
+        await adminSaveUser(userId, role, viewAll);
+      }
+      if (t.classList?.contains("saveAreaBtn")) await adminSaveArea(t.dataset.area);
+      if (t.classList?.contains("deactUserBtn")) await adminSetUserActive(t.dataset.user, false);
+      if (t.classList?.contains("reactUserBtn")) await adminSetUserActive(t.dataset.user, true);
+      if (t.classList?.contains("openPersonBtn")) await loadPersonDetail(t.dataset.person);
+    });
+
+    statusNodeIds.forEach((id) => {
+      const el = $(id);
+      if (!el) return;
+      new MutationObserver(refreshLoadingIndicators).observe(el, { childList: true, characterData: true, subtree: true });
+    });
+    refreshLoadingIndicators();
+
+    window.addEventListener("resize", () => {
+      if (!window.matchMedia("(max-width: 920px)").matches) {
+        $("sidebar").classList.remove("open");
+        $("sidebarBackdrop").classList.remove("open");
+      }
+    });
+
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      setAuthUI(true);
+      await loadProfile();
+      await loadAreas();
+    } else {
+      setAuthUI(false);
+    }
+  </script>
+</body>
+</html>
