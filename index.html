@@ -227,6 +227,91 @@
       overflow:hidden;
       text-overflow:ellipsis;
     }
+    .clickable-row { cursor:pointer; }
+    .timelineList {
+      position: relative;
+      margin-top: 10px;
+      display: grid;
+      gap: 10px;
+      padding-left: 14px;
+    }
+    .timelineList::before {
+      content: "";
+      position: absolute;
+      left: 3px;
+      top: 4px;
+      bottom: 4px;
+      width: 2px;
+      background: color-mix(in srgb, var(--accent) 28%, var(--border));
+      border-radius: 2px;
+      opacity: .7;
+    }
+    .timelineItem {
+      position: relative;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+    .timelineItem::before {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      left: -16px;
+      top: 14px;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px rgba(48, 208, 122, .2);
+    }
+    .timelineHead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+    .timelineTitle {
+      font-weight: 700;
+      color: var(--text);
+    }
+    .timelineMeta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: .8rem;
+      color: var(--muted);
+    }
+    .timelineSub {
+      font-size: .86rem;
+      color: #d3e0e9;
+    }
+    .timelineBadgeCase {
+      border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+      background: rgba(48,208,122,.1);
+      color: #c8f5dd;
+    }
+    .timelineBadgePrestacion {
+      border-color: color-mix(in srgb, #6cc5ff 42%, var(--border));
+      background: rgba(108,197,255,.14);
+      color: #d7efff;
+    }
+    .alertsList {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .alertItem {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    .alertMessage {
+      color: var(--text);
+      font-size: .88rem;
+    }
     pre { margin:0; font-size:.76rem; white-space:pre-wrap; word-break:break-word; }
     #adminModal {
       position:fixed;
@@ -249,6 +334,35 @@
       border:1px solid var(--border);
       padding:18px;
       box-shadow:0 18px 46px rgba(0,0,0,.45);
+    }
+    #prestacionModal {
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.65);
+      backdrop-filter:blur(3px);
+      -webkit-backdrop-filter:blur(3px);
+      z-index:1210;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+    .prestacion-modal-box {
+      background:var(--card);
+      width:min(920px,96vw);
+      max-height:88vh;
+      overflow:auto;
+      border-radius:18px;
+      border:1px solid var(--border);
+      padding:18px;
+      box-shadow:0 18px 46px rgba(0,0,0,.45);
+    }
+    .prestacionModalHead {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      margin-bottom:12px;
     }
     .adminHead { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:12px; }
     .tabsRow {
@@ -287,6 +401,126 @@
       vertical-align:-2px;
       animation:spin .8s linear infinite;
     }
+    .screen { display:none; }
+    .screen.active { display:block; }
+    .screenHeader {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:10px;
+      flex-wrap:wrap;
+    }
+    .kpiGrid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:10px;
+      margin-top:12px;
+    }
+    .kpiCard {
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:var(--panel);
+      padding:12px;
+    }
+    .kpiCard .label {
+      font-size:.75rem;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      font-weight:700;
+      margin-bottom:4px;
+    }
+    .kpiCard .value {
+      font-size:1.45rem;
+      font-weight:700;
+      line-height:1.15;
+    }
+    .statsGrid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:12px;
+      margin-top:12px;
+    }
+    .statsPanel {
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:var(--panel);
+      padding:12px;
+    }
+    .socialStatsSection {
+      margin-top: 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--panel);
+      padding: 12px;
+    }
+    .socialStatsSection .statsGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+      gap: 10px;
+      margin-top: 10px;
+      margin-bottom: 12px;
+    }
+    .statCard {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      padding: 12px;
+      min-height: 88px;
+      display: grid;
+      align-content: center;
+      gap: 4px;
+    }
+    .statValue {
+      font-size: 1.5rem;
+      font-weight: 800;
+      line-height: 1.1;
+      color: #dff6ea;
+    }
+    .statLabel {
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .statsPanel h3 { margin-bottom:8px; }
+    .statsBars {
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .statsBarRow {
+      display:grid;
+      grid-template-columns:minmax(110px, 1fr) minmax(140px, 2.5fr) auto;
+      align-items:center;
+      gap:8px;
+    }
+    .statsBarLabel {
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      color:#d7e2eb;
+      font-size:.84rem;
+    }
+    .statsBarTrack {
+      height:9px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      overflow:hidden;
+    }
+    .statsBarFill {
+      height:100%;
+      background:linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+    .statsBarValue {
+      min-width:32px;
+      text-align:right;
+      font-size:.82rem;
+      color:#d7e2eb;
+      font-weight:600;
+    }
     @keyframes spin { to { transform:rotate(360deg); } }
     .sidebarBackdrop { display:none; }
     @media (max-width:920px) {
@@ -320,7 +554,7 @@
         <div style="flex:1; min-width:240px;"><label>Email</label><input id="email" type="email" placeholder="tu@email.com" /></div>
         <div style="flex:1; min-width:240px;"><label>Password</label><input id="password" type="password" placeholder="********" /></div>
       </div>
-      <div style="margin-top:12px;" class="row"><button class="primary" id="btnLogin">Ingresar</button></div>
+      <div style="margin-top:12px;" class="row"><button class="primary" id="btnLogin" type="button">Ingresar</button></div>
       <p id="authStatus" class="muted"></p>
     </div>
   </div>
@@ -336,10 +570,12 @@
         <p class="muted" id="meInfo" style="margin:8px 0 0;"></p>
       </div>
       <nav class="menu" aria-label="Navegación interna">
-        <button type="button" class="secondary" data-scroll-target="sectionNewCase">Nuevo caso</button>
-        <button type="button" class="secondary" data-scroll-target="sectionFamily">Grupo familiar</button>
-        <button type="button" class="secondary" data-scroll-target="sectionMyCases">Mis casos</button>
-        <button type="button" class="secondary" data-scroll-target="sectionPersons">Personas</button>
+        <button type="button" class="secondary navBtn" data-screen="screenDashboard" data-scroll-target="sectionNewCase">Nuevo caso</button>
+        <button type="button" class="secondary navBtn" data-screen="screenDashboard" data-scroll-target="sectionFamily">Grupo familiar</button>
+        <button type="button" class="secondary navBtn" data-screen="screenCases">Mis casos</button>
+        <button type="button" class="secondary navBtn" data-screen="screenDashboard" data-scroll-target="sectionPersons">Personas</button>
+        <button type="button" class="secondary navBtn" data-screen="screenStats">Estadísticas</button>
+        <button type="button" class="secondary navBtn" data-screen="screenSearch">Búsqueda global</button>
         <button id="btnOpenAdmin" type="button" class="secondary hidden">Panel SuperAdmin</button>
       </nav>
       <div class="sidebarFooter">
@@ -362,89 +598,353 @@
         <div class="topBarActions"><button id="btnLogoutHeader" class="danger hidden" type="button">Salir</button></div>
       </header>
 
-      <section id="sectionNewCase" class="sectionBlock card">
-        <h2>Crear nuevo caso</h2>
-        <div class="row">
-          <div style="flex:1; min-width:240px;"><label>Área</label><select id="areaSelect"></select></div>
-          <div style="flex:1; min-width:240px;">
-            <label>DNI</label>
-            <div class="row" style="gap:8px;">
-              <input id="dni" placeholder="DNI" />
-              <button class="secondary" id="btnFindPerson" type="button">Buscar</button>
+      <section id="screenDashboard" class="screen active">
+        <section id="sectionNewCase" class="sectionBlock card">
+          <h2>Crear nuevo caso</h2>
+          <div class="row">
+            <div style="flex:1; min-width:240px;"><label>Área</label><select id="areaSelect"></select></div>
+            <div style="flex:1; min-width:240px;">
+              <label>DNI</label>
+              <div class="row" style="gap:8px;">
+                <input id="dni" placeholder="DNI" />
+                <button class="secondary" id="btnFindPerson" type="button">Buscar</button>
+              </div>
             </div>
           </div>
-        </div>
-        <label>Apellido y Nombre</label><input id="apellidoNombre" placeholder="Apellido y Nombre" />
-        <div class="row">
-          <div style="flex:1; min-width:240px;"><label>Fecha de nacimiento</label><input id="fechaNac" type="date" /></div>
-          <div style="flex:1; min-width:240px;"><label>Teléfono</label><input id="telefono" placeholder="Teléfono" /></div>
-        </div>
-        <label>Domicilio</label><input id="domicilio" placeholder="Domicilio" />
-        <div class="row">
-          <div style="flex:1; min-width:240px;"><label>Estado civil</label><input id="estadoCivil" placeholder="Casado/Separado/Unión convivencial..." /></div>
-          <div style="flex:1; min-width:240px;"><label>Trabaja actualmente</label><input id="trabaja" placeholder="Relación de dependencia/Independiente/Jubilado..." /></div>
-          <div style="flex:1; min-width:240px;"><label>Ingresos (número)</label><input id="ingresos" type="number" step="0.01" placeholder="0" /></div>
-        </div>
-        <label>Motivo</label><textarea id="motivo" placeholder="Motivo de la consulta..."></textarea>
-        <div style="margin-top:12px;" class="row"><button class="primary" id="btnCreateCase">Guardar caso</button></div>
-        <p class="muted" id="personStatus"></p>
-        <p class="muted" id="caseStatus"></p>
-      </section>
-      <section id="sectionFamily" class="sectionBlock card">
-        <h2>Grupo familiar (de la persona)</h2>
-        <p class="muted" id="familyPersonRef">Seleccioná o creá una persona para empezar.</p>
-        <div class="row">
-          <div style="flex:1; min-width:240px;"><label>Apellido y nombres</label><input id="famNombre" placeholder="Apellido y nombres" /></div>
-          <div style="flex:1; min-width:200px;"><label>DNI</label><input id="famDni" placeholder="DNI (opcional)" /></div>
-        </div>
-        <label>Observaciones</label><input id="famObs" placeholder="Vínculo / observaciones" />
-        <div style="margin-top:12px;" class="row"><button class="primary" id="btnAddFamily">Agregar integrante</button></div>
-        <p class="muted" id="famStatus"></p>
-        <h3>Integrantes cargados</h3>
-        <div class="tableWrap"><table><thead><tr><th>Nombre</th><th>DNI</th><th>Obs</th></tr></thead><tbody id="famTable"></tbody></table></div>
+          <label>Apellido y Nombre</label><input id="apellidoNombre" placeholder="Apellido y Nombre" />
+          <div class="row">
+            <div style="flex:1; min-width:240px;"><label>Fecha de nacimiento</label><input id="fechaNac" type="date" /></div>
+            <div style="flex:1; min-width:240px;"><label>Teléfono</label><input id="telefono" placeholder="Teléfono" /></div>
+          </div>
+          <label>Domicilio</label><input id="domicilio" placeholder="Domicilio" />
+          <div class="row">
+            <div style="flex:1; min-width:240px;"><label>Estado civil</label><input id="estadoCivil" placeholder="Casado/Separado/Unión convivencial..." /></div>
+            <div style="flex:1; min-width:240px;"><label>Trabaja actualmente</label><input id="trabaja" placeholder="Relación de dependencia/Independiente/Jubilado..." /></div>
+            <div style="flex:1; min-width:240px;"><label>Ingresos (número)</label><input id="ingresos" type="number" step="0.01" placeholder="0" /></div>
+          </div>
+          <label>Motivo</label><textarea id="motivo" placeholder="Motivo de la consulta..."></textarea>
+          <div style="margin-top:12px;" class="row"><button class="primary" id="btnCreateCase" type="button">Guardar caso</button></div>
+          <p class="muted" id="personStatus"></p>
+          <p class="muted" id="caseStatus"></p>
+        </section>
+
+        <section id="sectionPrestaciones" class="sectionBlock card">
+          <h2>Prestaciones del caso</h2>
+          <p class="muted" id="prestacionesCaseRef">Primero cree un caso para poder cargar prestaciones.</p>
+          <h3>Prestaciones disponibles</h3>
+          <div id="prestacionesButtons" class="row"></div>
+          <div id="prestacionFormContainer" style="margin-top:12px;" class="muted">Los formularios se abren en una ventana modal.</div>
+          <p class="muted" id="prestacionesStatus"></p>
+          <h3 style="margin-top:14px;">Historial de prestaciones</h3>
+          <div class="tableWrap">
+            <table>
+              <thead><tr><th>Fecha</th><th>Prestación</th><th>Resumen</th><th>Acciones</th></tr></thead>
+              <tbody id="prestacionesHistoryTable"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="sectionFamily" class="sectionBlock card">
+          <h2>Grupo familiar (de la persona)</h2>
+          <p class="muted" id="familyPersonRef">Seleccioná o creá una persona para empezar.</p>
+          <div class="row">
+            <div style="flex:1; min-width:240px;"><label>Apellido y nombres</label><input id="famNombre" placeholder="Apellido y nombres" /></div>
+            <div style="flex:1; min-width:200px;"><label>DNI</label><input id="famDni" placeholder="DNI (opcional)" /></div>
+          </div>
+          <label>Observaciones</label><input id="famObs" placeholder="Vínculo / observaciones" />
+          <div style="margin-top:12px;" class="row"><button class="primary" id="btnAddFamily" type="button">Agregar integrante</button></div>
+          <p class="muted" id="famStatus"></p>
+          <h3>Integrantes cargados</h3>
+          <div class="tableWrap"><table><thead><tr><th>Nombre</th><th>DNI</th><th>Obs</th><th>Acción</th></tr></thead><tbody id="famTable"></tbody></table></div>
+        </section>
+
+        <section id="sectionPersons" class="sectionBlock card">
+          <h2>Personas</h2>
+          <div class="row">
+            <div style="flex:1; min-width:240px;">
+              <label>Buscar por DNI o nombre</label>
+              <input id="peopleSearch" placeholder="Ej: 30123456 o Pérez" />
+            </div>
+            <div style="display:flex; align-items:flex-end;">
+              <button id="btnLoadPeople" class="secondary" type="button">Buscar personas</button>
+            </div>
+          </div>
+          <p class="muted" id="peopleStatus"></p>
+          <div class="tableWrap">
+            <table>
+              <thead><tr><th>DNI</th><th>Nombre</th><th>Teléfono</th><th>Domicilio</th><th>Actualizado</th></tr></thead>
+              <tbody id="peopleTable"></tbody>
+            </table>
+          </div>
+        </section>
       </section>
 
-      <section id="sectionMyCases" class="sectionBlock card">
-        <h2>Mis casos (según permisos)</h2>
-        <p class="muted">Si sos superadmin o tenés can_view_all=true, vas a ver todo.</p>
-        <button id="btnLoadCases" class="secondary">Cargar casos</button>
-        <div class="tableWrap"><table><thead><tr><th>Creado</th><th>Área</th><th>DNI</th><th>Nombre</th><th>Motivo</th><th>Ingresos</th><th>Owner</th></tr></thead><tbody id="casesTable"></tbody></table></div>
+      <section id="screenCases" class="screen">
+        <section class="card">
+          <div class="screenHeader">
+            <div>
+              <h2>Atenciones (Casos)</h2>
+              <p class="muted">Listado con filtros por DNI, nombre, área y fecha.</p>
+            </div>
+            <div class="row">
+              <button id="btnLoadCases" class="secondary" type="button">Buscar / Aplicar</button>
+              <button id="btnClearCaseFilters" class="secondary" type="button">Limpiar</button>
+            </div>
+          </div>
+
+          <div class="row">
+            <div style="flex:1; min-width:220px;">
+              <label>Filtro DNI</label>
+              <input id="casesFilterDni" placeholder="Ej: 30123456" />
+            </div>
+            <div style="flex:1; min-width:220px;">
+              <label>Filtro Nombre</label>
+              <input id="casesFilterName" placeholder="Ej: Pérez" />
+            </div>
+            <div style="flex:1; min-width:220px;">
+              <label>Filtro Área</label>
+              <select id="casesFilterArea">
+                <option value="">Todas</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div style="flex:1; min-width:220px;">
+              <label>Fecha desde</label>
+              <input id="casesFilterFrom" type="date" />
+            </div>
+            <div style="flex:1; min-width:220px;">
+              <label>Fecha hasta</label>
+              <input id="casesFilterTo" type="date" />
+            </div>
+          </div>
+
+          <p class="muted" id="casesStatus">Aplicá filtros y cargá casos.</p>
+          <div class="tableWrap">
+            <table>
+              <thead><tr><th>Fecha</th><th>Área</th><th>DNI</th><th>Persona</th><th>Motivo</th><th>Ingresos</th><th>Owner</th></tr></thead>
+              <tbody id="casesTable"></tbody>
+            </table>
+          </div>
+        </section>
       </section>
 
-      <section id="sectionPersons" class="sectionBlock card">
-        <h2>Personas</h2>
-        <div class="row">
-          <div style="flex:1; min-width:240px;">
-            <label>Buscar por DNI o nombre</label>
-            <input id="peopleSearch" placeholder="Ej: 30123456 o Pérez" />
+      <section id="screenStats" class="screen">
+        <section class="card">
+          <div class="screenHeader">
+            <div>
+              <h2>Estadísticas</h2>
+              <p class="muted">Panel de gestión municipal con indicadores clave y actividad reciente.</p>
+            </div>
+            <div class="row">
+              <button id="btnApplyStats" class="secondary" type="button">Aplicar filtros</button>
+              <button id="btnClearStats" class="secondary" type="button">Limpiar</button>
+            </div>
           </div>
-          <div style="display:flex; align-items:flex-end;">
-            <button id="btnLoadPeople" class="secondary" type="button">Buscar personas</button>
+
+          <div class="row">
+            <div style="flex:1; min-width:220px;">
+              <label>Fecha desde</label>
+              <input id="statsFrom" type="date" />
+            </div>
+            <div style="flex:1; min-width:220px;">
+              <label>Fecha hasta</label>
+              <input id="statsTo" type="date" />
+            </div>
+            <div style="flex:1; min-width:220px;">
+              <label>Área</label>
+              <select id="statsAreaFilter">
+                <option value="">Todas</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <p class="muted" id="peopleStatus"></p>
-        <div class="tableWrap">
-          <table>
-            <thead><tr><th>DNI</th><th>Nombre</th><th>Teléfono</th><th>Domicilio</th><th>Actualizado</th></tr></thead>
-            <tbody id="peopleTable"></tbody>
-          </table>
-        </div>
-        <div id="personDetail" class="card hidden" style="margin-top:14px;">
-          <h3>Ficha de persona</h3>
-          <p class="muted" id="personDetailMeta"></p>
+          <p class="muted" id="statsStatus">Aplicá filtros para ver estadísticas.</p>
+
+          <section class="socialStatsSection">
+            <h2>Dashboard Social</h2>
+            <div class="statsGrid">
+              <div class="statCard">
+                <div class="statValue" id="statTotalPrestaciones">0</div>
+                <div class="statLabel">Prestaciones totales</div>
+              </div>
+              <div class="statCard">
+                <div class="statValue" id="statPersonas">0</div>
+                <div class="statLabel">Personas asistidas</div>
+              </div>
+              <div class="statCard">
+                <div class="statValue" id="statMes">0</div>
+                <div class="statLabel">Prestaciones este mes</div>
+              </div>
+              <div class="statCard">
+                <div class="statValue" id="statAreas">0</div>
+                <div class="statLabel">Áreas activas</div>
+              </div>
+            </div>
+
+            <h3>Prestaciones por área</h3>
+            <div id="statsArea" class="tableWrap"></div>
+
+            <h3>Prestaciones por tipo</h3>
+            <div id="statsTipo" class="tableWrap"></div>
+
+            <h3>Personas con más asistencia</h3>
+            <div id="statsTopPersons" class="tableWrap"></div>
+
+            <h3>Prestaciones por mes</h3>
+            <div id="statsMonthly" class="tableWrap"></div>
+          </section>
+
+          <div class="kpiGrid">
+            <article class="kpiCard">
+              <div class="label">Personas asistidas</div>
+              <div class="value" id="statsKpiPersons">0</div>
+            </article>
+            <article class="kpiCard">
+              <div class="label">Casos cargados</div>
+              <div class="value" id="statsKpiCases">0</div>
+            </article>
+            <article class="kpiCard">
+              <div class="label">Prestaciones otorgadas</div>
+              <div class="value" id="statsKpiPrestaciones">0</div>
+            </article>
+            <article class="kpiCard">
+              <div class="label">Familiares registrados</div>
+              <div class="value" id="statsKpiFamily">0</div>
+            </article>
+          </div>
+
+          <div class="statsGrid">
+            <section class="statsPanel">
+              <h3>Casos por área</h3>
+              <div id="statsCasesByArea" class="statsBars muted">Sin datos para mostrar.</div>
+            </section>
+            <section class="statsPanel">
+              <h3>Prestaciones por área</h3>
+              <div id="statsPrestacionesByArea" class="statsBars muted">Sin datos para mostrar.</div>
+            </section>
+            <section class="statsPanel">
+              <h3>Casos por mes</h3>
+              <div id="statsCasesByMonth" class="statsBars muted">Sin datos para mostrar.</div>
+            </section>
+            <section class="statsPanel">
+              <h3>Top prestaciones</h3>
+              <div id="statsTopPrestaciones" class="statsBars muted">Sin datos para mostrar.</div>
+            </section>
+          </div>
+
+          <h3 style="margin-top:14px;">Últimos casos</h3>
+          <div class="tableWrap">
+            <table>
+              <thead><tr><th>Fecha</th><th>Área</th><th>DNI</th><th>Persona</th><th>Motivo</th></tr></thead>
+              <tbody id="statsRecentCasesTable"></tbody>
+            </table>
+          </div>
+
+          <h3 style="margin-top:14px;">Últimas prestaciones</h3>
+          <div class="tableWrap">
+            <table>
+              <thead><tr><th>Fecha</th><th>Área</th><th>Prestación</th><th>DNI</th><th>Persona</th></tr></thead>
+              <tbody id="statsRecentPrestacionesTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section id="screenSearch" class="screen">
+        <section class="card">
+          <div class="screenHeader">
+            <div>
+              <h2>Búsqueda global</h2>
+              <p class="muted">Buscá personas, familiares, casos y prestaciones desde un solo lugar.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div style="flex:1; min-width:260px;">
+              <label>Búsqueda</label>
+              <input id="globalSearchInput" placeholder="DNI, apellido, motivo, prestación o área..." />
+            </div>
+            <div style="display:flex; align-items:flex-end;">
+              <button id="btnGlobalSearch" class="primary" type="button">Buscar</button>
+            </div>
+          </div>
+          <p class="muted" id="globalSearchStatus">Ingresá un término para buscar.</p>
+
+          <h3 style="margin-top:14px;">Personas</h3>
+          <div class="tableWrap">
+            <table>
+              <thead><tr><th>DNI</th><th>Nombre</th><th>Teléfono</th><th>Acción</th></tr></thead>
+              <tbody id="globalSearchPersonsTable"></tbody>
+            </table>
+          </div>
+
+          <h3 style="margin-top:14px;">Familiares</h3>
+          <div class="tableWrap">
+            <table>
+              <thead><tr><th>Familiar</th><th>DNI</th><th>Obs</th><th>Acción</th></tr></thead>
+              <tbody id="globalSearchFamilyTable"></tbody>
+            </table>
+          </div>
+
+          <h3 style="margin-top:14px;">Casos</h3>
+          <div class="tableWrap">
+            <table>
+              <thead><tr><th>Fecha</th><th>Área</th><th>DNI</th><th>Persona</th><th>Motivo</th><th>Acción</th></tr></thead>
+              <tbody id="globalSearchCasesTable"></tbody>
+            </table>
+          </div>
+
+          <h3 style="margin-top:14px;">Prestaciones</h3>
+          <div class="tableWrap">
+            <table>
+              <thead><tr><th>Fecha</th><th>Prestación</th><th>Área</th><th>DNI</th><th>Persona</th><th>Acción</th></tr></thead>
+              <tbody id="globalSearchPrestacionesTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section id="screenPersonDetail" class="screen">
+        <section class="card">
+          <div class="screenHeader">
+            <div>
+              <h2>Detalle de Persona</h2>
+              <p class="muted" id="personDetailMeta">Seleccioná una persona.</p>
+            </div>
+            <div class="row">
+              <button id="btnUsePersonFromDetail" class="primary" type="button">Usar esta persona</button>
+              <button id="btnBackToDashboard" class="secondary" type="button">Volver al Dashboard</button>
+            </div>
+          </div>
+
+          <h3>Ficha completa</h3>
           <div class="tableWrap">
             <table>
               <tbody id="personDetailTable"></tbody>
             </table>
           </div>
-          <h3>Historial de atenciones</h3>
+
+          <h3 style="margin-top:14px;">Grupo familiar</h3>
+          <div class="tableWrap">
+            <table>
+              <thead><tr><th>Nombre</th><th>DNI</th><th>Observaciones</th><th>Acción</th></tr></thead>
+              <tbody id="personFamilyTable"></tbody>
+            </table>
+          </div>
+
+          <h3 style="margin-top:14px;">Historial de atenciones</h3>
           <div class="tableWrap">
             <table>
               <thead><tr><th>Fecha</th><th>Área</th><th>Motivo</th><th>Ingresos</th><th>Owner</th></tr></thead>
               <tbody id="personCasesTable"></tbody>
             </table>
           </div>
-        </div>
+
+          <h3 style="margin-top:14px;">Alertas sociales</h3>
+          <div id="personAlerts" class="alertsList"></div>
+
+          <h3 style="margin-top:14px;">Timeline social</h3>
+          <div id="personTimeline" class="timelineList"></div>
+        </section>
       </section>
       </div>
     </main>
@@ -454,7 +954,7 @@
     <div class="admin-modal-box">
       <div class="adminHead">
         <h2 style="margin:0;">Panel SuperAdmin</h2>
-        <button id="btnCloseAdmin" class="danger">Cerrar</button>
+      <button id="btnCloseAdmin" class="danger" type="button">Cerrar</button>
       </div>
       <div class="tabsRow">
         <button id="tabUsers" class="tab-btn">Usuarios</button>
@@ -472,19 +972,20 @@
         <div class="row">
           <div style="flex:1; min-width:240px;"><label>Role</label><select id="newUserRole"><option value="operator">operator</option><option value="admin">admin</option><option value="superadmin">superadmin</option></select></div>
           <div style="flex:1; min-width:240px;"><label>can_view_all</label><select id="newUserViewAll"><option value="false">false</option><option value="true">true</option></select></div>
+          <div style="flex:1; min-width:240px;"><label>Área por defecto</label><select id="newUserDefaultArea"><option value="">Sin área</option></select></div>
         </div>
-        <div style="margin-top:12px;" class="row"><button class="primary" id="btnCreateUser">Crear usuario</button><button class="secondary" id="btnRefreshUsers">Refrescar lista</button></div>
+        <div style="margin-top:12px;" class="row"><button class="primary" id="btnCreateUser" type="button">Crear usuario</button><button class="secondary" id="btnRefreshUsers" type="button">Refrescar lista</button></div>
         <p class="muted" id="adminStatus"></p>
         <h3>Usuarios</h3>
-        <div class="tableWrap"><table><thead><tr><th>Email</th><th>Role</th><th>View All</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="usersTable"></tbody></table></div>
+        <div class="tableWrap"><table><thead><tr><th>Email</th><th>Role</th><th>View All</th><th>Área</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="usersTable"></tbody></table></div>
       </div>
 
       <div id="viewAreas" class="hidden modalCard" style="margin-top:14px;">
         <h3>Áreas</h3>
         <div class="row">
           <div style="flex:1; min-width:240px;"><label>Nueva área</label><input id="newAreaName" placeholder="Ej: Obras Públicas" /></div>
-          <div style="align-self:end;"><button class="primary" id="btnCreateArea">Crear área</button></div>
-          <div style="align-self:end;"><button class="secondary" id="btnRefreshAreas">Refrescar áreas</button></div>
+          <div style="align-self:end;"><button class="primary" id="btnCreateArea" type="button">Crear área</button></div>
+          <div style="align-self:end;"><button class="secondary" id="btnRefreshAreas" type="button">Refrescar áreas</button></div>
         </div>
         <p class="muted" id="areasStatus"></p>
         <div class="tableWrap"><table><thead><tr><th>Nombre</th><th>Activa</th><th>Acciones</th></tr></thead><tbody id="areasTable"></tbody></table></div>
@@ -506,6 +1007,16 @@
     </div>
   </div>
 
+  <div id="prestacionModal" class="hidden">
+    <div class="prestacion-modal-box">
+      <div class="prestacionModalHead">
+        <h2 id="prestacionModalTitle">Prestación</h2>
+        <button id="btnClosePrestacionModal" class="danger" type="button">Cerrar</button>
+      </div>
+      <div id="prestacionModalBody"></div>
+    </div>
+  </div>
+
   <script type="module">
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
@@ -517,15 +1028,38 @@
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const $ = (id) => document.getElementById(id);
+    function on(id, event, handler) {
+      const el = $(id);
+      if (!el) {
+        console.warn("Missing", id);
+        return;
+      }
+      el.addEventListener(event, handler);
+    }
+    function normalizeDni(v) { return String(v || "").replace(/\D/g, ""); }
+    function normalizeName(v) { return String(v || "").trim(); }
 
     let currentUser = null;
     let myProfile = null;
     let lastCaseId = null;
+    let lastCaseAreaId = null;
     let currentPersonId = null;
     let currentPersonDni = null;
+    let currentScreen = "screenDashboard";
+    let selectedPersonDetailId = null;
+    let dniDebounceTimer = null;
+    let casesFilterDebounceTimer = null;
+    let casesRpcUnavailable = false;
+    let casesViewUnavailable = false;
+    let casesSourceMode = localStorage.getItem("casesSourceMode") || "rpc";
+    let activeAreas = [];
+    let currentPrestacionesCatalog = [];
+    let currentPrestacionesHistory = [];
+    let prestacionModalContext = { prestacionId: null, existingId: null };
+    const STATS_FETCH_LIMIT = 5000;
 
     function escapeHtml(str) {
-      return String(str).replace(/[&<>"']/g, (m) => ({
+      return String(str ?? "").replace(/[&<>"']/g, (m) => ({
         "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
       }[m]));
     }
@@ -536,8 +1070,8 @@
       $("sidebarBackdrop").classList.remove("open");
     }
 
-    const statusNodeIds = ["authStatus", "personStatus", "caseStatus", "famStatus", "peopleStatus", "adminStatus", "areasStatus", "auditStatus"];
-    const loadingTextRegex = /(cargando|guardando|ingresando|agregando|actualizando|creando)/i;
+    const statusNodeIds = ["authStatus", "personStatus", "caseStatus", "famStatus", "peopleStatus", "adminStatus", "areasStatus", "auditStatus", "casesStatus", "prestacionesStatus", "statsStatus", "globalSearchStatus"];
+    const loadingTextRegex = /(cargando|guardando|ingresando|agregando|actualizando|creando|buscando|aplicando)/i;
 
     function refreshLoadingIndicators() {
       statusNodeIds.forEach((id) => {
@@ -563,6 +1097,13 @@
       $("authStatus").textContent = loggedIn ? "Sesión iniciada" : "No autenticado";
     }
 
+    function openScreen(screenId) {
+      ["screenDashboard", "screenCases", "screenStats", "screenSearch", "screenPersonDetail"].forEach((id) => {
+        $(id)?.classList.toggle("active", id === screenId);
+      });
+      currentScreen = screenId;
+    }
+
     async function loadProfile() {
       const { data: { user } } = await supabase.auth.getUser();
       currentUser = user;
@@ -583,7 +1124,9 @@
         return null;
       }
 
-      $("rolePill").textContent = `${data.role}${data.can_view_all ? " | view_all" : ""}`;
+      const roleLabel = myProfile?.role ?? "sin_perfil";
+      const canViewAllLabel = myProfile?.can_view_all ? " | view_all" : "";
+      $("rolePill").textContent = `${roleLabel}${canViewAllLabel}`;
       $("meInfo").textContent = myProfile?.full_name ? myProfile.full_name : currentUser.email;
       $("btnOpenAdmin").classList.toggle("hidden", myProfile?.role !== "superadmin");
 
@@ -602,24 +1145,52 @@
         .order("name", { ascending: true });
 
       if (error) throw error;
-      $("areaSelect").innerHTML = (data ?? []).map(a => `<option value="${a.id}">${a.name}</option>`).join("");
+      activeAreas = data ?? [];
+      const areaOptions = activeAreas.map((a) => `<option value="${a.id}">${escapeHtml(a.name)}</option>`).join("");
+      $("areaSelect").innerHTML = areaOptions;
+      $("casesFilterArea").innerHTML = `<option value="">Todas</option>${areaOptions}`;
+      $("statsAreaFilter").innerHTML = `<option value="">Todas</option>${areaOptions}`;
+      $("newUserDefaultArea").innerHTML = `<option value="">Sin área</option>${areaOptions}`;
+    }
+
+    function applyAreaAccessControl() {
+      const areaSelect = $("areaSelect");
+      if (!areaSelect) return;
+
+      if (myProfile?.role === "superadmin") {
+        areaSelect.disabled = false;
+        return;
+      }
+
+      const defaultAreaId = myProfile?.default_area_id ? String(myProfile.default_area_id) : "";
+      areaSelect.value = defaultAreaId;
+      areaSelect.disabled = true;
+    }
+
+    function buildAreaOptions(selectedAreaId = "", includeEmpty = true) {
+      const selected = selectedAreaId ? String(selectedAreaId) : "";
+      const emptyOption = includeEmpty ? `<option value="">Sin área</option>` : "";
+      const areaOptions = activeAreas.map((a) => `
+        <option value="${a.id}" ${String(a.id) === selected ? "selected" : ""}>${escapeHtml(a.name)}</option>
+      `).join("");
+      return `${emptyOption}${areaOptions}`;
     }
 
     function getPersonFormData() {
       return {
-        dni: $("dni").value.trim(),
-        apellido_nombre: $("apellidoNombre").value.trim(),
+        dni: normalizeDni($("dni").value),
+        apellido_nombre: normalizeName($("apellidoNombre").value),
         fecha_nacimiento: $("fechaNac").value || null,
-        domicilio: $("domicilio").value.trim() || null,
-        telefono: $("telefono").value.trim() || null,
-        estado_civil: $("estadoCivil").value.trim() || null,
-        trabaja_actualmente: $("trabaja").value.trim() || null,
+        domicilio: normalizeName($("domicilio").value) || null,
+        telefono: normalizeName($("telefono").value) || null,
+        estado_civil: normalizeName($("estadoCivil").value) || null,
+        trabaja_actualmente: normalizeName($("trabaja").value) || null,
       };
     }
 
     function setPersonFormData(p) {
-      $("dni").value = p?.dni ?? "";
-      $("apellidoNombre").value = p?.apellido_nombre ?? "";
+      $("dni").value = normalizeDni(p?.dni ?? "");
+      $("apellidoNombre").value = normalizeName(p?.apellido_nombre ?? "");
       $("fechaNac").value = p?.fecha_nacimiento ?? "";
       $("domicilio").value = p?.domicilio ?? "";
       $("telefono").value = p?.telefono ?? "";
@@ -637,47 +1208,133 @@
       }
     }
 
-    async function findOrSelectPersonByDni() {
-      const dni = $("dni").value.trim();
-      if (!dni) {
-        currentPersonId = null;
-        currentPersonDni = null;
-        $("personStatus").textContent = "Ingresá un DNI para buscar persona.";
-        updateFamilyHeader();
-        return null;
-      }
-
-      $("personStatus").textContent = "Buscando persona...";
-      const { data, error } = await supabase
-        .from("persons")
-        .select("id, dni, apellido_nombre, fecha_nacimiento, domicilio, telefono, estado_civil, trabaja_actualmente, updated_at")
-        .eq("dni", dni)
-        .maybeSingle();
-
-      if (error) {
-        $("personStatus").textContent = `Error al buscar persona: ${error.message}`;
-        return null;
-      }
-
-      if (!data) {
-        currentPersonId = null;
-        currentPersonDni = null;
-        $("personStatus").textContent = "No existe persona con ese DNI. Completá los datos para crearla.";
-        updateFamilyHeader();
-        return null;
-      }
-
-      currentPersonId = data.id;
-      currentPersonDni = data.dni;
-      setPersonFormData(data);
-      $("personStatus").textContent = `Persona encontrada. Si editás los datos, se actualizará la persona.`;
+    async function selectActivePerson(person, opts = {}) {
+      if (!person?.id) return;
+      currentPersonId = person.id;
+      currentPersonDni = normalizeDni(person.dni ?? $("dni").value.trim() ?? "");
+      setPersonFormData(person);
       updateFamilyHeader();
       await loadFamilyMembers();
-      return data;
+      if (!opts.silentMessage) {
+        $("personStatus").textContent = `Persona seleccionada: ${person.apellido_nombre ?? "(sin nombre)"}`;
+      }
     }
+
+    async function findOrSelectPersonByDni() {
+  const dniNorm = normalizeDni($("dni").value);
+  $("dni").value = dniNorm;
+
+  if (!dniNorm || dniNorm.length < 7) {
+    if (!dniNorm) {
+      currentPersonId = null;
+      currentPersonDni = null;
+      $("personStatus").textContent = "Ingresá un DNI para buscar persona.";
+      updateFamilyHeader();
+      return null;
+    }
+    $("personStatus").textContent = "Ingresá al menos 7 caracteres para buscar.";
+    updateFamilyHeader();
+    return null;
+  }
+
+  $("personStatus").textContent = "Buscando persona...";
+  console.log("[findOrSelectPersonByDni] start", { dniNorm });
+
+  // 1) Intento directo en persons
+  let { data: person, error: pErr } = await supabase
+    .from("persons")
+    .select("id, dni, apellido_nombre, fecha_nacimiento, domicilio, telefono, estado_civil, trabaja_actualmente, updated_at")
+    .eq("dni", dniNorm)
+    .maybeSingle();
+
+  if (pErr) {
+    console.error("[findOrSelectPersonByDni] persons error", pErr);
+    $("personStatus").textContent = `Error al buscar persona: ${pErr.message}`;
+    return null;
+  }
+
+  // 2) Si no está en persons, fallback a cases (porque tu data histórica está ahí)
+  if (!person) {
+    console.log("[findOrSelectPersonByDni] not found in persons, fallback to cases", { dniNorm });
+
+    const { data: lastCase, error: cErr } = await supabase
+      .from("cases")
+      .select("dni, apellido_nombre, fecha_nacimiento, domicilio, telefono, estado_civil, trabaja_actualmente, created_at")
+      .ilike("dni", `%${dniNorm}%`)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (cErr) {
+      console.error("[findOrSelectPersonByDni] cases fallback error", cErr);
+      $("personStatus").textContent = `Error al buscar en casos: ${cErr.message}`;
+      return null;
+    }
+
+    if (!lastCase) {
+      currentPersonId = null;
+      currentPersonDni = null;
+      $("personStatus").textContent = "No existe persona con ese DNI. Completá los datos para crearla.";
+      updateFamilyHeader();
+      return null;
+    }
+
+    // Prefill del formulario con lo que hay en cases
+    const candidate = {
+      dni: normalizeDni(lastCase.dni),
+      apellido_nombre: normalizeName(lastCase.apellido_nombre),
+      fecha_nacimiento: lastCase.fecha_nacimiento ?? null,
+      domicilio: lastCase.domicilio ?? null,
+      telefono: lastCase.telefono ?? null,
+      estado_civil: lastCase.estado_civil ?? null,
+      trabaja_actualmente: lastCase.trabaja_actualmente ?? null,
+    };
+
+    setPersonFormData(candidate);
+
+    // 3) Crear persons desde ese candidate (si no existe)
+    $("personStatus").textContent = "Encontrado en casos. Creando persona...";
+    console.log("[findOrSelectPersonByDni] creating persons from cases", candidate);
+
+    const ins = await supabase
+      .from("persons")
+      .insert(candidate)
+      .select("id, dni, apellido_nombre, fecha_nacimiento, domicilio, telefono, estado_civil, trabaja_actualmente, updated_at")
+      .maybeSingle();
+
+    if (ins.error) {
+      // Si falla por duplicado u otra razón, reintento leyendo (por si ya existe con formato distinto)
+      console.warn("[findOrSelectPersonByDni] insert persons failed, retry read", ins.error.message);
+
+      const retry = await supabase
+        .from("persons")
+        .select("id, dni, apellido_nombre, fecha_nacimiento, domicilio, telefono, estado_civil, trabaja_actualmente, updated_at")
+        .eq("dni", dniNorm)
+        .maybeSingle();
+
+      if (retry.error) {
+        $("personStatus").textContent = `Error al crear/leer persona: ${retry.error.message}`;
+        return null;
+      }
+      person = retry.data;
+    } else {
+      person = ins.data;
+    }
+  }
+
+  // Selección final
+  console.log("[findOrSelectPersonByDni] success", person);
+  await selectActivePerson(person, { silentMessage: true });
+  $("personStatus").textContent = `Persona encontrada: ${person.apellido_nombre ?? ""} (DNI ${normalizeDni(person.dni ?? "")})`;
+  return person;
+}
 
     async function ensurePersonForCase() {
       const personData = getPersonFormData();
+      personData.dni = normalizeDni(personData.dni);
+      personData.apellido_nombre = normalizeName(personData.apellido_nombre);
+      $("dni").value = personData.dni;
+      $("apellidoNombre").value = personData.apellido_nombre;
       if (!personData.dni || !personData.apellido_nombre) {
         $("caseStatus").textContent = "Faltan: Apellido y Nombre y/o DNI.";
         return null;
@@ -723,9 +1380,24 @@
       const person = await ensurePersonForCase();
       if (!person) return;
 
+      const isSuperadmin = myProfile?.role === "superadmin";
+      const areaId = isSuperadmin
+        ? $("areaSelect").value
+        : (myProfile?.default_area_id ? String(myProfile.default_area_id) : "");
+
+      if (!isSuperadmin && !areaId) {
+        $("caseStatus").textContent = "El usuario no tiene un área asignada.";
+        return;
+      }
+
+      if (isSuperadmin && !areaId) {
+        $("caseStatus").textContent = "Seleccioná un área para crear el caso.";
+        return;
+      }
+
       const payload = {
         person_id: person.id,
-        area_id: $("areaSelect").value,
+        area_id: areaId,
         motivo: $("motivo").value.trim() || null,
         ingresos: $("ingresos").value ? Number($("ingresos").value) : null,
         created_by: currentUser.id,
@@ -742,10 +1414,1017 @@
       if (error) { $("caseStatus").textContent = `Error: ${error.message}`; return; }
 
       lastCaseId = data.id;
+      lastCaseAreaId = String(areaId);
       $("caseStatus").textContent = `OK. Caso creado: ${lastCaseId}`;
       $("famStatus").textContent = "Ahora podés agregar grupo familiar de la persona.";
       $("famTable").innerHTML = "";
       await loadFamilyMembers();
+    }
+
+    function resolveCaseAreaId() {
+      const isSuperadmin = myProfile?.role === "superadmin";
+      return isSuperadmin
+        ? ($("areaSelect")?.value || "")
+        : (myProfile?.default_area_id ? String(myProfile.default_area_id) : "");
+    }
+
+    function resetPrestacionesUI(message = "Primero cree un caso para poder cargar prestaciones.") {
+      currentPrestacionesCatalog = [];
+      currentPrestacionesHistory = [];
+      prestacionModalContext = { prestacionId: null, existingId: null };
+      lastCaseAreaId = null;
+      $("prestacionesButtons").innerHTML = "";
+      $("prestacionFormContainer").textContent = "Los formularios se abren en una ventana modal.";
+      $("prestacionesCaseRef").textContent = message;
+      $("prestacionesStatus").textContent = "";
+      $("prestacionesHistoryTable").innerHTML = `<tr><td colspan="4" class="muted">${escapeHtml(message)}</td></tr>`;
+      closePrestacionModal();
+    }
+
+    function getPrestacionById(prestacionCatalogId) {
+      const catalogId = prestacionCatalogId ? String(prestacionCatalogId) : "";
+      return currentPrestacionesCatalog.find((item) => String(item.id) === catalogId) ?? null;
+    }
+
+    function getPrestacionHistoryById(recordId) {
+      const id = String(recordId || "");
+      return currentPrestacionesHistory.find((item) => String(item.id) === id) ?? null;
+    }
+
+    function syncBodyModalState() {
+      const adminOpen = !$("adminModal")?.classList.contains("hidden");
+      const prestacionOpen = !$("prestacionModal")?.classList.contains("hidden");
+      document.body.classList.toggle("modal-open", adminOpen || prestacionOpen);
+    }
+
+    function updatePasajesAcompanantesCount() {
+      const input = $("pasajesCantidadAcompanantes");
+      if (!input) return;
+      input.value = String(document.querySelectorAll("#pasajesAcompanantesList .acompananteRow").length);
+    }
+
+    function appendPasajesAcompananteRow(values = {}) {
+      const wrapper = $("pasajesAcompanantesList");
+      if (!wrapper) return;
+
+      const row = document.createElement("div");
+      row.className = "row acompananteRow";
+      row.style.marginTop = "8px";
+      row.innerHTML = `
+        <div style="flex:1; min-width:240px;">
+          <label>Apellido y nombre</label>
+          <input class="acompananteNombre" placeholder="Apellido y nombre" value="${escapeHtml(values.apellido_nombre ?? "")}" />
+        </div>
+        <div style="flex:1; min-width:180px;">
+          <label>DNI</label>
+          <input class="acompananteDni" placeholder="DNI" value="${escapeHtml(values.dni ?? "")}" />
+        </div>
+        <div style="align-self:end;">
+          <button type="button" class="secondary removeAcompananteBtn">Quitar</button>
+        </div>
+      `;
+      wrapper.appendChild(row);
+      updatePasajesAcompanantesCount();
+    }
+
+    function appendMedicamentoItemRow(values = {}) {
+      const wrapper = $("medicamentosItemsList");
+      if (!wrapper) return;
+
+      const row = document.createElement("div");
+      row.className = "row medicamentoItemRow";
+      row.style.marginTop = "8px";
+      row.innerHTML = `
+        <div style="flex:1; min-width:240px;">
+          <label>Nombre</label>
+          <input class="medicamentoNombre" placeholder="Nombre del medicamento" value="${escapeHtml(values.nombre ?? "")}" />
+        </div>
+        <div style="flex:1; min-width:180px;">
+          <label>Monto</label>
+          <input class="medicamentoMonto" type="number" min="0" step="0.01" placeholder="0" value="${escapeHtml(values.monto ?? "")}" />
+        </div>
+        <div style="align-self:end;">
+          <button type="button" class="secondary removeMedicamentoBtn">Quitar</button>
+        </div>
+      `;
+      wrapper.appendChild(row);
+    }
+
+    function renderPrestacionesButtons(prestaciones = []) {
+      if (!prestaciones.length) {
+        $("prestacionesButtons").innerHTML = "";
+        return;
+      }
+
+      $("prestacionesButtons").innerHTML = prestaciones.map((item) => `
+        <button type="button" class="secondary prestacionBtn" data-prestacion-id="${item.id}">
+          ${escapeHtml(item.nombre)}
+        </button>
+      `).join("");
+    }
+
+    async function loadPrestacionesForArea(areaId = null) {
+      if (!lastCaseId) {
+        resetPrestacionesUI("Primero cree un caso para poder cargar prestaciones.");
+        return;
+      }
+
+      const resolvedAreaId = areaId || lastCaseAreaId || resolveCaseAreaId();
+      if (!resolvedAreaId) {
+        resetPrestacionesUI("No se pudo determinar el área del caso.");
+        return;
+      }
+
+      lastCaseAreaId = String(resolvedAreaId);
+      $("prestacionesCaseRef").textContent = `Caso actual: ${lastCaseId}`;
+      $("prestacionesStatus").textContent = "Cargando prestaciones...";
+
+      const { data, error } = await supabase
+        .from("prestaciones_catalog")
+        .select("id, area_id, code, nombre, active")
+        .eq("area_id", resolvedAreaId)
+        .eq("active", true)
+        .order("nombre", { ascending: true });
+
+      await loadPrestacionesHistory(lastCaseId);
+
+      if (error) {
+        $("prestacionesButtons").innerHTML = "";
+        $("prestacionFormContainer").innerHTML = "";
+        $("prestacionesStatus").textContent = `Error: ${error.message}`;
+        console.error("[loadPrestacionesForArea]", error);
+        return;
+      }
+
+      currentPrestacionesCatalog = data ?? [];
+      renderPrestacionesButtons(currentPrestacionesCatalog);
+      $("prestacionFormContainer").textContent = "Los formularios se abren en una ventana modal.";
+
+      if (!currentPrestacionesCatalog.length) {
+        $("prestacionesStatus").textContent = "No hay prestaciones configuradas para esta área.";
+        return;
+      }
+
+      $("prestacionesStatus").textContent = "Seleccioná una prestación para cargar datos.";
+    }
+
+    function openPrestacionModal(prestacion, existingRecord = null) {
+      if (!prestacion) {
+        $("prestacionesStatus").textContent = "Prestación no disponible para este caso.";
+        return;
+      }
+
+      prestacionModalContext = {
+        prestacionId: prestacion.id,
+        existingId: existingRecord?.id ? String(existingRecord.id) : null,
+      };
+      $("prestacionModalTitle").textContent = existingRecord?.id
+        ? `Editar prestación: ${prestacion.nombre}`
+        : `Nueva prestación: ${prestacion.nombre}`;
+      renderPrestacionModalForm(prestacion, existingRecord);
+      $("prestacionModal").classList.remove("hidden");
+      syncBodyModalState();
+    }
+
+    function closePrestacionModal() {
+      const modal = $("prestacionModal");
+      if (!modal || modal.classList.contains("hidden")) return;
+      modal.classList.add("hidden");
+      $("prestacionModalBody").innerHTML = "";
+      prestacionModalContext = { prestacionId: null, existingId: null };
+      syncBodyModalState();
+    }
+
+    function renderPrestacionModalForm(prestacion, existingRecord = null) {
+      if (!prestacion) return;
+
+      const code = String(prestacion.code || "").toUpperCase();
+      const datos = existingRecord?.datos && typeof existingRecord.datos === "object" ? existingRecord.datos : {};
+      const observaciones = existingRecord?.observaciones ?? "";
+      const submitLabel = existingRecord?.id ? "Actualizar prestación" : "Guardar prestación";
+      let formHtml = "";
+
+      if (code === "PASAJES") {
+        const acompanantes = Array.isArray(datos.acompanantes) ? datos.acompanantes : [];
+        formHtml = `
+          <form id="prestacionModalForm" data-prestacion-id="${prestacion.id}" data-prestacion-code="${escapeHtml(code)}" data-existing-id="${escapeHtml(existingRecord?.id ?? "")}">
+            <h3>${escapeHtml(prestacion.nombre)}</h3>
+            <div class="row">
+              <div style="flex:1; min-width:240px;">
+                <label>Destino</label>
+                <input id="pasajesDestino" required placeholder="Destino" value="${escapeHtml(datos.destino ?? "")}" />
+              </div>
+              <div style="flex:1; min-width:220px;">
+                <label>Fecha de turno</label>
+                <input id="pasajesFechaTurno" type="date" required value="${escapeHtml(datos.fecha_turno ?? "")}" />
+              </div>
+            </div>
+            <div class="row">
+              <div style="flex:1; min-width:220px;">
+                <label>Tipo de viaje</label>
+                <select id="pasajesTipoViaje" required>
+                  <option value="ida_vuelta" ${(datos.tipo_viaje ?? "ida_vuelta") === "ida_vuelta" ? "selected" : ""}>ida_vuelta</option>
+                  <option value="ida" ${datos.tipo_viaje === "ida" ? "selected" : ""}>ida</option>
+                  <option value="vuelta" ${datos.tipo_viaje === "vuelta" ? "selected" : ""}>vuelta</option>
+                </select>
+              </div>
+              <div style="flex:2; min-width:280px;">
+                <label>Motivo del viaje</label>
+                <input id="pasajesMotivoViaje" required placeholder="Motivo" value="${escapeHtml(datos.motivo_viaje ?? "")}" />
+              </div>
+            </div>
+            <div class="row">
+              <div style="flex:1; min-width:220px;">
+                <label>Cantidad de acompañantes</label>
+                <input id="pasajesCantidadAcompanantes" type="number" min="0" readonly value="${escapeHtml(String(datos.cantidad_acompanantes ?? acompanantes.length ?? 0))}" />
+              </div>
+            </div>
+            <h3 style="margin-top:12px;">Acompañantes</h3>
+            <div id="pasajesAcompanantesList"></div>
+            <div class="row" style="margin-top:8px;">
+              <button type="button" class="secondary" id="btnAddAcompanante">Agregar acompañante</button>
+            </div>
+            <label>Observaciones</label>
+            <textarea id="prestacionObservaciones" placeholder="Observaciones">${escapeHtml(observaciones)}</textarea>
+            <div class="row" style="margin-top:12px;">
+              <button type="submit" class="primary">${submitLabel}</button>
+            </div>
+          </form>
+        `;
+      } else if (code === "COMBUSTIBLE") {
+        formHtml = `
+          <form id="prestacionModalForm" data-prestacion-id="${prestacion.id}" data-prestacion-code="${escapeHtml(code)}" data-existing-id="${escapeHtml(existingRecord?.id ?? "")}">
+            <h3>${escapeHtml(prestacion.nombre)}</h3>
+            <div class="row">
+              <div style="flex:1; min-width:200px;">
+                <label>Cantidad de litros</label>
+                <input id="combustibleCantidadLitros" type="number" min="0" step="0.01" required placeholder="0" value="${escapeHtml(String(datos.cantidad_litros ?? ""))}" />
+              </div>
+              <div style="flex:1; min-width:200px;">
+                <label>Tipo de combustible</label>
+                <input id="combustibleTipo" required placeholder="Nafta / Diésel" value="${escapeHtml(datos.tipo_combustible ?? "")}" />
+              </div>
+              <div style="flex:1; min-width:200px;">
+                <label>Patente</label>
+                <input id="combustiblePatente" required placeholder="AAA000 o AA000AA" value="${escapeHtml(datos.patente ?? "")}" />
+              </div>
+            </div>
+            <div class="row">
+              <div style="flex:1; min-width:240px;">
+                <label>Destino</label>
+                <input id="combustibleDestino" required placeholder="Destino" value="${escapeHtml(datos.destino ?? "")}" />
+              </div>
+              <div style="flex:1; min-width:200px;">
+                <label>Marca</label>
+                <input id="combustibleMarca" placeholder="Marca del vehículo" value="${escapeHtml(datos.marca ?? "")}" />
+              </div>
+            </div>
+            <label>Motivo</label><textarea id="combustibleMotivo" required placeholder="Motivo de la asistencia">${escapeHtml(datos.motivo ?? "")}</textarea>
+            <label>Observaciones</label><textarea id="prestacionObservaciones" placeholder="Observaciones">${escapeHtml(observaciones)}</textarea>
+            <div class="row" style="margin-top:12px;">
+              <button type="submit" class="primary">${submitLabel}</button>
+            </div>
+          </form>
+        `;
+      } else if (code === "AYUDA_ECONOMICA") {
+        formHtml = `
+          <form id="prestacionModalForm" data-prestacion-id="${prestacion.id}" data-prestacion-code="${escapeHtml(code)}" data-existing-id="${escapeHtml(existingRecord?.id ?? "")}">
+            <h3>${escapeHtml(prestacion.nombre)}</h3>
+            <div class="row">
+              <div style="flex:2; min-width:260px;">
+                <label>Motivo</label>
+                <input id="ayudaEconomicaMotivo" required placeholder="Motivo de la ayuda" value="${escapeHtml(datos.motivo ?? "")}" />
+              </div>
+              <div style="flex:1; min-width:220px;">
+                <label>Monto</label>
+                <input id="ayudaEconomicaMonto" type="number" min="0" step="0.01" required placeholder="0" value="${escapeHtml(String(datos.monto ?? ""))}" />
+              </div>
+            </div>
+            <label>Observaciones</label><textarea id="prestacionObservaciones" placeholder="Observaciones">${escapeHtml(observaciones)}</textarea>
+            <div class="row" style="margin-top:12px;">
+              <button type="submit" class="primary">${submitLabel}</button>
+            </div>
+          </form>
+        `;
+      } else if (code === "MEDICAMENTOS") {
+        const items = Array.isArray(datos.items) ? datos.items : [];
+        formHtml = `
+          <form id="prestacionModalForm" data-prestacion-id="${prestacion.id}" data-prestacion-code="${escapeHtml(code)}" data-existing-id="${escapeHtml(existingRecord?.id ?? "")}">
+            <h3>${escapeHtml(prestacion.nombre)}</h3>
+            <p class="muted">Cargá cada medicamento con su monto.</p>
+            <div id="medicamentosItemsList"></div>
+            <div class="row" style="margin-top:8px;">
+              <button type="button" class="secondary" id="btnAddMedicamentoItem">Agregar medicamento</button>
+            </div>
+            <label>Observaciones</label><textarea id="prestacionObservaciones" placeholder="Observaciones">${escapeHtml(observaciones)}</textarea>
+            <div class="row" style="margin-top:12px;">
+              <button type="submit" class="primary">${submitLabel}</button>
+            </div>
+          </form>
+        `;
+      } else if (code === "PROCIPO") {
+        formHtml = `
+          <form id="prestacionModalForm" data-prestacion-id="${prestacion.id}" data-prestacion-code="${escapeHtml(code)}" data-existing-id="${escapeHtml(existingRecord?.id ?? "")}">
+            <h3>${escapeHtml(prestacion.nombre)}</h3>
+            <div class="row">
+              <div style="flex:1; min-width:220px;">
+                <label>¿Recibió?</label>
+                <select id="procipoRecibio" required>
+                  <option value="si" ${(datos.recibio === true || datos.recibio === "si") ? "selected" : ""}>Sí</option>
+                  <option value="no" ${(datos.recibio === false || datos.recibio === "no") ? "selected" : ""}>No</option>
+                </select>
+              </div>
+            </div>
+            <label>Observaciones</label><textarea id="prestacionObservaciones" placeholder="Observaciones">${escapeHtml(observaciones)}</textarea>
+            <div class="row" style="margin-top:12px;">
+              <button type="submit" class="primary">${submitLabel}</button>
+            </div>
+          </form>
+        `;
+      } else {
+        formHtml = `
+          <form id="prestacionModalForm" data-prestacion-id="${prestacion.id}" data-prestacion-code="${escapeHtml(code)}" data-existing-id="${escapeHtml(existingRecord?.id ?? "")}">
+            <h3>${escapeHtml(prestacion.nombre)}</h3>
+            <p class="muted">Código: ${escapeHtml(code || "SIN_CODIGO")}. Cargá datos en formato JSON.</p>
+            <label>Datos</label>
+            <textarea id="genericPrestacionDatos" placeholder='{"detalle":"..."}'>${escapeHtml(JSON.stringify(datos ?? {}, null, 2))}</textarea>
+            <label>Observaciones</label><textarea id="prestacionObservaciones" placeholder="Observaciones">${escapeHtml(observaciones)}</textarea>
+            <div class="row" style="margin-top:12px;">
+              <button type="submit" class="primary">${submitLabel}</button>
+            </div>
+          </form>
+        `;
+      }
+
+      $("prestacionModalBody").innerHTML = formHtml;
+
+      if (code === "PASAJES") {
+        const acompanantes = Array.isArray(datos.acompanantes) ? datos.acompanantes : [];
+        if (acompanantes.length) {
+          acompanantes.forEach((item) => appendPasajesAcompananteRow(item));
+        } else {
+          appendPasajesAcompananteRow();
+        }
+      }
+
+      if (code === "MEDICAMENTOS") {
+        const items = Array.isArray(datos.items) ? datos.items : [];
+        if (items.length) {
+          items.forEach((item) => appendMedicamentoItemRow(item));
+        } else {
+          appendMedicamentoItemRow();
+        }
+      }
+    }
+
+    function collectPrestacionFormData(code) {
+      const observaciones = normalizeName($("prestacionObservaciones")?.value) || null;
+      let datos = {};
+
+      if (code === "PASAJES") {
+        const acompanantes = Array.from(document.querySelectorAll("#pasajesAcompanantesList .acompananteRow"))
+          .map((row) => {
+            const apellido_nombre = normalizeName(row.querySelector(".acompananteNombre")?.value);
+            const dni = normalizeDni(row.querySelector(".acompananteDni")?.value);
+            return { apellido_nombre, dni };
+          })
+          .filter((item) => item.apellido_nombre || item.dni);
+
+        datos = {
+          destino: normalizeName($("pasajesDestino")?.value),
+          fecha_turno: $("pasajesFechaTurno")?.value || null,
+          tipo_viaje: $("pasajesTipoViaje")?.value || null,
+          motivo_viaje: normalizeName($("pasajesMotivoViaje")?.value),
+          cantidad_acompanantes: acompanantes.length,
+          acompanantes,
+        };
+        if (!datos.destino || !datos.fecha_turno || !datos.tipo_viaje || !datos.motivo_viaje) {
+          return { error: "Completá todos los campos obligatorios de Pasajes." };
+        }
+      } else if (code === "COMBUSTIBLE") {
+        datos = {
+          cantidad_litros: $("combustibleCantidadLitros")?.value ? Number($("combustibleCantidadLitros").value) : null,
+          tipo_combustible: normalizeName($("combustibleTipo")?.value),
+          motivo: normalizeName($("combustibleMotivo")?.value),
+          destino: normalizeName($("combustibleDestino")?.value),
+          patente: normalizeName($("combustiblePatente")?.value).toUpperCase(),
+          marca: normalizeName($("combustibleMarca")?.value) || null,
+        };
+        if (!datos.cantidad_litros || !datos.tipo_combustible || !datos.motivo || !datos.destino || !datos.patente) {
+          return { error: "Completá todos los campos obligatorios de Combustible." };
+        }
+      } else if (code === "AYUDA_ECONOMICA") {
+        datos = {
+          motivo: normalizeName($("ayudaEconomicaMotivo")?.value),
+          monto: $("ayudaEconomicaMonto")?.value ? Number($("ayudaEconomicaMonto").value) : null,
+        };
+        if (!datos.motivo || !datos.monto) return { error: "Completá motivo y monto de la ayuda económica." };
+      } else if (code === "MEDICAMENTOS") {
+        const items = Array.from(document.querySelectorAll("#medicamentosItemsList .medicamentoItemRow"))
+          .map((row) => {
+            const nombre = normalizeName(row.querySelector(".medicamentoNombre")?.value);
+            const montoRaw = row.querySelector(".medicamentoMonto")?.value;
+            return { nombre, monto: montoRaw ? Number(montoRaw) : null };
+          })
+          .filter((item) => item.nombre);
+        if (!items.length) return { error: "Cargá al menos un medicamento." };
+        datos = { items };
+      } else if (code === "PROCIPO") {
+        const recibio = $("procipoRecibio")?.value || "";
+        if (!recibio) return { error: "Indicá si recibió PROCIPO." };
+        datos = { recibio: recibio === "si" };
+      } else {
+        try {
+          const raw = $("genericPrestacionDatos")?.value?.trim();
+          datos = raw ? JSON.parse(raw) : {};
+        } catch (_) {
+          return { error: "JSON inválido en datos de prestación." };
+        }
+      }
+
+      return { datos, observaciones };
+    }
+
+    async function savePrestacion(prestacionCatalogId, areaId, datos, observaciones, existingId = null) {
+      const prestacion = getPrestacionById(prestacionCatalogId);
+      if (!prestacion) {
+        $("prestacionesStatus").textContent = "Prestación inválida para este caso.";
+        return false;
+      }
+
+      if (!currentUser?.id) {
+        $("prestacionesStatus").textContent = "No hay usuario autenticado para guardar la prestación.";
+        return false;
+      }
+
+      if (!lastCaseId) {
+        $("prestacionesStatus").textContent = "No hay caso activo para guardar la prestación.";
+        return false;
+      }
+
+      const resolvedAreaId = areaId || lastCaseAreaId || prestacion.area_id;
+      if (!resolvedAreaId) {
+        $("prestacionesStatus").textContent = "No se pudo determinar el área para guardar la prestación.";
+        return false;
+      }
+
+      const payloadBase = {
+        case_id: lastCaseId,
+        area_id: resolvedAreaId,
+        prestacion_catalog_id: prestacion.id,
+        observaciones: observaciones || null,
+        datos: datos || {},
+      };
+      $("prestacionesStatus").textContent = existingId ? "Actualizando prestación..." : "Guardando prestación...";
+
+      let error = null;
+      if (existingId) {
+        const updateResponse = await supabase
+          .from("case_prestaciones")
+          .update(payloadBase)
+          .eq("id", existingId)
+          .eq("case_id", lastCaseId);
+        error = updateResponse.error;
+      } else {
+        const insertResponse = await supabase
+          .from("case_prestaciones")
+          .insert({ ...payloadBase, created_by: currentUser.id });
+        error = insertResponse.error;
+      }
+
+      if (error) {
+        $("prestacionesStatus").textContent = `Error: ${error.message}`;
+        console.error("[savePrestacion]", error);
+        return false;
+      }
+
+      $("prestacionesStatus").textContent = existingId
+        ? "Prestación actualizada correctamente."
+        : "Prestación guardada correctamente.";
+      closePrestacionModal();
+      await loadPrestacionesHistory(lastCaseId);
+      return true;
+    }
+
+    function summarizePrestacion(code, datos) {
+      const safeCode = String(code || "").toUpperCase();
+      const safeDatos = datos && typeof datos === "object" ? datos : {};
+
+      if (safeCode === "PASAJES") {
+        const destino = safeDatos.destino || "sin destino";
+        const tipo = safeDatos.tipo_viaje || "sin tipo";
+        const cant = Number(safeDatos.cantidad_acompanantes ?? 0);
+        return `Destino: ${destino} | Tipo: ${tipo} | Acompañantes: ${cant}`;
+      }
+      if (safeCode === "COMBUSTIBLE") {
+        const litros = safeDatos.cantidad_litros ?? "-";
+        const tipo = safeDatos.tipo_combustible || "-";
+        const destino = safeDatos.destino || "-";
+        return `${litros} litros | ${tipo} | Destino: ${destino}`;
+      }
+      if (safeCode === "AYUDA_ECONOMICA") {
+        const monto = safeDatos.monto ?? "-";
+        return `Monto: $${monto}`;
+      }
+      if (safeCode === "MEDICAMENTOS") {
+        const items = Array.isArray(safeDatos.items) ? safeDatos.items : [];
+        return `${items.length} medicamento(s)`;
+      }
+      if (safeCode === "PROCIPO") {
+        const recibioRaw = String(safeDatos.recibio ?? "").trim().toLowerCase();
+        const recibio = safeDatos.recibio === true || recibioRaw === "si" || recibioRaw === "sí" || recibioRaw === "true" || recibioRaw === "1";
+        return `Recibió: ${recibio ? "Sí" : "No"}`;
+      }
+      return "Prestación registrada";
+    }
+
+    function buildTimelineEvents(casesRows, prestacionesRows) {
+      const safeCases = Array.isArray(casesRows) ? casesRows : [];
+      const safePrestaciones = Array.isArray(prestacionesRows) ? prestacionesRows : [];
+      const caseById = new Map(safeCases.map((c) => [String(c.id), c]));
+
+      const caseEvents = safeCases.map((c) => ({
+        event_type: "case",
+        event_date: c.created_at || null,
+        area_name: getAreaName(c.area_id),
+        title: "Caso",
+        subtitle: c.motivo || "Sin motivo",
+        case_id: c.id,
+        prestacion_id: null,
+      }));
+
+      const prestacionEvents = safePrestaciones.map((p) => {
+        const relatedCase = caseById.get(String(p.case_id)) || null;
+        const rawDatos = p?.datos;
+        const parsedDatos = rawDatos && typeof rawDatos === "object"
+          ? rawDatos
+          : (() => {
+              if (!rawDatos || typeof rawDatos !== "string") return {};
+              try {
+                return JSON.parse(rawDatos);
+              } catch {
+                return {};
+              }
+            })();
+
+        const title = p.prestacion_nombre || p.nombre || p.code || "Prestación";
+        const subtitle = p.observaciones || p.resumen || p.resumen_corto || p.detalle || summarizePrestacion(p.code, parsedDatos);
+
+        return {
+          event_type: "prestacion",
+          event_date: p.created_at || relatedCase?.created_at || null,
+          area_name: getAreaName(relatedCase?.area_id),
+          title,
+          subtitle,
+          case_id: p.case_id || relatedCase?.id || null,
+          prestacion_id: p.id || null,
+        };
+      });
+
+      return [...caseEvents, ...prestacionEvents]
+        .sort((a, b) => {
+          const aMs = a.event_date ? new Date(a.event_date).getTime() : 0;
+          const bMs = b.event_date ? new Date(b.event_date).getTime() : 0;
+          return bMs - aMs;
+        });
+    }
+
+    function renderPersonTimeline(events) {
+      const container = $("personTimeline");
+      if (!container) return 0;
+
+      const safeEvents = Array.isArray(events) ? events : [];
+      if (!safeEvents.length) {
+        container.innerHTML = `<div class="muted">Sin eventos registrados.</div>`;
+        return 0;
+      }
+
+      container.innerHTML = safeEvents.map((event) => {
+        const isCase = event.event_type === "case";
+        const badgeClass = isCase ? "timelineBadgeCase" : "timelineBadgePrestacion";
+        const badgeText = isCase ? "Caso" : "Prestación";
+        const fecha = event.event_date ? new Date(event.event_date).toLocaleString("es-AR") : "Sin fecha";
+        const areaName = event.area_name || "Sin área";
+        return `
+          <article class="timelineItem">
+            <div class="timelineHead">
+              <div class="row" style="align-items:center; gap:8px; margin:0;">
+                <span class="pill ${badgeClass}">${badgeText}</span>
+                <span class="timelineTitle">${escapeHtml(event.title || (isCase ? "Caso" : "Prestación"))}</span>
+              </div>
+              <div class="muted">${escapeHtml(fecha)}</div>
+            </div>
+            <div class="timelineSub">${escapeHtml(event.subtitle || "-")}</div>
+            <div class="timelineMeta">
+              <span>Área: ${escapeHtml(areaName)}</span>
+              <span>Caso: ${escapeHtml(String(event.case_id ?? "-"))}</span>
+              ${event.prestacion_id ? `<span>Prestación: ${escapeHtml(String(event.prestacion_id))}</span>` : ""}
+            </div>
+          </article>
+        `;
+      }).join("");
+      return safeEvents.length;
+    }
+
+    function renderPersonAlerts(alerts) {
+      const container = $("personAlerts");
+      if (!container) return 0;
+      const safeAlerts = Array.isArray(alerts) ? alerts : [];
+      if (!safeAlerts.length) {
+        container.innerHTML = `<div class="muted">Sin alertas relevantes.</div>`;
+        return 0;
+      }
+
+      container.innerHTML = safeAlerts.map((alert) => `
+        <article class="alertItem">
+          <div class="row" style="justify-content:space-between; align-items:center; margin:0;">
+            <span class="pill">${escapeHtml(alert.type || "warning")}</span>
+            <span class="muted">${escapeHtml(alert.code || "")}</span>
+          </div>
+          <div class="alertMessage">${escapeHtml(alert.message || "")}</div>
+        </article>
+      `).join("");
+      return safeAlerts.length;
+    }
+
+    async function checkRecentPrestaciones(personId) {
+      const alerts = [];
+      const now = new Date();
+      const from30d = new Date(now);
+      from30d.setDate(from30d.getDate() - 30);
+      const from6m = new Date(now);
+      from6m.setMonth(from6m.getMonth() - 6);
+
+      const { data: caseRows, error: casesError } = await supabase
+        .from("cases")
+        .select("id")
+        .eq("person_id", personId)
+        .limit(500);
+      if (casesError) throw casesError;
+
+      const caseIds = [...new Set((caseRows ?? []).map((c) => c.id).filter(Boolean))];
+      if (!caseIds.length) return alerts;
+
+      const { data: prestacionesRows, error: prestacionesError } = await supabase
+        .from("case_prestaciones")
+        .select("id, created_at")
+        .in("case_id", caseIds)
+        .gte("created_at", from6m.toISOString())
+        .limit(2000);
+      if (prestacionesError) throw prestacionesError;
+
+      const safeRows = prestacionesRows ?? [];
+      const count6m = safeRows.length;
+      const count30d = safeRows.filter((r) => {
+        const ts = r?.created_at ? new Date(r.created_at).getTime() : NaN;
+        return !Number.isNaN(ts) && ts >= from30d.getTime();
+      }).length;
+
+      if (count30d > 3) {
+        alerts.push({
+          type: "warning",
+          code: "recent_prestaciones_30d",
+          message: `⚠ ${count30d} prestaciones en los últimos 30 días`,
+        });
+      }
+      if (count6m > 10) {
+        alerts.push({
+          type: "warning",
+          code: "recent_prestaciones_6m",
+          message: `⚠ ${count6m} prestaciones en los últimos 6 meses`,
+        });
+      }
+      return alerts;
+    }
+
+    async function checkMultipleAreas(personId) {
+      const { data: caseRows, error } = await supabase
+        .from("cases")
+        .select("area_id")
+        .eq("person_id", personId)
+        .limit(1000);
+      if (error) throw error;
+
+      const areaCount = new Set((caseRows ?? []).map((c) => c.area_id).filter((v) => v != null && v !== "")).size;
+      if (areaCount < 2) return null;
+      return {
+        type: "warning",
+        code: "multiple_areas",
+        message: `⚠ Intervención en ${areaCount} áreas distintas`,
+      };
+    }
+
+    async function checkFamilyAssistance(personId) {
+      const { data: familyRows, error: familyError } = await supabase
+        .from("family_members")
+        .select("dni")
+        .eq("person_id", personId)
+        .limit(300);
+      if (familyError) throw familyError;
+
+      const dnis = [...new Set((familyRows ?? []).map((f) => normalizeDni(f?.dni)).filter(Boolean))];
+      if (!dnis.length) return null;
+
+      const { data: linkedPersons, error: personError } = await supabase
+        .from("persons")
+        .select("id, dni")
+        .in("dni", dnis)
+        .limit(300);
+      if (personError) throw personError;
+
+      const personByDni = new Map((linkedPersons ?? []).map((p) => [normalizeDni(p.dni), p.id]));
+      const linkedIds = [...new Set(dnis.map((d) => personByDni.get(d)).filter(Boolean))];
+      if (!linkedIds.length) return null;
+
+      const { data: linkedCases, error: caseError } = await supabase
+        .from("cases")
+        .select("person_id")
+        .in("person_id", linkedIds)
+        .limit(1000);
+      if (caseError) throw caseError;
+
+      const assistedCount = new Set((linkedCases ?? []).map((c) => c.person_id).filter(Boolean)).size;
+      if (!assistedCount) return null;
+      return {
+        type: "warning",
+        code: "family_assisted",
+        message: `⚠ ${assistedCount} familiar(es) con asistencia registrada`,
+      };
+    }
+
+    async function loadPersonAlerts(personId) {
+      const container = $("personAlerts");
+      if (!container) return;
+      if (!personId) {
+        renderPersonAlerts([]);
+        return;
+      }
+
+      container.innerHTML = `<div class="muted">Analizando alertas...</div>`;
+      try {
+        const [recentAlerts, areasAlert, familyAlert] = await Promise.all([
+          checkRecentPrestaciones(personId),
+          checkMultipleAreas(personId),
+          checkFamilyAssistance(personId),
+        ]);
+
+        const alerts = [
+          ...(recentAlerts ?? []),
+          ...(areasAlert ? [areasAlert] : []),
+          ...(familyAlert ? [familyAlert] : []),
+        ];
+        console.log("[loadPersonAlerts]", { personId, alerts });
+        renderPersonAlerts(alerts);
+      } catch (err) {
+        console.error("[loadPersonAlerts]", err);
+        container.innerHTML = `<div class="muted">Error al cargar alertas: ${escapeHtml(err?.message || "error inesperado")}</div>`;
+      }
+    }
+
+    async function loadPersonTimeline(personId) {
+      const container = $("personTimeline");
+      if (!container) return;
+      if (!personId) {
+        container.innerHTML = `<div class="muted">Sin eventos registrados.</div>`;
+        return;
+      }
+
+      container.innerHTML = `<div class="muted">Cargando timeline...</div>`;
+
+      const { data: casesRows, error: casesError } = await supabase
+        .from("cases")
+        .select("id, created_at, area_id, motivo, ingresos")
+        .eq("person_id", personId)
+        .order("created_at", { ascending: false })
+        .limit(300);
+
+      if (casesError) {
+        container.innerHTML = `<div class="muted">Error al cargar timeline: ${escapeHtml(casesError.message)}</div>`;
+        console.error("[loadPersonTimeline][cases]", casesError);
+        return;
+      }
+
+      const safeCases = casesRows ?? [];
+      const caseIds = [...new Set(safeCases.map((c) => c.id).filter(Boolean))];
+      if (!caseIds.length) {
+        renderPersonTimeline([]);
+        return;
+      }
+
+      let prestacionesRows = [];
+      const readableRes = await supabase
+        .from("case_prestaciones_readable")
+        .select("id, case_id, prestacion_catalog_id, prestacion_nombre, nombre, code, datos, observaciones, resumen, resumen_corto, detalle, created_at")
+        .in("case_id", caseIds)
+        .order("created_at", { ascending: false })
+        .limit(600);
+
+      if (!readableRes.error) {
+        prestacionesRows = readableRes.data ?? [];
+      } else {
+        console.warn("[loadPersonTimeline] fallback case_prestaciones", readableRes.error);
+        const baseRes = await supabase
+          .from("case_prestaciones")
+          .select("id, case_id, prestacion_catalog_id, datos, observaciones, created_at")
+          .in("case_id", caseIds)
+          .order("created_at", { ascending: false })
+          .limit(600);
+
+        if (baseRes.error) {
+          container.innerHTML = `<div class="muted">Error al cargar timeline: ${escapeHtml(baseRes.error.message)}</div>`;
+          console.error("[loadPersonTimeline][prestaciones]", baseRes.error);
+          return;
+        }
+
+        const baseRows = baseRes.data ?? [];
+        const catalogIds = [...new Set(baseRows.map((r) => r.prestacion_catalog_id).filter(Boolean))];
+        let catalogMap = new Map();
+
+        if (catalogIds.length) {
+          const { data: catalogRows, error: catalogError } = await supabase
+            .from("prestaciones_catalog")
+            .select("id, nombre, code")
+            .in("id", catalogIds);
+          if (!catalogError) {
+            catalogMap = new Map((catalogRows ?? []).map((c) => [String(c.id), c]));
+          } else {
+            console.error("[loadPersonTimeline][catalog]", catalogError);
+          }
+        }
+
+        prestacionesRows = baseRows.map((r) => {
+          const catalog = catalogMap.get(String(r.prestacion_catalog_id)) || {};
+          return {
+            ...r,
+            prestacion_nombre: catalog.nombre || null,
+            code: catalog.code || null,
+            resumen: null,
+            resumen_corto: null,
+            detalle: null,
+          };
+        });
+      }
+
+      const events = buildTimelineEvents(safeCases, prestacionesRows);
+      console.log("[loadPersonTimeline]", { personId, cases: safeCases.length, prestaciones: prestacionesRows.length, events: events.length });
+      renderPersonTimeline(events);
+    }
+
+    async function loadPrestacionesHistory(caseId) {
+      if (!caseId) {
+        currentPrestacionesHistory = [];
+        $("prestacionesHistoryTable").innerHTML = `<tr><td colspan="4" class="muted">Primero cree un caso para poder cargar prestaciones.</td></tr>`;
+        return;
+      }
+
+      const viewResponse = await supabase
+        .from("case_prestaciones_readable")
+        .select("id, case_id, prestacion_catalog_id, prestacion_nombre, nombre, code, datos, observaciones, created_at, resumen, resumen_corto, detalle")
+        .eq("case_id", caseId)
+        .order("created_at", { ascending: false });
+
+      let rows = [];
+
+      if (!viewResponse.error) {
+        rows = viewResponse.data ?? [];
+      } else {
+        const baseResponse = await supabase
+          .from("case_prestaciones")
+          .select("id, case_id, prestacion_catalog_id, datos, observaciones, created_at")
+          .eq("case_id", caseId)
+          .order("created_at", { ascending: false });
+
+        if (baseResponse.error) {
+          currentPrestacionesHistory = [];
+          $("prestacionesHistoryTable").innerHTML = `<tr><td colspan="4" class="muted">Error al cargar historial.</td></tr>`;
+          console.error("[loadPrestacionesHistory]", baseResponse.error);
+          return;
+        }
+
+        const baseRows = baseResponse.data ?? [];
+        const catalogIds = [...new Set(baseRows.map((row) => row.prestacion_catalog_id).filter(Boolean))];
+        let catalogMap = {};
+
+        if (catalogIds.length) {
+          const catalogResponse = await supabase
+            .from("prestaciones_catalog")
+            .select("id, code, nombre")
+            .in("id", catalogIds);
+
+          if (!catalogResponse.error) {
+            catalogMap = Object.fromEntries((catalogResponse.data ?? []).map((item) => [String(item.id), item]));
+          } else {
+            console.error("[loadPrestacionesHistory catalog]", catalogResponse.error);
+          }
+        }
+
+        rows = baseRows.map((row) => {
+          const catalog = catalogMap[String(row.prestacion_catalog_id)] || {};
+          return {
+            id: row.id,
+            case_id: row.case_id,
+            prestacion_catalog_id: row.prestacion_catalog_id,
+            created_at: row.created_at,
+            prestacion_nombre: catalog.nombre || `Prestación #${row.prestacion_catalog_id}`,
+            code: catalog.code || "",
+            datos: row.datos || {},
+            observaciones: row.observaciones || null,
+          };
+        });
+      }
+
+      if (!rows.length) {
+        currentPrestacionesHistory = [];
+        $("prestacionesHistoryTable").innerHTML = `<tr><td colspan="4" class="muted">Sin prestaciones registradas para este caso.</td></tr>`;
+        return;
+      }
+
+      currentPrestacionesHistory = rows.map((row) => ({
+        id: row.id,
+        case_id: row.case_id ?? caseId,
+        prestacion_catalog_id: row.prestacion_catalog_id,
+        prestacion_nombre: row.prestacion_nombre || row.nombre || row.prestacion || "",
+        code: String(row.code || "").toUpperCase(),
+        datos: row.datos && typeof row.datos === "object" ? row.datos : {},
+        observaciones: row.observaciones || null,
+        created_at: row.created_at,
+        resumen: row.resumen || row.resumen_corto || row.detalle || null,
+      }));
+
+      $("prestacionesHistoryTable").innerHTML = currentPrestacionesHistory.map((row) => {
+        const fecha = row.created_at ? new Date(row.created_at).toLocaleString("es-AR") : "-";
+        const nombre = row.prestacion_nombre || row.code || "Prestación";
+        const resumen = row.observaciones || row.resumen || summarizePrestacion(row.code, row.datos);
+        return `
+          <tr>
+            <td>${escapeHtml(fecha)}</td>
+            <td>${escapeHtml(nombre)}</td>
+            <td>${escapeHtml(String(resumen || "-"))}</td>
+            <td>
+              <div class="row" style="gap:8px;">
+                <button type="button" class="secondary editPrestacionBtn" data-prestacion-record-id="${escapeHtml(String(row.id ?? ""))}">Editar</button>
+                <button type="button" class="danger deletePrestacionBtn" data-prestacion-record-id="${escapeHtml(String(row.id ?? ""))}">Eliminar</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    async function ensurePrestacionForRecord(record) {
+      if (!record?.prestacion_catalog_id) return null;
+      const existing = getPrestacionById(record.prestacion_catalog_id);
+      if (existing) return existing;
+
+      const { data, error } = await supabase
+        .from("prestaciones_catalog")
+        .select("id, area_id, code, nombre, active")
+        .eq("id", record.prestacion_catalog_id)
+        .maybeSingle();
+
+      if (error) {
+        console.error("[ensurePrestacionForRecord]", error);
+      }
+
+      const resolved = data || {
+        id: record.prestacion_catalog_id,
+        area_id: lastCaseAreaId,
+        code: record.code || "",
+        nombre: record.prestacion_nombre || `Prestación #${record.prestacion_catalog_id}`,
+        active: true,
+      };
+
+      if (!getPrestacionById(resolved.id)) {
+        currentPrestacionesCatalog.push(resolved);
+      }
+      return resolved;
+    }
+
+    async function deletePrestacion(id) {
+      if (!id) return false;
+      if (!lastCaseId) {
+        $("prestacionesStatus").textContent = "No hay caso activo para eliminar la prestación.";
+        return false;
+      }
+
+      const ok = window.confirm("¿Desea eliminar esta prestación?");
+      if (!ok) return false;
+
+      const { error } = await supabase
+        .from("case_prestaciones")
+        .delete()
+        .eq("id", id)
+        .eq("case_id", lastCaseId);
+
+      if (error) {
+        $("prestacionesStatus").textContent = `Error: ${error.message}`;
+        console.error("[deletePrestacion]", error);
+        return false;
+      }
+
+      $("prestacionesStatus").textContent = "Prestación eliminada correctamente.";
+      await loadPrestacionesHistory(lastCaseId);
+      return true;
     }
 
     async function addFamilyMember() {
@@ -756,7 +2435,7 @@
         person_id: currentPersonId,
         case_id: lastCaseId || null,
         apellido_nombres: $("famNombre").value.trim(),
-        dni: $("famDni").value.trim() || null,
+        dni: normalizeDni($("famDni").value) || null,
         observaciones: $("famObs").value.trim() || null,
       };
 
@@ -781,124 +2460,1314 @@
         .order("created_at", { ascending: true });
 
       if (error) { $("famStatus").textContent = `Error: ${error.message}`; return; }
+      const familyRows = data ?? [];
+      if (!familyRows.length) {
+        $("famTable").innerHTML = "";
+        return;
+      }
 
-      $("famTable").innerHTML = (data ?? []).map(r => `
+      const rowsWithLinkedPerson = await Promise.all(familyRows.map(async (r) => {
+        const dniNorm = normalizeDni(r.dni);
+        if (!dniNorm) {
+          return { ...r, dniNorm: "", linkedPersonId: null };
+        }
+        const { data: linkedPerson } = await supabase
+          .from("persons")
+          .select("id,dni")
+          .eq("dni", dniNorm)
+          .maybeSingle();
+        return { ...r, dniNorm, linkedPersonId: linkedPerson?.id ?? null };
+      }));
+
+      $("famTable").innerHTML = rowsWithLinkedPerson.map((r) => `
         <tr>
-          <td>${escapeHtml(r.apellido_nombres)}</td>
-          <td>${escapeHtml(r.dni ?? "")}</td>
+          <td>${escapeHtml(r.apellido_nombres ?? "")}</td>
+          <td>${escapeHtml(r.dniNorm || "Sin DNI")}</td>
           <td>${escapeHtml(r.observaciones ?? "")}</td>
+          <td>${r.linkedPersonId ? `<button class="secondary btnViewPerson" data-person="${r.linkedPersonId}" type="button">Ver ficha</button>` : ""}</td>
         </tr>
       `).join("");
     }
 
-    async function getProfilesMap(userIds) {
-      const ids = [...new Set((userIds ?? []).filter(Boolean))];
-      if (!ids.length) return {};
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("user_id, full_name")
-        .in("user_id", ids);
-      if (error) return {};
-      const m = {};
-      (data ?? []).forEach((p) => { m[p.user_id] = p.full_name; });
-      return m;
+    async function callRpcCases(filters = {}) {
+      const payload = {
+        p_dni: filters.dni || null,
+        p_nombre: filters.nombre || null,
+        p_area_id: filters.area_id || null,
+        p_from: filters.from || null,
+        p_to: filters.to || null,
+        p_person_id: filters.person_id || null,
+      };
+      const first = await supabase.rpc("get_cases_readable", payload);
+      if (!first.error) return first;
+
+      const msg = (first.error.message || "").toLowerCase();
+      if (msg.includes("schema cache") || msg.includes("could not find the function")) {
+        const legacyPayload = {
+          p_dni: payload.p_dni,
+          p_nombre: payload.p_nombre,
+          p_area_id: payload.p_area_id,
+          p_from: payload.p_from,
+          p_to: payload.p_to,
+        };
+        return supabase.rpc("get_cases_readable", legacyPayload);
+      }
+      return first;
     }
 
-    async function getPersonsMap(personIds) {
+    function normalizeCaseFilters(filters = {}) {
+      return {
+        dni: normalizeDni(filters?.dni),
+        nombre: normalizeName(filters?.nombre),
+        area_id: filters?.area_id ? String(filters.area_id) : null,
+        from: filters?.from || null,
+        to: filters?.to || null,
+        person_id: filters?.person_id || null,
+      };
+    }
+
+    function hasAnyCaseFilter(filters = {}) {
+      return Boolean(filters.dni || filters.nombre || filters.area_id || filters.from || filters.to || filters.person_id);
+    }
+
+    async function getPersonsMap(personIds = []) {
       const ids = [...new Set((personIds ?? []).filter(Boolean))];
       if (!ids.length) return {};
+
       const { data, error } = await supabase
         .from("persons")
         .select("id, dni, apellido_nombre")
         .in("id", ids);
-      if (error) return {};
-      const m = {};
-      (data ?? []).forEach((p) => { m[p.id] = p; });
-      return m;
+      if (error) {
+        console.error("[persons-map]", error.message);
+        return {};
+      }
+
+      const map = {};
+      (data ?? []).forEach((p) => {
+        map[p.id] = p;
+      });
+      return map;
     }
 
-    async function getAreasMap(areaIds) {
-      const ids = [...new Set((areaIds ?? []).filter(Boolean))];
-      if (!ids.length) return {};
-      const { data, error } = await supabase
-        .from("areas")
-        .select("id, name")
-        .in("id", ids);
-      if (error) return {};
-      const m = {};
-      (data ?? []).forEach((a) => { m[a.id] = a.name; });
-      return m;
-    }
-
-    async function loadCases() {
-      const { data, error } = await supabase
+    async function queryCasesFromBase(filters = {}) {
+      const normalized = normalizeCaseFilters(filters);
+      let q = supabase
         .from("cases")
-        .select("created_at, area_id, person_id, dni, apellido_nombre, motivo, ingresos, created_by, areas(name)")
+        .select("id, created_at, motivo, ingresos, area_id, person_id, created_by, dni, apellido_nombre, areas(name)")
         .order("created_at", { ascending: false })
-        .limit(50);
+        .limit(200);
 
-      if (error) { alert("Error cargando casos: " + error.message); return; }
+      if (normalized.dni) q = q.ilike("dni", `%${normalized.dni}%`);
+      if (normalized.nombre) q = q.ilike("apellido_nombre", `%${normalized.nombre}%`);
+      if (normalized.area_id) q = q.eq("area_id", normalized.area_id);
+      if (normalized.from) q = q.gte("created_at", normalized.from);
+      if (normalized.to) q = q.lte("created_at", normalized.to);
+      if (normalized.person_id) q = q.eq("person_id", normalized.person_id);
+
+      const { data, error } = await q;
+      if (error) return { data: null, error };
+
+      const baseRows = (data ?? []).map((c) => ({
+        case_id: c.id,
+        created_at: c.created_at,
+        motivo: c.motivo,
+        ingresos: c.ingresos,
+        area_id: c.area_id,
+        area_name: c.areas?.name ?? "",
+        person_id: c.person_id,
+        person_dni: c.dni ?? "",
+        person_nombre: c.apellido_nombre ?? "",
+        owner_user_id: c.created_by ?? "",
+        owner_full_name: "",
+      }));
+
+      const missingPersonDataIds = baseRows
+        .filter((r) => r.person_id && (!r.person_dni || !r.person_nombre))
+        .map((r) => r.person_id);
+      const personsMap = await getPersonsMap(missingPersonDataIds);
+
+      const rows = baseRows.map((r) => {
+        const p = personsMap[r.person_id] || {};
+        return {
+          ...r,
+          person_dni: r.person_dni || p.dni || "",
+          person_nombre: r.person_nombre || p.apellido_nombre || "",
+        };
+      });
+
+      return { data: rows, error: null };
+    }
+
+    async function queryCasesFromBaseUnfiltered() {
+      return queryCasesFromBase({
+        dni: "",
+        nombre: "",
+        area_id: null,
+        from: null,
+        to: null,
+        person_id: null,
+      });
+    }
+
+    function applyLocalCaseFilters(rows = [], filters = {}) {
+      const normalized = normalizeCaseFilters(filters);
+      const selectedAreaLabel = normalized.area_id
+        ? ($("casesFilterArea").querySelector(`option[value="${normalized.area_id}"]`)?.textContent || "").trim().toLowerCase()
+        : "";
+
+      const fromMs = normalized.from ? new Date(normalized.from).getTime() : null;
+      const toMs = normalized.to ? new Date(normalized.to).getTime() : null;
+
+      const textIncludes = (value, search) => String(value ?? "").toLowerCase().includes(String(search ?? "").toLowerCase());
+
+      return (rows ?? []).filter((row) => {
+        if (normalized.dni && !normalizeDni(row.person_dni).includes(normalized.dni)) return false;
+        if (normalized.nombre && !textIncludes(row.person_nombre, normalized.nombre)) return false;
+
+        if (normalized.area_id) {
+          const rowAreaId = row.area_id == null ? "" : String(row.area_id);
+          const rowAreaName = String(row.area_name ?? "").trim().toLowerCase();
+          if (rowAreaId !== normalized.area_id && (!selectedAreaLabel || rowAreaName !== selectedAreaLabel)) return false;
+        }
+
+        if (normalized.person_id && row.person_id !== normalized.person_id) return false;
+
+        if (fromMs != null || toMs != null) {
+          const createdAtMs = row.created_at ? new Date(row.created_at).getTime() : NaN;
+          if (Number.isNaN(createdAtMs)) return false;
+          if (fromMs != null && createdAtMs < fromMs) return false;
+          if (toMs != null && createdAtMs > toMs) return false;
+        }
+
+        return true;
+      });
+    }
+
+    async function queryCasesReadable(filters = {}) {
+      const normalized = normalizeCaseFilters(filters);
+      if (casesSourceMode === "base") {
+        return queryCasesFromBase(normalized);
+      }
+
+      if (!casesRpcUnavailable) {
+        const rpcResult = await callRpcCases(normalized);
+        if (!rpcResult.error) {
+          casesSourceMode = "rpc";
+          localStorage.setItem("casesSourceMode", "rpc");
+          return rpcResult;
+        }
+        const rpcMsg = (rpcResult.error.message || "").toLowerCase();
+        if (rpcMsg.includes("schema cache") || rpcMsg.includes("could not find the function") || rpcMsg.includes("404")) {
+          casesRpcUnavailable = true;
+        } else {
+          return rpcResult;
+        }
+      }
+
+      if (!casesViewUnavailable) {
+        let q = supabase
+          .from("cases_readable")
+          .select("case_id, created_at, motivo, ingresos, area_id, area_name, person_id, person_dni, person_nombre, owner_user_id, owner_full_name")
+          .order("created_at", { ascending: false })
+          .limit(200);
+
+        if (normalized.dni) q = q.ilike("person_dni", `%${normalized.dni}%`);
+        if (normalized.nombre) q = q.ilike("person_nombre", `%${normalized.nombre}%`);
+        if (normalized.area_id) q = q.eq("area_id", normalized.area_id);
+        if (normalized.from) q = q.gte("created_at", normalized.from);
+        if (normalized.to) q = q.lte("created_at", normalized.to);
+        if (normalized.person_id) q = q.eq("person_id", normalized.person_id);
+
+        const { data, error } = await q;
+        if (!error) {
+          casesSourceMode = "view";
+          localStorage.setItem("casesSourceMode", "view");
+          return { data, error: null };
+        }
+
+        const viewMsg = (error.message || "").toLowerCase();
+        if (
+          viewMsg.includes("does not exist")
+          || viewMsg.includes("not found")
+          || viewMsg.includes("could not find the table")
+          || viewMsg.includes("schema cache")
+          || viewMsg.includes("404")
+        ) {
+          casesViewUnavailable = true;
+        } else {
+          return { data: null, error };
+        }
+      }
+
+      casesSourceMode = "base";
+      localStorage.setItem("casesSourceMode", "base");
+      return queryCasesFromBase(normalized);
+    }
+
+    function getCaseFiltersFromUI() {
+      const fromDate = $("casesFilterFrom").value;
+      const toDate = $("casesFilterTo").value;
+      return normalizeCaseFilters({
+        dni: normalizeDni($("casesFilterDni").value),
+        nombre: normalizeName($("casesFilterName").value),
+        area_id: $("casesFilterArea").value || null,
+        from: fromDate ? `${fromDate}T00:00:00` : null,
+        to: toDate ? `${toDate}T23:59:59.999` : null,
+        person_id: null,
+      });
+    }
+
+    function renderOwner(c) {
+      return (c.owner_full_name || "").trim() || c.owner_user_id || "";
+    }
+
+    async function loadCases(filters = getCaseFiltersFromUI()) {
+      const normalized = normalizeCaseFilters(filters);
+      console.log("[loadCases] filters", normalized);
+      $("casesStatus").textContent = "Aplicando filtros...";
+      const { data, error } = await queryCasesReadable(normalized);
+
+      if (error) {
+        console.error("[cases]", error.message);
+        $("casesStatus").textContent = `Sin permiso o error al leer casos: ${error.message}`;
+        $("casesTable").innerHTML = "";
+        return;
+      }
 
       const rows = data ?? [];
-      const [personsMap, profilesMap, areasMap] = await Promise.all([
-        getPersonsMap(rows.map((c) => c.person_id)),
-        getProfilesMap(rows.map((c) => c.created_by)),
-        getAreasMap(rows.map((c) => c.area_id)),
-      ]);
+      let renderRows = rows;
+      const hasFilters = hasAnyCaseFilter(normalized);
 
-      $("casesTable").innerHTML = rows.map(c => {
-        const person = personsMap[c.person_id] || {};
-        const ownerName = profilesMap[c.created_by] || c.created_by;
-        const areaName = c.areas?.name ?? areasMap[c.area_id] ?? "";
-        const personDni = person.dni ?? c.dni ?? "";
-        const personName = person.apellido_nombre ?? c.apellido_nombre ?? "";
+      if (hasFilters) {
+        renderRows = applyLocalCaseFilters(rows, normalized);
+      }
+
+      $("casesTable").innerHTML = renderRows.map((c) => `
+        <tr class="clickable-row caseRow" data-person="${c.person_id}">
+          <td>${c.created_at ? new Date(c.created_at).toLocaleString() : ""}</td>
+          <td>${escapeHtml(c.area_name ?? "")}</td>
+          <td>${escapeHtml(c.person_dni ?? "")}</td>
+          <td>${escapeHtml(c.person_nombre ?? "")}</td>
+          <td>${escapeHtml(c.motivo ?? "")}</td>
+          <td>${c.ingresos == null ? "" : escapeHtml(String(c.ingresos))}</td>
+          <td class="muted" title="${escapeHtml(c.owner_user_id ?? "")}">${escapeHtml(renderOwner(c))}</td>
+        </tr>
+      `).join("");
+      const sourceLabel = casesSourceMode === "rpc" ? "RPC" : (casesSourceMode === "view" ? "VIEW" : "BASE");
+      if (!renderRows.length) {
+        $("casesStatus").textContent = `Mostrando 0 atención(es). Fuente: ${sourceLabel}.`;
+      } else if (hasFilters) {
+        $("casesStatus").textContent = `Mostrando ${renderRows.length} de ${rows.length} atención(es). Fuente: ${sourceLabel}.`;
+      } else {
+        $("casesStatus").textContent = `Mostrando ${renderRows.length} atención(es). Fuente: ${sourceLabel}.`;
+      }
+    }
+
+    function scheduleCasesFilterApply() {
+      if (currentScreen !== "screenCases") return;
+      if (casesFilterDebounceTimer) clearTimeout(casesFilterDebounceTimer);
+      casesFilterDebounceTimer = setTimeout(() => {
+        loadCases(getCaseFiltersFromUI());
+      }, 300);
+    }
+
+    function formatStatNumber(value) {
+      return Number(value || 0).toLocaleString("es-AR");
+    }
+
+    function getStatsFilters() {
+      const fromDate = $("statsFrom").value;
+      const toDate = $("statsTo").value;
+      return {
+        area_id: $("statsAreaFilter").value || null,
+        from: fromDate ? `${fromDate}T00:00:00` : null,
+        to: toDate ? `${toDate}T23:59:59.999` : null,
+      };
+    }
+
+    function getAreaName(areaId) {
+      if (areaId == null || areaId === "") return "Sin área";
+      const area = (activeAreas ?? []).find((a) => String(a.id) === String(areaId));
+      return area?.name || `Área ${areaId}`;
+    }
+
+    function renderStatsBars(containerId, rows, valueKey, labelKey) {
+      const container = $(containerId);
+      if (!container) return;
+      const safeRows = rows ?? [];
+      if (!safeRows.length) {
+        container.classList.add("muted");
+        container.innerHTML = "Sin datos para mostrar.";
+        return;
+      }
+
+      container.classList.remove("muted");
+      const maxValue = Math.max(...safeRows.map((r) => Number(r[valueKey] || 0)), 1);
+      container.innerHTML = safeRows.map((r) => {
+        const value = Number(r[valueKey] || 0);
+        const label = String(r[labelKey] ?? "-");
+        const widthPct = Math.max(3, Math.round((value / maxValue) * 100));
+        return `
+          <div class="statsBarRow">
+            <div class="statsBarLabel" title="${escapeHtml(label)}">${escapeHtml(label)}</div>
+            <div class="statsBarTrack"><div class="statsBarFill" style="width:${widthPct}%"></div></div>
+            <div class="statsBarValue">${formatStatNumber(value)}</div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    async function fetchCasesForStats(filters = {}, limit = STATS_FETCH_LIMIT) {
+      let q = supabase
+        .from("cases")
+        .select("id, person_id, area_id, created_at, motivo, dni, apellido_nombre")
+        .order("created_at", { ascending: false })
+        .limit(limit);
+
+      if (filters.area_id) q = q.eq("area_id", filters.area_id);
+      if (filters.from) q = q.gte("created_at", filters.from);
+      if (filters.to) q = q.lte("created_at", filters.to);
+      return q;
+    }
+
+    async function fetchPrestacionesForStats(filters = {}, limit = STATS_FETCH_LIMIT) {
+      let q = supabase
+        .from("case_prestaciones")
+        .select("id, case_id, prestacion_catalog_id, created_at")
+        .order("created_at", { ascending: false })
+        .limit(limit);
+
+      if (filters.from) q = q.gte("created_at", filters.from);
+      if (filters.to) q = q.lte("created_at", filters.to);
+
+      const { data: prestaciones, error } = await q;
+      if (error) return { data: null, error };
+
+      const rows = prestaciones ?? [];
+      if (!rows.length) return { data: [], casesMap: new Map(), error: null };
+
+      const caseIds = [...new Set(rows.map((r) => r.case_id).filter(Boolean))];
+      if (!caseIds.length) return { data: [], casesMap: new Map(), error: null };
+
+      let casesQuery = supabase
+        .from("cases")
+        .select("id, area_id, dni, apellido_nombre")
+        .in("id", caseIds);
+
+      if (filters.area_id) {
+        casesQuery = casesQuery.eq("area_id", filters.area_id);
+      }
+
+      const { data: caseRows, error: caseError } = await casesQuery;
+      if (caseError) return { data: null, error: caseError };
+
+      const casesMap = new Map((caseRows ?? []).map((c) => [c.id, c]));
+      const filteredPrestaciones = rows.filter((r) => casesMap.has(r.case_id));
+
+      return { data: filteredPrestaciones, casesMap, error: null };
+    }
+
+    async function loadStatsKpis(filters) {
+      let qCasesCount = supabase.from("cases").select("id", { count: "exact", head: true });
+      if (filters.area_id) qCasesCount = qCasesCount.eq("area_id", filters.area_id);
+      if (filters.from) qCasesCount = qCasesCount.gte("created_at", filters.from);
+      if (filters.to) qCasesCount = qCasesCount.lte("created_at", filters.to);
+      const { count: casesCount, error: casesCountError } = await qCasesCount;
+      if (casesCountError) throw casesCountError;
+
+      const { data: casesRows, error: casesRowsError } = await fetchCasesForStats(filters, STATS_FETCH_LIMIT);
+      if (casesRowsError) throw casesRowsError;
+      const personsDistinct = new Set((casesRows ?? []).map((r) => r.person_id).filter(Boolean)).size;
+
+      const prestacionesResult = await fetchPrestacionesForStats(filters, STATS_FETCH_LIMIT);
+      if (prestacionesResult.error) throw prestacionesResult.error;
+      const prestacionesCount = (prestacionesResult.data ?? []).length;
+
+      let qFamily = supabase
+        .from("family_members")
+        .select("id, case_id, created_at")
+        .order("created_at", { ascending: false })
+        .limit(STATS_FETCH_LIMIT);
+      if (filters.from) qFamily = qFamily.gte("created_at", filters.from);
+      if (filters.to) qFamily = qFamily.lte("created_at", filters.to);
+      const { data: familyRows, error: familyError } = await qFamily;
+      if (familyError) throw familyError;
+
+      let familyCount = (familyRows ?? []).length;
+      if (filters.area_id && familyCount) {
+        const familyCaseIds = [...new Set((familyRows ?? []).map((r) => r.case_id).filter(Boolean))];
+        if (!familyCaseIds.length) {
+          familyCount = 0;
+        } else {
+          const { data: familyCases, error: familyCasesError } = await supabase
+            .from("cases")
+            .select("id")
+            .in("id", familyCaseIds)
+            .eq("area_id", filters.area_id);
+          if (familyCasesError) throw familyCasesError;
+          const allowedCases = new Set((familyCases ?? []).map((c) => c.id));
+          familyCount = (familyRows ?? []).filter((r) => r.case_id && allowedCases.has(r.case_id)).length;
+        }
+      }
+
+      $("statsKpiPersons").textContent = formatStatNumber(personsDistinct);
+      $("statsKpiCases").textContent = formatStatNumber(casesCount || 0);
+      $("statsKpiPrestaciones").textContent = formatStatNumber(prestacionesCount);
+      $("statsKpiFamily").textContent = formatStatNumber(familyCount);
+    }
+
+    async function loadStatsCasesByArea(filters) {
+      const { data, error } = await fetchCasesForStats(filters, STATS_FETCH_LIMIT);
+      if (error) throw error;
+      const grouped = new Map();
+      (data ?? []).forEach((row) => {
+        const key = String(row.area_id ?? "");
+        grouped.set(key, (grouped.get(key) ?? 0) + 1);
+      });
+      const rows = [...grouped.entries()]
+        .map(([areaId, total]) => ({ area: getAreaName(areaId), total }))
+        .sort((a, b) => b.total - a.total)
+        .slice(0, 10);
+      renderStatsBars("statsCasesByArea", rows, "total", "area");
+    }
+
+    async function loadStatsPrestacionesByArea(filters) {
+      const result = await fetchPrestacionesForStats(filters, STATS_FETCH_LIMIT);
+      if (result.error) throw result.error;
+
+      const grouped = new Map();
+      (result.data ?? []).forEach((row) => {
+        const areaId = String(result.casesMap.get(row.case_id)?.area_id ?? "");
+        grouped.set(areaId, (grouped.get(areaId) ?? 0) + 1);
+      });
+      const rows = [...grouped.entries()]
+        .map(([areaId, total]) => ({ area: getAreaName(areaId), total }))
+        .sort((a, b) => b.total - a.total)
+        .slice(0, 10);
+      renderStatsBars("statsPrestacionesByArea", rows, "total", "area");
+    }
+
+    async function loadStatsCasesByMonth(filters) {
+      const { data, error } = await fetchCasesForStats(filters, STATS_FETCH_LIMIT);
+      if (error) throw error;
+      const grouped = new Map();
+      (data ?? []).forEach((row) => {
+        if (!row.created_at) return;
+        const d = new Date(row.created_at);
+        if (Number.isNaN(d.getTime())) return;
+        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+        grouped.set(key, (grouped.get(key) ?? 0) + 1);
+      });
+      const rows = [...grouped.entries()]
+        .sort((a, b) => a[0].localeCompare(b[0]))
+        .slice(-12)
+        .map(([month, total]) => ({ month, total }));
+      renderStatsBars("statsCasesByMonth", rows, "total", "month");
+    }
+
+    async function loadStatsTopPrestaciones(filters) {
+      const result = await fetchPrestacionesForStats(filters, STATS_FETCH_LIMIT);
+      if (result.error) throw result.error;
+      const rows = result.data ?? [];
+      if (!rows.length) {
+        renderStatsBars("statsTopPrestaciones", [], "total", "prestacion");
+        return;
+      }
+
+      const catalogIds = [...new Set(rows.map((r) => r.prestacion_catalog_id).filter(Boolean))];
+      let catalogMap = new Map();
+      if (catalogIds.length) {
+        const { data: catalogRows, error: catalogError } = await supabase
+          .from("prestaciones_catalog")
+          .select("id, nombre, code")
+          .in("id", catalogIds);
+        if (catalogError) throw catalogError;
+        catalogMap = new Map((catalogRows ?? []).map((c) => [c.id, c]));
+      }
+
+      const grouped = new Map();
+      rows.forEach((row) => {
+        const catalog = catalogMap.get(row.prestacion_catalog_id);
+        const label = (catalog?.nombre || catalog?.code || "Prestación sin catálogo").trim();
+        grouped.set(label, (grouped.get(label) ?? 0) + 1);
+      });
+
+      const topRows = [...grouped.entries()]
+        .map(([prestacion, total]) => ({ prestacion, total }))
+        .sort((a, b) => b.total - a.total)
+        .slice(0, 10);
+      renderStatsBars("statsTopPrestaciones", topRows, "total", "prestacion");
+    }
+
+    async function loadStatsRecentCases(filters) {
+      let q = supabase
+        .from("cases")
+        .select("id, created_at, area_id, dni, apellido_nombre, motivo")
+        .order("created_at", { ascending: false })
+        .limit(12);
+      if (filters.area_id) q = q.eq("area_id", filters.area_id);
+      if (filters.from) q = q.gte("created_at", filters.from);
+      if (filters.to) q = q.lte("created_at", filters.to);
+
+      const { data, error } = await q;
+      if (error) throw error;
+
+      const rows = data ?? [];
+      $("statsRecentCasesTable").innerHTML = rows.length ? rows.map((r) => `
+        <tr>
+          <td>${r.created_at ? new Date(r.created_at).toLocaleString("es-AR") : ""}</td>
+          <td>${escapeHtml(getAreaName(r.area_id))}</td>
+          <td>${escapeHtml(r.dni ?? "")}</td>
+          <td>${escapeHtml(r.apellido_nombre ?? "")}</td>
+          <td>${escapeHtml(r.motivo ?? "")}</td>
+        </tr>
+      `).join("") : `<tr><td colspan="5">Sin casos recientes para los filtros aplicados.</td></tr>`;
+    }
+
+    async function loadStatsRecentPrestaciones(filters) {
+      let q = supabase
+        .from("case_prestaciones")
+        .select("id, created_at, case_id, prestacion_catalog_id")
+        .order("created_at", { ascending: false })
+        .limit(12);
+      if (filters.from) q = q.gte("created_at", filters.from);
+      if (filters.to) q = q.lte("created_at", filters.to);
+
+      const { data, error } = await q;
+      if (error) throw error;
+
+      let rows = data ?? [];
+      if (!rows.length) {
+        $("statsRecentPrestacionesTable").innerHTML = `<tr><td colspan="5">Sin prestaciones recientes para los filtros aplicados.</td></tr>`;
+        return;
+      }
+
+      const caseIds = [...new Set(rows.map((r) => r.case_id).filter(Boolean))];
+      const catalogIds = [...new Set(rows.map((r) => r.prestacion_catalog_id).filter(Boolean))];
+
+      const { data: caseRows, error: caseError } = await supabase
+        .from("cases")
+        .select("id, area_id, dni, apellido_nombre")
+        .in("id", caseIds);
+      if (caseError) throw caseError;
+
+      const casesMap = new Map((caseRows ?? []).map((c) => [c.id, c]));
+      if (filters.area_id) {
+        rows = rows.filter((r) => String(casesMap.get(r.case_id)?.area_id ?? "") === String(filters.area_id));
+      }
+
+      if (!rows.length) {
+        $("statsRecentPrestacionesTable").innerHTML = `<tr><td colspan="5">Sin prestaciones recientes para los filtros aplicados.</td></tr>`;
+        return;
+      }
+
+      let catalogMap = new Map();
+      if (catalogIds.length) {
+        const { data: catalogRows, error: catalogError } = await supabase
+          .from("prestaciones_catalog")
+          .select("id, nombre, code")
+          .in("id", catalogIds);
+        if (catalogError) throw catalogError;
+        catalogMap = new Map((catalogRows ?? []).map((c) => [c.id, c]));
+      }
+
+      $("statsRecentPrestacionesTable").innerHTML = rows.map((r) => {
+        const c = casesMap.get(r.case_id);
+        const p = catalogMap.get(r.prestacion_catalog_id);
+        const prestacion = p?.nombre || p?.code || "Prestación";
         return `
           <tr>
-            <td>${new Date(c.created_at).toLocaleString()}</td>
-            <td>${escapeHtml(areaName)}</td>
-            <td>${escapeHtml(personDni)}</td>
-            <td>${escapeHtml(personName)}</td>
-            <td>${escapeHtml(c.motivo ?? "")}</td>
-            <td>${c.ingresos == null ? "" : escapeHtml(String(c.ingresos))}</td>
-            <td class="muted" title="${escapeHtml(c.created_by)}">${escapeHtml(ownerName)}</td>
+            <td>${r.created_at ? new Date(r.created_at).toLocaleString("es-AR") : ""}</td>
+            <td>${escapeHtml(getAreaName(c?.area_id))}</td>
+            <td>${escapeHtml(prestacion)}</td>
+            <td>${escapeHtml(c?.dni ?? "")}</td>
+            <td>${escapeHtml(c?.apellido_nombre ?? "")}</td>
           </tr>
         `;
       }).join("");
     }
 
-    async function loadPeople() {
-      $("peopleStatus").textContent = "Cargando personas...";
-      const search = $("peopleSearch").value.trim();
+    async function loadStatsDashboard() {
+      const filters = getStatsFilters();
+      $("statsStatus").textContent = "Cargando estadísticas...";
+      try {
+        await Promise.all([
+          loadStatsKpis(filters),
+          loadStatsCasesByArea(filters),
+          loadStatsPrestacionesByArea(filters),
+          loadStatsCasesByMonth(filters),
+          loadStatsTopPrestaciones(filters),
+          loadStatsRecentCases(filters),
+          loadStatsRecentPrestaciones(filters),
+          loadStats(),
+        ]);
+        $("statsStatus").textContent = "Estadísticas actualizadas.";
+      } catch (error) {
+        console.error("[loadStatsDashboard]", error);
+        $("statsStatus").textContent = `Error al cargar estadísticas: ${error?.message || "error inesperado"}`;
+      }
+    }
+
+    function renderStatsSimpleTable(containerId, headers, rows) {
+      const container = $(containerId);
+      if (!container) return;
+      const safeRows = Array.isArray(rows) ? rows : [];
+      if (!safeRows.length) {
+        container.innerHTML = `<div class="muted" style="padding:10px;">Sin datos para mostrar.</div>`;
+        return;
+      }
+
+      const headerHtml = (headers ?? []).map((h) => `<th>${escapeHtml(h)}</th>`).join("");
+      const bodyHtml = safeRows.map((r) => `
+        <tr>
+          <td>${escapeHtml(String(r.label ?? "-"))}</td>
+          <td>${escapeHtml(formatStatNumber(r.total ?? 0))}</td>
+        </tr>
+      `).join("");
+
+      container.innerHTML = `
+        <table>
+          <thead><tr>${headerHtml}</tr></thead>
+          <tbody>${bodyHtml}</tbody>
+        </table>
+      `;
+    }
+
+    function toMonthKey(dateValue) {
+      if (!dateValue) return "";
+      const d = new Date(dateValue);
+      if (Number.isNaN(d.getTime())) return "";
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+    }
+
+    function toMonthLabel(monthKey) {
+      if (!monthKey || !monthKey.includes("-")) return monthKey || "-";
+      const [year, month] = monthKey.split("-");
+      return `${month}/${year}`;
+    }
+
+    async function loadStats() {
+      const monthStart = new Date();
+      monthStart.setDate(1);
+      monthStart.setHours(0, 0, 0, 0);
+
+      const [
+        totalPrestacionesRes,
+        casesPersonRowsRes,
+        prestacionesMesRes,
+        activeAreasRes,
+        prestacionesAreaRes,
+        prestacionesTipoRes,
+        prestacionesForTopRes,
+        prestacionesMonthlyRes,
+      ] = await Promise.all([
+        supabase.from("case_prestaciones").select("id", { count: "exact", head: true }),
+        supabase.from("cases").select("person_id"),
+        supabase.from("case_prestaciones").select("id", { count: "exact", head: true }).gte("created_at", monthStart.toISOString()),
+        supabase.from("cases").select("area_id"),
+        supabase.from("case_prestaciones").select("area_id"),
+        supabase.from("case_prestaciones").select("prestacion_catalog_id"),
+        supabase.from("case_prestaciones").select("case_id"),
+        supabase.from("case_prestaciones").select("created_at"),
+      ]);
+
+      if (totalPrestacionesRes.error) throw totalPrestacionesRes.error;
+      if (casesPersonRowsRes.error) throw casesPersonRowsRes.error;
+      if (prestacionesMesRes.error) throw prestacionesMesRes.error;
+      if (activeAreasRes.error) throw activeAreasRes.error;
+      if (prestacionesAreaRes.error) throw prestacionesAreaRes.error;
+      if (prestacionesTipoRes.error) throw prestacionesTipoRes.error;
+      if (prestacionesForTopRes.error) throw prestacionesForTopRes.error;
+      if (prestacionesMonthlyRes.error) throw prestacionesMonthlyRes.error;
+
+      const totalPrestaciones = totalPrestacionesRes.count || 0;
+      const personasAsistidas = new Set((casesPersonRowsRes.data ?? []).map((r) => r.person_id).filter(Boolean)).size;
+      const prestacionesMes = prestacionesMesRes.count || 0;
+      const areasActivas = new Set((activeAreasRes.data ?? []).map((r) => r.area_id).filter((v) => v != null && v !== "")).size;
+
+      $("statTotalPrestaciones").textContent = formatStatNumber(totalPrestaciones);
+      $("statPersonas").textContent = formatStatNumber(personasAsistidas);
+      $("statMes").textContent = formatStatNumber(prestacionesMes);
+      $("statAreas").textContent = formatStatNumber(areasActivas);
+
+      const groupedAreas = new Map();
+      (prestacionesAreaRes.data ?? []).forEach((row) => {
+        const areaId = row?.area_id;
+        const label = getAreaName(areaId);
+        groupedAreas.set(label, (groupedAreas.get(label) ?? 0) + 1);
+      });
+      const areaRows = [...groupedAreas.entries()]
+        .map(([label, total]) => ({ label, total }))
+        .sort((a, b) => b.total - a.total);
+      renderStatsSimpleTable("statsArea", ["Área", "Cantidad"], areaRows);
+
+      const tipoRowsRaw = prestacionesTipoRes.data ?? [];
+      const catalogIds = [...new Set(tipoRowsRaw.map((r) => r.prestacion_catalog_id).filter(Boolean))];
+      let catalogMap = new Map();
+      if (catalogIds.length) {
+        const { data: catalogRows, error: catalogError } = await supabase
+          .from("prestaciones_catalog")
+          .select("id, nombre, code")
+          .in("id", catalogIds);
+        if (catalogError) throw catalogError;
+        catalogMap = new Map((catalogRows ?? []).map((c) => [c.id, c]));
+      }
+
+      const groupedTipos = new Map();
+      tipoRowsRaw.forEach((row) => {
+        const catalog = catalogMap.get(row.prestacion_catalog_id);
+        const label = (catalog?.nombre || catalog?.code || "Sin tipo").trim();
+        groupedTipos.set(label, (groupedTipos.get(label) ?? 0) + 1);
+      });
+      const tipoRows = [...groupedTipos.entries()]
+        .map(([label, total]) => ({ label, total }))
+        .sort((a, b) => b.total - a.total);
+      renderStatsSimpleTable("statsTipo", ["Tipo", "Cantidad"], tipoRows);
+
+      const topPrestacionesRows = prestacionesForTopRes.data ?? [];
+      const caseIds = [...new Set(topPrestacionesRows.map((r) => r.case_id).filter(Boolean))];
+      let casesMap = new Map();
+      if (caseIds.length) {
+        const { data: caseRows, error: caseError } = await supabase
+          .from("cases")
+          .select("id, person_id")
+          .in("id", caseIds);
+        if (caseError) throw caseError;
+        casesMap = new Map((caseRows ?? []).map((c) => [c.id, c]));
+      }
+
+      const personIds = [...new Set([...casesMap.values()].map((c) => c.person_id).filter(Boolean))];
+      let personsMap = new Map();
+      if (personIds.length) {
+        const { data: personRows, error: personError } = await supabase
+          .from("persons")
+          .select("id, apellido_nombre")
+          .in("id", personIds);
+        if (personError) throw personError;
+        personsMap = new Map((personRows ?? []).map((p) => [p.id, p]));
+      }
+
+      const groupedPersons = new Map();
+      topPrestacionesRows.forEach((row) => {
+        const personId = casesMap.get(row.case_id)?.person_id;
+        if (!personId) return;
+        const personName = personsMap.get(personId)?.apellido_nombre || `Persona ${personId}`;
+        groupedPersons.set(personName, (groupedPersons.get(personName) ?? 0) + 1);
+      });
+      const topPersonRows = [...groupedPersons.entries()]
+        .map(([label, total]) => ({ label, total }))
+        .sort((a, b) => b.total - a.total)
+        .slice(0, 10);
+      renderStatsSimpleTable("statsTopPersons", ["Persona", "Prestaciones"], topPersonRows);
+
+      const groupedMonths = new Map();
+      (prestacionesMonthlyRes.data ?? []).forEach((row) => {
+        const monthKey = toMonthKey(row?.created_at);
+        if (!monthKey) return;
+        groupedMonths.set(monthKey, (groupedMonths.get(monthKey) ?? 0) + 1);
+      });
+      const monthlyRows = [...groupedMonths.entries()]
+        .sort((a, b) => a[0].localeCompare(b[0]))
+        .map(([monthKey, total]) => ({ label: toMonthLabel(monthKey), total }));
+      renderStatsSimpleTable("statsMonthly", ["Mes", "Cantidad"], monthlyRows);
+    }
+
+    function clearGlobalSearchResults() {
+      $("globalSearchPersonsTable").innerHTML = "";
+      $("globalSearchFamilyTable").innerHTML = "";
+      $("globalSearchCasesTable").innerHTML = "";
+      $("globalSearchPrestacionesTable").innerHTML = "";
+    }
+
+    function termHasLetters(term) {
+      return /[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]/.test(String(term || ""));
+    }
+
+    function buildSearchOr(rawValue, columns = []) {
+      const safe = String(rawValue || "").replace(/,/g, " ").trim();
+      return columns.map((c) => `${c}.ilike.%${safe}%`).join(",");
+    }
+
+    async function searchPersons(term) {
+      const raw = normalizeName(term);
+      const dni = normalizeDni(term);
+      const hasLetters = termHasLetters(raw);
+      if (!raw) return [];
+
       let q = supabase
         .from("persons")
         .select("id, dni, apellido_nombre, telefono, domicilio, updated_at")
         .order("updated_at", { ascending: false })
-        .limit(100);
+        .limit(80);
 
-      if (search) {
-        q = q.or(`dni.ilike.%${search}%,apellido_nombre.ilike.%${search}%`);
+      if (dni.length >= 3 && hasLetters) {
+        q = q.or(buildSearchOr(raw, ["apellido_nombre", "dni"]));
+      } else if (dni.length >= 3) {
+        q = q.ilike("dni", `%${dni}%`);
+      } else {
+        q = q.ilike("apellido_nombre", `%${raw}%`);
       }
 
       const { data, error } = await q;
-      if (error) { $("peopleStatus").textContent = `Error: ${error.message}`; return; }
+      if (error) throw error;
+      return data ?? [];
+    }
 
+    function buildFlexibleDniPattern(dni) {
+      const digits = normalizeDni(dni);
+      if (!digits) return "%%";
+      return `%${digits.split("").join("%")}%`;
+    }
+
+    async function enrichFamilyMembersWithLinkedPersonByDni(rows) {
+      const safeRows = Array.isArray(rows) ? rows : [];
+      const dnis = [...new Set(safeRows.map((r) => normalizeDni(r?.dni)).filter(Boolean))];
+      const personByDni = new Map();
+
+      if (!dnis.length) {
+        return safeRows.map((r) => ({
+          ...r,
+          linked_person_id: r?.person_id || null,
+        }));
+      }
+
+      const { data: personRows, error } = await supabase
+        .from("persons")
+        .select("id, dni")
+        .in("dni", dnis);
+      if (error) throw error;
+
+      (personRows ?? []).forEach((p) => {
+        const dniNorm = normalizeDni(p?.dni);
+        if (dniNorm && !personByDni.has(dniNorm)) {
+          personByDni.set(dniNorm, p.id);
+        }
+      });
+
+      const missingDnis = dnis.filter((d) => !personByDni.has(d));
+      if (missingDnis.length) {
+        const fallbackMatches = await Promise.all(missingDnis.map(async (d) => {
+          const { data: fallbackRows, error: fallbackError } = await supabase
+            .from("persons")
+            .select("id, dni")
+            .ilike("dni", buildFlexibleDniPattern(d))
+            .limit(1);
+          if (fallbackError) throw fallbackError;
+          const first = (fallbackRows ?? [])[0];
+          return first ? [d, first.id] : null;
+        }));
+
+        fallbackMatches.forEach((m) => {
+          if (!m) return;
+          personByDni.set(m[0], m[1]);
+        });
+      }
+
+      return safeRows.map((r) => {
+        const dniNorm = normalizeDni(r?.dni);
+        return {
+          ...r,
+          linked_person_id: r?.person_id || personByDni.get(dniNorm) || null,
+        };
+      });
+    }
+
+    async function searchFamilyMembers(term) {
+      const raw = normalizeName(term);
+      const dni = normalizeDni(term);
+      const hasLetters = termHasLetters(raw);
+      const isNumericTerm = /^[\d.\-\s]+$/.test(raw);
+      if (!raw) return [];
+
+      let directRows = [];
+      if (isNumericTerm && dni.length >= 3) {
+        const { data: byDniRows, error: byDniError } = await supabase
+          .from("family_members")
+          .select("id, person_id, apellido_nombres, dni, observaciones")
+          .ilike("dni", `%${dni}%`)
+          .limit(120);
+        if (byDniError) throw byDniError;
+
+        directRows = byDniRows ?? [];
+        if (!directRows.length) {
+          const { data: flexibleRows, error: flexibleError } = await supabase
+            .from("family_members")
+            .select("id, person_id, apellido_nombres, dni, observaciones")
+            .ilike("dni", buildFlexibleDniPattern(dni))
+            .limit(120);
+          if (flexibleError) throw flexibleError;
+          directRows = flexibleRows ?? [];
+        }
+      } else {
+        const { data: byNameRows, error: byNameError } = await supabase
+          .from("family_members")
+          .select("id, person_id, apellido_nombres, dni, observaciones")
+          .ilike("apellido_nombres", `%${raw}%`)
+          .limit(120);
+        if (byNameError) throw byNameError;
+        directRows = byNameRows ?? [];
+      }
+
+      let personQuery = supabase
+        .from("persons")
+        .select("id")
+        .limit(120);
+
+      if (dni.length >= 3 && hasLetters) {
+        personQuery = personQuery.or(buildSearchOr(raw, ["dni", "apellido_nombre"]));
+      } else if (dni.length >= 3) {
+        personQuery = personQuery.ilike("dni", `%${dni}%`);
+      } else {
+        personQuery = personQuery.ilike("apellido_nombre", `%${raw}%`);
+      }
+
+      const { data: personMatches, error: personError } = await personQuery;
+      if (personError) throw personError;
+
+      const personIds = [...new Set((personMatches ?? []).map((p) => p.id).filter(Boolean))];
+      let indirectRows = [];
+      if (personIds.length) {
+        const { data: byPersonRows, error: byPersonError } = await supabase
+          .from("family_members")
+          .select("id, person_id, apellido_nombres, dni, observaciones")
+          .in("person_id", personIds)
+          .limit(120);
+        if (byPersonError) throw byPersonError;
+        indirectRows = byPersonRows ?? [];
+      }
+
+      const mergedMap = new Map();
+      [...directRows, ...indirectRows].forEach((r) => {
+        const key = r?.id || `${r?.person_id || "no_person"}:${normalizeDni(r?.dni)}:${normalizeName(r?.apellido_nombres)}`;
+        if (!mergedMap.has(key)) mergedMap.set(key, r);
+      });
+      const mergedRows = [...mergedMap.values()];
+
+      console.log("[searchFamilyMembers] raw rows", { directRows, indirectRows, mergedRows, personIds });
+      const enrichedRows = await enrichFamilyMembersWithLinkedPersonByDni(mergedRows);
+      console.log("[searchFamilyMembers] enriched rows", enrichedRows);
+      return enrichedRows;
+    }
+
+    async function searchCases(term) {
+      const raw = normalizeName(term);
+      const dni = normalizeDni(term);
+      const hasLetters = termHasLetters(raw);
+      if (!raw) return [];
+
+      let q = supabase
+        .from("cases")
+        .select("id, person_id, dni, apellido_nombre, motivo, area_id, created_at")
+        .order("created_at", { ascending: false })
+        .limit(120);
+
+      if (dni.length >= 3 && hasLetters) {
+        q = q.or(buildSearchOr(raw, ["dni", "apellido_nombre", "motivo"]));
+      } else if (dni.length >= 3) {
+        q = q.ilike("dni", `%${dni}%`);
+      } else {
+        q = q.or(buildSearchOr(raw, ["apellido_nombre", "motivo"]));
+      }
+
+      const { data, error } = await q;
+      if (error) throw error;
       const rows = data ?? [];
-      $("peopleTable").innerHTML = rows.map((p) => `
+
+      const dnisMissing = [...new Set(rows.filter((r) => !r.person_id && normalizeDni(r.dni)).map((r) => normalizeDni(r.dni)))];
+      let personByDni = new Map();
+      if (dnisMissing.length) {
+        const { data: personRows, error: pError } = await supabase
+          .from("persons")
+          .select("id, dni")
+          .in("dni", dnisMissing);
+        if (!pError) {
+          personByDni = new Map((personRows ?? []).map((p) => [normalizeDni(p.dni), p.id]));
+        }
+      }
+
+      return rows.map((r) => ({
+        ...r,
+        linked_person_id: r.person_id || personByDni.get(normalizeDni(r.dni)) || null,
+        area_name: getAreaName(r.area_id),
+      }));
+    }
+
+    async function searchPrestaciones(term) {
+      const raw = normalizeName(term);
+      const dni = normalizeDni(term);
+      const hasLetters = termHasLetters(raw);
+      if (!raw) return [];
+
+      let rows = [];
+      const readable = await supabase
+        .from("case_prestaciones_readable")
+        .select("id, case_id, prestacion_catalog_id, prestacion_nombre, nombre, code, observaciones, resumen, resumen_corto, detalle, created_at")
+        .order("created_at", { ascending: false })
+        .limit(220);
+
+      if (!readable.error) {
+        rows = readable.data ?? [];
+      } else {
+        const base = await supabase
+          .from("case_prestaciones")
+          .select("id, case_id, prestacion_catalog_id, observaciones, datos, created_at")
+          .order("created_at", { ascending: false })
+          .limit(220);
+        if (base.error) throw base.error;
+        rows = base.data ?? [];
+      }
+
+      if (!rows.length) return [];
+
+      const caseIds = [...new Set(rows.map((r) => r.case_id).filter(Boolean))];
+      const catalogIds = [...new Set(rows.map((r) => r.prestacion_catalog_id).filter(Boolean))];
+
+      const { data: caseRows, error: caseError } = await supabase
+        .from("cases")
+        .select("id, person_id, dni, apellido_nombre, area_id, motivo")
+        .in("id", caseIds);
+      if (caseError) throw caseError;
+      const caseMap = new Map((caseRows ?? []).map((c) => [c.id, c]));
+
+      let catalogMap = new Map();
+      if (catalogIds.length) {
+        const { data: catalogRows, error: catalogError } = await supabase
+          .from("prestaciones_catalog")
+          .select("id, nombre, code")
+          .in("id", catalogIds);
+        if (!catalogError) {
+          catalogMap = new Map((catalogRows ?? []).map((c) => [c.id, c]));
+        }
+      }
+
+      const dnisMissing = [...new Set(
+        [...caseMap.values()].filter((c) => !c.person_id && normalizeDni(c.dni)).map((c) => normalizeDni(c.dni))
+      )];
+      let personByDni = new Map();
+      if (dnisMissing.length) {
+        const { data: personRows, error: pError } = await supabase
+          .from("persons")
+          .select("id, dni")
+          .in("dni", dnisMissing);
+        if (!pError) {
+          personByDni = new Map((personRows ?? []).map((p) => [normalizeDni(p.dni), p.id]));
+        }
+      }
+
+      const rawLower = raw.toLowerCase();
+      return rows.map((r) => {
+        const c = caseMap.get(r.case_id) || {};
+        const catalog = catalogMap.get(r.prestacion_catalog_id) || {};
+        const prestacionNombre = r.prestacion_nombre || r.nombre || catalog.nombre || catalog.code || r.code || "Prestación";
+        const areaName = getAreaName(c.area_id);
+        const linkedPersonId = c.person_id || personByDni.get(normalizeDni(c.dni)) || null;
+        return {
+          ...r,
+          prestacion_nombre_resolved: prestacionNombre,
+          person_dni: c.dni || "",
+          person_nombre: c.apellido_nombre || "",
+          area_name: areaName,
+          linked_person_id: linkedPersonId,
+        };
+      }).filter((r) => {
+        const haystack = [
+          r.prestacion_nombre_resolved,
+          r.code,
+          r.observaciones,
+          r.resumen,
+          r.resumen_corto,
+          r.detalle,
+          r.person_dni,
+          r.person_nombre,
+          r.area_name,
+        ].map((v) => String(v || "").toLowerCase()).join(" ");
+
+        if (dni.length >= 3 && !hasLetters) {
+          return normalizeDni(r.person_dni).includes(dni) || haystack.includes(rawLower);
+        }
+        return haystack.includes(rawLower) || (dni.length >= 3 && normalizeDni(r.person_dni).includes(dni));
+      }).slice(0, 120);
+    }
+
+    function renderGlobalSearchResults(results) {
+      const persons = results?.persons ?? [];
+      const family = results?.family ?? [];
+      const casesRows = results?.cases ?? [];
+      const prestaciones = results?.prestaciones ?? [];
+
+      $("globalSearchPersonsTable").innerHTML = persons.length ? persons.map((p) => `
         <tr>
           <td>${escapeHtml(p.dni ?? "")}</td>
-          <td><button type="button" class="secondary openPersonBtn" data-person="${p.id}">${escapeHtml(p.apellido_nombre ?? "")}</button></td>
+          <td>${escapeHtml(p.apellido_nombre ?? "")}</td>
           <td>${escapeHtml(p.telefono ?? "")}</td>
-          <td>${escapeHtml(p.domicilio ?? "")}</td>
-          <td>${p.updated_at ? new Date(p.updated_at).toLocaleString() : ""}</td>
+          <td><button type="button" class="secondary btnViewPerson" data-person="${p.id}">Ver ficha</button></td>
         </tr>
-      `).join("");
+      `).join("") : `<tr><td colspan="4">Sin resultados.</td></tr>`;
 
-      $("peopleStatus").textContent = `OK. ${rows.length} persona(s).`;
+      $("globalSearchFamilyTable").innerHTML = family.length ? family.map((f) => {
+        const dniValue = f.dni ?? "";
+        return `
+        <tr>
+          <td>${escapeHtml(f.apellido_nombres ?? "")}</td>
+          <td>${escapeHtml(dniValue || "Sin DNI")}</td>
+          <td>${escapeHtml(f.observaciones ?? "")}</td>
+          <td>${f.linked_person_id ? `<button type="button" class="secondary btnViewPerson" data-person="${f.linked_person_id}">Ver ficha</button>` : ""}</td>
+        </tr>
+      `;
+      }).join("") : `<tr><td colspan="4">Sin resultados.</td></tr>`;
+
+      $("globalSearchCasesTable").innerHTML = casesRows.length ? casesRows.map((c) => `
+        <tr>
+          <td>${c.created_at ? new Date(c.created_at).toLocaleString("es-AR") : ""}</td>
+          <td>${escapeHtml(c.area_name ?? "")}</td>
+          <td>${escapeHtml(c.dni ?? "")}</td>
+          <td>${escapeHtml(c.apellido_nombre ?? "")}</td>
+          <td>${escapeHtml(c.motivo ?? "")}</td>
+          <td>${c.linked_person_id ? `<button type="button" class="secondary btnViewPerson" data-person="${c.linked_person_id}">Ver persona</button>` : ""}</td>
+        </tr>
+      `).join("") : `<tr><td colspan="6">Sin resultados.</td></tr>`;
+
+      $("globalSearchPrestacionesTable").innerHTML = prestaciones.length ? prestaciones.map((p) => `
+        <tr>
+          <td>${p.created_at ? new Date(p.created_at).toLocaleString("es-AR") : ""}</td>
+          <td>${escapeHtml(p.prestacion_nombre_resolved || "Prestación")}</td>
+          <td>${escapeHtml(p.area_name ?? "")}</td>
+          <td>${escapeHtml(p.person_dni ?? "")}</td>
+          <td>${escapeHtml(p.person_nombre ?? "")}</td>
+          <td>${p.linked_person_id ? `<button type="button" class="secondary btnViewPerson" data-person="${p.linked_person_id}">Ver persona</button>` : ""}</td>
+        </tr>
+      `).join("") : `<tr><td colspan="6">Sin resultados.</td></tr>`;
+
+      return persons.length + family.length + casesRows.length + prestaciones.length;
     }
+
+    async function runGlobalSearch() {
+      const term = normalizeName($("globalSearchInput").value);
+      if (!term) {
+        clearGlobalSearchResults();
+        $("globalSearchStatus").textContent = "Ingresá un término para buscar.";
+        return;
+      }
+
+      $("globalSearchStatus").textContent = "Buscando...";
+      const [personsRes, familyRes, casesRes, prestacionesRes] = await Promise.allSettled([
+        searchPersons(term),
+        searchFamilyMembers(term),
+        searchCases(term),
+        searchPrestaciones(term),
+      ]);
+
+      const results = {
+        persons: personsRes.status === "fulfilled" ? personsRes.value : [],
+        family: familyRes.status === "fulfilled" ? familyRes.value : [],
+        cases: casesRes.status === "fulfilled" ? casesRes.value : [],
+        prestaciones: prestacionesRes.status === "fulfilled" ? prestacionesRes.value : [],
+      };
+      const total = renderGlobalSearchResults(results);
+
+      const errors = [personsRes, familyRes, casesRes, prestacionesRes].filter((r) => r.status === "rejected");
+      if (errors.length) {
+        console.error("[runGlobalSearch]", errors.map((e) => e.reason));
+      }
+
+      if (!total) {
+        $("globalSearchStatus").textContent = "Sin resultados.";
+        return;
+      }
+      $("globalSearchStatus").textContent = `Resultados: ${total} registro(s).`;
+    }
+
+    async function loadPeople() {
+  $("peopleStatus").textContent = "Buscando personas...";
+  const sRaw = $("peopleSearch").value ?? "";
+  const sDni = normalizeDni(sRaw);
+  const sName = normalizeName(sRaw);
+  const hasLetters = /[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]/.test(sName);
+
+  console.log("[loadPeople] search", { sRaw, sDni, sName, hasLetters });
+
+  // Base query
+  let q = supabase
+    .from("persons")
+    .select("id, dni, apellido_nombre, telefono, domicilio, updated_at")
+    .order("updated_at", { ascending: false })
+    .limit(100);
+
+  // 1) Si parece DNI, priorizamos match exacto (más confiable)
+  if (sDni.length >= 7 && !hasLetters) {
+    // Intento exacto primero
+    const exact = await supabase
+      .from("persons")
+      .select("id, dni, apellido_nombre, telefono, domicilio, updated_at")
+      .eq("dni", sDni)
+      .order("updated_at", { ascending: false })
+      .limit(100);
+
+    if (exact.error) {
+      $("peopleStatus").textContent = `Error: ${exact.error.message}`;
+      console.error("[loadPeople] exact dni error", exact.error);
+      return;
+    }
+
+    // Si hay resultados exactos, renderizamos y salimos
+    if ((exact.data ?? []).length) {
+      const rows = exact.data ?? [];
+      renderPeopleTable(rows);
+      $("peopleStatus").textContent = `OK. ${rows.length} persona(s).`;
+      return;
+    }
+
+    // Si no hubo exacto, hacemos ilike como fallback
+    q = q.ilike("dni", `%${sDni}%`);
+  }
+  // 2) Si hay letras, buscamos por nombre
+  else if (hasLetters && sName.length >= 2) {
+    q = q.ilike("apellido_nombre", `%${sName}%`);
+  }
+  // 3) Si mezcla letras + números, buscamos por OR
+  else if (sDni.length >= 7 && hasLetters) {
+    // IMPORTANTE: en or() el formato correcto es: col.op.value
+    // y se separa por coma
+    q = q.or(`dni.ilike.%${sDni}%,apellido_nombre.ilike.%${sName}%`);
+  } else {
+    // sin criterio mínimo
+    $("peopleStatus").textContent = "Escribí un DNI (7+) o un nombre (2+ letras) para buscar.";
+    $("peopleTable").innerHTML = "";
+    return;
+  }
+
+  const { data, error } = await q;
+  if (error) {
+    $("peopleStatus").textContent = `Error: ${error.message}`;
+    console.error("[loadPeople] query error", error);
+    return;
+  }
+
+  const rows = data ?? [];
+  console.log("[loadPeople] rows", rows.length);
+  renderPeopleTable(rows);
+  $("peopleStatus").textContent = `OK. ${rows.length} persona(s).`;
+}
+
+function renderPeopleTable(rows) {
+  $("peopleTable").innerHTML = (rows ?? []).map((p) => `
+    <tr>
+      <td>${escapeHtml(p.dni ?? "")}</td>
+      <td><button type="button" class="secondary openPersonBtn" data-person="${p.id}">
+        ${escapeHtml(p.apellido_nombre ?? "")}
+      </button></td>
+      <td>${escapeHtml(p.telefono ?? "")}</td>
+      <td>${escapeHtml(p.domicilio ?? "")}</td>
+      <td>${p.updated_at ? new Date(p.updated_at).toLocaleString() : ""}</td>
+    </tr>
+  `).join("");
+}
 
     async function loadPersonDetail(personId) {
       if (!personId) return;
-      $("personDetail").classList.remove("hidden");
+      selectedPersonDetailId = personId;
+      openScreen("screenPersonDetail");
       $("personDetailMeta").textContent = "Cargando ficha...";
 
       const { data: person, error: personError } = await supabase
@@ -908,6 +3777,11 @@
         .maybeSingle();
       if (personError || !person) {
         $("personDetailMeta").textContent = `Error: ${personError?.message ?? "Persona no encontrada."}`;
+        $("personDetailTable").innerHTML = "";
+        $("personFamilyTable").innerHTML = "";
+        $("personCasesTable").innerHTML = "";
+        $("personAlerts").innerHTML = `<div class="muted">Sin alertas relevantes.</div>`;
+        $("personTimeline").innerHTML = `<div class="muted">Sin eventos registrados.</div>`;
         return;
       }
 
@@ -924,32 +3798,59 @@
         ["Actualizado", person.updated_at ? new Date(person.updated_at).toLocaleString() : ""],
       ].map(([k, v]) => `<tr><th style="text-align:left;">${escapeHtml(k)}</th><td>${escapeHtml(v)}</td></tr>`).join("");
 
-      const { data: personCases, error: casesError } = await supabase
-        .from("cases")
-        .select("created_at, area_id, motivo, ingresos, created_by, areas(name)")
+      const { data: familyRows, error: familyError } = await supabase
+        .from("family_members")
+        .select("apellido_nombres, dni, observaciones")
         .eq("person_id", personId)
-        .order("created_at", { ascending: false });
+        .order("created_at", { ascending: true });
+      if (familyError) {
+        $("personFamilyTable").innerHTML = `<tr><td colspan="4">Error: ${escapeHtml(familyError.message)}</td></tr>`;
+      } else {
+        const fam = familyRows ?? [];
+        if (!fam.length) {
+          $("personFamilyTable").innerHTML = `<tr><td colspan="4">Sin integrantes cargados.</td></tr>`;
+        } else {
+          const famWithFicha = await Promise.all(fam.map(async (r) => {
+            const dniNorm = normalizeDni(r.dni);
+            if (!dniNorm) {
+              return { ...r, dniNorm: "", linkedPersonId: null };
+            }
+            const { data: linkedPerson } = await supabase
+              .from("persons")
+              .select("id,dni")
+              .eq("dni", dniNorm)
+              .maybeSingle();
+            return { ...r, dniNorm, linkedPersonId: linkedPerson?.id ?? null };
+          }));
 
+          $("personFamilyTable").innerHTML = famWithFicha.map((r) => `
+            <tr>
+              <td>${escapeHtml(r.apellido_nombres ?? "")}</td>
+              <td>${escapeHtml(r.dniNorm || "Sin DNI")}</td>
+              <td>${escapeHtml(r.observaciones ?? "")}</td>
+              <td>${r.linkedPersonId ? `<button class="secondary btnViewPerson" data-person="${r.linkedPersonId}" type="button">Ver ficha</button>` : ""}</td>
+            </tr>
+          `).join("");
+        }
+      }
+      const { data: personCases, error: casesError } = await queryCasesReadable({ person_id: personId });
       if (casesError) {
         $("personCasesTable").innerHTML = `<tr><td colspan="5">Error: ${escapeHtml(casesError.message)}</td></tr>`;
-        return;
+      } else {
+        const caseRows = (personCases ?? []).filter((c) => c.person_id === personId);
+        $("personCasesTable").innerHTML = caseRows.length ? caseRows.map((c) => `
+          <tr>
+            <td>${c.created_at ? new Date(c.created_at).toLocaleString() : ""}</td>
+            <td>${escapeHtml(c.area_name ?? "")}</td>
+            <td>${escapeHtml(c.motivo ?? "")}</td>
+            <td>${c.ingresos == null ? "" : escapeHtml(String(c.ingresos))}</td>
+            <td>${escapeHtml(renderOwner(c))}</td>
+          </tr>
+        `).join("") : `<tr><td colspan="5">Sin atenciones registradas.</td></tr>`;
       }
 
-      const caseRows = personCases ?? [];
-      const [profilesMap, areasMap] = await Promise.all([
-        getProfilesMap(caseRows.map((c) => c.created_by)),
-        getAreasMap(caseRows.map((c) => c.area_id)),
-      ]);
-
-      $("personCasesTable").innerHTML = caseRows.map((c) => `
-        <tr>
-          <td>${new Date(c.created_at).toLocaleString()}</td>
-          <td>${escapeHtml(c.areas?.name ?? areasMap[c.area_id] ?? "")}</td>
-          <td>${escapeHtml(c.motivo ?? "")}</td>
-          <td>${c.ingresos == null ? "" : escapeHtml(String(c.ingresos))}</td>
-          <td>${escapeHtml(profilesMap[c.created_by] ?? c.created_by ?? "")}</td>
-        </tr>
-      `).join("");
+      await loadPersonAlerts(personId);
+      await loadPersonTimeline(personId);
     }
 
     async function adminListUsers() {
@@ -960,6 +3861,7 @@
       const users = data?.users ?? [];
       $("usersTable").innerHTML = users.map(u => {
         const active = (u.profile?.is_active ?? true);
+        const currentAreaId = u.profile?.default_area_id ? String(u.profile.default_area_id) : "";
         return `
           <tr>
             <td>${escapeHtml(u.email ?? "")}</td>
@@ -974,6 +3876,11 @@
               <select data-user="${u.id}" class="viewAllSel">
                 <option value="false" ${(u.profile?.can_view_all === false || u.profile?.can_view_all == null) ? "selected" : ""}>false</option>
                 <option value="true" ${u.profile?.can_view_all === true ? "selected" : ""}>true</option>
+              </select>
+            </td>
+            <td>
+              <select data-user="${u.id}" class="userAreaSel">
+                ${buildAreaOptions(currentAreaId, true)}
               </select>
             </td>
             <td><span class="pill">${active ? "activo" : "desactivado"}</span></td>
@@ -1012,6 +3919,7 @@
         role: $("newUserRole").value,
         can_view_all: $("newUserViewAll").value === "true",
         full_name: $("newUserFullName").value.trim(),
+        default_area_id: $("newUserDefaultArea").value || null,
       };
 
       const { data, error } = await supabase.functions.invoke("admin-users", { method: "POST", body: payload });
@@ -1022,11 +3930,11 @@
       await adminListUsers();
     }
 
-    async function adminSaveUser(userId, role, can_view_all) {
+    async function adminSaveUser(userId, role, can_view_all, default_area_id) {
       $("adminStatus").textContent = "Guardando cambios...";
       const { data, error } = await supabase.functions.invoke("admin-users", {
         method: "PATCH",
-        body: { user_id: userId, role, can_view_all }
+        body: { user_id: userId, role, can_view_all, default_area_id }
       });
       if (error) { $("adminStatus").textContent = "Error: " + error.message; return; }
       if (data?.error) { $("adminStatus").textContent = "Error: " + data.error; return; }
@@ -1143,14 +4051,14 @@
     async function openAdminModal() {
       if (myProfile?.role !== "superadmin") return;
       $("adminModal").classList.remove("hidden");
-      document.body.classList.add("modal-open");
+      syncBodyModalState();
       closeSidebarMobile();
       await setAdminTab("users");
     }
 
     function closeAdminModal() {
       $("adminModal").classList.add("hidden");
-      document.body.classList.remove("modal-open");
+      syncBodyModalState();
     }
 
     async function doLogout() {
@@ -1160,112 +4068,366 @@
       currentUser = null;
       currentPersonId = null;
       currentPersonDni = null;
+      selectedPersonDetailId = null;
       lastCaseId = null;
+      lastCaseAreaId = null;
       $("meInfo").textContent = "";
       $("rolePill").textContent = "";
+      resetPrestacionesUI();
+      openScreen("screenDashboard");
     }
 
-    $("btnLogin").addEventListener("click", async () => {
-      $("authStatus").textContent = "Ingresando...";
-      const email = $("email").value.trim();
-      const password = $("password").value;
+    function initEventListeners() {
+      if (window.__fichaSocialInited) return;
+      window.__fichaSocialInited = true;
 
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) { $("authStatus").textContent = "Error: " + error.message; return; }
+      on("btnLogin", "click", async () => {
+        $("authStatus").textContent = "Ingresando...";
+        const email = $("email").value.trim();
+        const password = $("password").value;
 
-      setAuthUI(true);
-      await loadProfile();
-      await loadAreas();
-    });
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) { $("authStatus").textContent = "Error: " + error.message; return; }
 
-    $("btnLogoutFloating").addEventListener("click", doLogout);
-    $("btnLogoutHeader").addEventListener("click", doLogout);
-    $("btnOpenAdmin").addEventListener("click", openAdminModal);
-    $("btnCloseAdmin").addEventListener("click", closeAdminModal);
-    $("adminModal").addEventListener("click", (e) => { if (e.target.id === "adminModal") closeAdminModal(); });
-    $("tabUsers").addEventListener("click", () => setAdminTab("users"));
-    $("tabAreas").addEventListener("click", () => setAdminTab("areas"));
-    $("tabAudit").addEventListener("click", () => setAdminTab("audit"));
-    $("btnFindPerson").addEventListener("click", findOrSelectPersonByDni);
-    $("dni").addEventListener("blur", findOrSelectPersonByDni);
-    $("dni").addEventListener("input", () => {
-      if (!currentPersonId) return;
-      const dni = $("dni").value.trim();
-      if (dni !== currentPersonDni) {
-        currentPersonId = null;
-        currentPersonDni = null;
-        $("personStatus").textContent = "DNI modificado. Se buscará/creará una nueva persona al guardar.";
-        updateFamilyHeader();
-      }
-    });
-    $("apellidoNombre").addEventListener("input", updateFamilyHeader);
-    $("btnCreateCase").addEventListener("click", createCase);
-    $("btnAddFamily").addEventListener("click", addFamilyMember);
-    $("btnLoadCases").addEventListener("click", loadCases);
-    $("btnLoadPeople").addEventListener("click", loadPeople);
-    $("btnCreateUser").addEventListener("click", adminCreateUser);
-    $("btnRefreshUsers").addEventListener("click", adminListUsers);
-    $("btnCreateArea").addEventListener("click", adminCreateArea);
-    $("btnRefreshAreas").addEventListener("click", adminListAreas);
-
-    $("btnLoadAudit").addEventListener("click", async () => { auditPage = 0; await loadAuditLog(); });
-    $("btnClearAuditFilters").addEventListener("click", () => {
-      $("auditActionFilter").value = "";
-      $("auditEntityFilter").value = "";
-      $("auditActorFilter").value = "";
-    });
-    $("btnAuditPrev").addEventListener("click", async () => { if (auditPage > 0) { auditPage--; await loadAuditLog(); } });
-    $("btnAuditNext").addEventListener("click", async () => { auditPage++; await loadAuditLog(); });
-
-    $("btnSidebarToggle").addEventListener("click", () => {
-      $("sidebar").classList.toggle("open");
-      $("sidebarBackdrop").classList.toggle("open");
-    });
-    $("sidebarBackdrop").addEventListener("click", closeSidebarMobile);
-
-    document.querySelectorAll("[data-scroll-target]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const target = document.getElementById(btn.dataset.scrollTarget);
-        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-        closeSidebarMobile();
+        setAuthUI(true);
+        await loadProfile();
+        await loadAreas();
+        applyAreaAccessControl();
+        resetPrestacionesUI();
       });
-    });
 
-    document.addEventListener("click", async (e) => {
-      const t = e.target;
-      if (t.classList?.contains("saveUserBtn")) {
-        const userId = t.dataset.user;
-        const role = document.querySelector(`.roleSel[data-user="${userId}"]`).value;
-        const viewAll = document.querySelector(`.viewAllSel[data-user="${userId}"]`).value === "true";
-        await adminSaveUser(userId, role, viewAll);
-      }
-      if (t.classList?.contains("saveAreaBtn")) await adminSaveArea(t.dataset.area);
-      if (t.classList?.contains("deactUserBtn")) await adminSetUserActive(t.dataset.user, false);
-      if (t.classList?.contains("reactUserBtn")) await adminSetUserActive(t.dataset.user, true);
-      if (t.classList?.contains("openPersonBtn")) await loadPersonDetail(t.dataset.person);
-    });
+      on("btnLogoutFloating", "click", doLogout);
+      on("btnLogoutHeader", "click", doLogout);
+      on("btnOpenAdmin", "click", openAdminModal);
+      on("btnCloseAdmin", "click", closeAdminModal);
+      on("adminModal", "click", (e) => { if (e.target.id === "adminModal") closeAdminModal(); });
+      on("btnClosePrestacionModal", "click", closePrestacionModal);
+      on("prestacionModal", "click", (e) => { if (e.target.id === "prestacionModal") closePrestacionModal(); });
+      on("tabUsers", "click", () => setAdminTab("users"));
+      on("tabAreas", "click", () => setAdminTab("areas"));
+      on("tabAudit", "click", () => setAdminTab("audit"));
 
-    statusNodeIds.forEach((id) => {
-      const el = $(id);
-      if (!el) return;
-      new MutationObserver(refreshLoadingIndicators).observe(el, { childList: true, characterData: true, subtree: true });
-    });
-    refreshLoadingIndicators();
+      on("btnFindPerson", "click", async () => {
+        try {
+          const dniNorm = normalizeDni($("dni")?.value);
+          $("dni").value = dniNorm;
+          $("personStatus").textContent = "Buscando persona...";
+          console.log("[btnFindPerson] click", { dni: dniNorm });
+          const person = await findOrSelectPersonByDni();
+          const dniValue = normalizeDni($("dni")?.value ?? "");
+          if (dniValue && dniValue.length >= 7) {
+            if (person?.id) {
+              $("personStatus").textContent = `Persona encontrada: ${person.apellido_nombre ?? ""} (DNI ${normalizeDni(person.dni ?? "")})`;
+            } else {
+              $("personStatus").textContent = "No existe persona con ese DNI. Completá los datos para crearla.";
+            }
+          }
+        } catch (err) {
+          console.error("[btnFindPerson]", err);
+          $("personStatus").textContent = `Error al buscar persona: ${err?.message || "error inesperado"}`;
+        }
+      });
 
-    window.addEventListener("resize", () => {
-      if (!window.matchMedia("(max-width: 920px)").matches) {
-        $("sidebar").classList.remove("open");
-        $("sidebarBackdrop").classList.remove("open");
-      }
-    });
+      on("dni", "input", () => {
+        const dni = normalizeDni($("dni").value);
+        $("dni").value = dni;
+        if (currentPersonId && dni !== currentPersonDni) {
+          currentPersonId = null;
+          currentPersonDni = null;
+          $("personStatus").textContent = "DNI modificado. Se buscará/creará una nueva persona al guardar.";
+          updateFamilyHeader();
+        }
+        if (dniDebounceTimer) clearTimeout(dniDebounceTimer);
+        if (!dni || dni.length < 7) return;
+        dniDebounceTimer = setTimeout(() => {
+          findOrSelectPersonByDni();
+        }, 500);
+      });
+      on("dni", "blur", () => {
+        $("dni").value = normalizeDni($("dni").value);
+      });
+      on("apellidoNombre", "input", updateFamilyHeader);
+      on("btnCreateCase", "click", async () => {
+        const prevCaseId = lastCaseId;
+        await createCase();
+        if (lastCaseId && lastCaseId !== prevCaseId) {
+          await loadPrestacionesForArea();
+        }
+      });
+      on("areaSelect", "change", async () => {
+        if (!lastCaseId) return;
+        await loadPrestacionesForArea();
+      });
+      on("btnAddFamily", "click", addFamilyMember);
+
+      on("btnLoadCases", "click", async () => {
+        try {
+          await loadCases(getCaseFiltersFromUI());
+        } catch (err) {
+          console.error("[btnLoadCases]", err);
+          $("casesStatus").textContent = `Error al cargar casos: ${err?.message || "error inesperado"}`;
+        }
+      });
+
+      on("btnClearCaseFilters", "click", async () => {
+        if (casesFilterDebounceTimer) clearTimeout(casesFilterDebounceTimer);
+        $("casesFilterDni").value = "";
+        $("casesFilterName").value = "";
+        $("casesFilterArea").value = "";
+        $("casesFilterFrom").value = "";
+        $("casesFilterTo").value = "";
+        await loadCases(getCaseFiltersFromUI());
+      });
+
+      ["casesFilterDni", "casesFilterName"].forEach((id) => {
+        on(id, "input", scheduleCasesFilterApply);
+        on(id, "keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            if (casesFilterDebounceTimer) clearTimeout(casesFilterDebounceTimer);
+            loadCases(getCaseFiltersFromUI());
+          }
+        });
+      });
+
+      ["casesFilterArea", "casesFilterFrom", "casesFilterTo"].forEach((id) => {
+        on(id, "change", scheduleCasesFilterApply);
+        on(id, "keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            if (casesFilterDebounceTimer) clearTimeout(casesFilterDebounceTimer);
+            loadCases(getCaseFiltersFromUI());
+          }
+        });
+      });
+
+      on("btnApplyStats", "click", () => {
+        loadStatsDashboard();
+      });
+      on("btnClearStats", "click", () => {
+        $("statsFrom").value = "";
+        $("statsTo").value = "";
+        $("statsAreaFilter").value = "";
+        loadStatsDashboard();
+      });
+      ["statsFrom", "statsTo", "statsAreaFilter"].forEach((id) => {
+        on(id, "change", () => {
+          if (currentScreen !== "screenStats") return;
+          loadStatsDashboard();
+        });
+      });
+
+      on("btnGlobalSearch", "click", () => runGlobalSearch());
+      on("globalSearchInput", "keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          runGlobalSearch();
+        }
+      });
+
+      on("btnBackToDashboard", "click", () => {
+        openScreen("screenDashboard");
+        document.getElementById("sectionPersons")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      on("btnUsePersonFromDetail", "click", async () => {
+        if (!selectedPersonDetailId) return;
+        const { data: person, error } = await supabase
+          .from("persons")
+          .select("id, dni, apellido_nombre, fecha_nacimiento, domicilio, telefono, estado_civil, trabaja_actualmente")
+          .eq("id", selectedPersonDetailId)
+          .maybeSingle();
+        if (error || !person) {
+          $("personDetailMeta").textContent = `Error al seleccionar persona: ${error?.message ?? "No encontrada."}`;
+          return;
+        }
+        await selectActivePerson(person);
+        openScreen("screenDashboard");
+        document.getElementById("sectionNewCase")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      on("btnLoadPeople", "click", async () => {
+        try {
+          await loadPeople();
+        } catch (err) {
+          console.error("[btnLoadPeople]", err);
+          $("peopleStatus").textContent = `Error al cargar personas: ${err?.message || "error inesperado"}`;
+        }
+      });
+      on("btnCreateUser", "click", adminCreateUser);
+      on("btnRefreshUsers", "click", adminListUsers);
+      on("btnCreateArea", "click", adminCreateArea);
+      on("btnRefreshAreas", "click", adminListAreas);
+
+      on("btnLoadAudit", "click", async () => { auditPage = 0; await loadAuditLog(); });
+      on("btnClearAuditFilters", "click", () => {
+        $("auditActionFilter").value = "";
+        $("auditEntityFilter").value = "";
+        $("auditActorFilter").value = "";
+      });
+      on("btnAuditPrev", "click", async () => { if (auditPage > 0) { auditPage--; await loadAuditLog(); } });
+      on("btnAuditNext", "click", async () => { auditPage++; await loadAuditLog(); });
+
+      on("btnSidebarToggle", "click", () => {
+        $("sidebar").classList.toggle("open");
+        $("sidebarBackdrop").classList.toggle("open");
+      });
+      on("sidebarBackdrop", "click", closeSidebarMobile);
+
+      document.querySelectorAll(".navBtn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const screenId = btn.dataset.screen || "screenDashboard";
+          openScreen(screenId);
+          if (screenId === "screenCases") {
+            loadCases(getCaseFiltersFromUI());
+          }
+          if (screenId === "screenStats") {
+            loadStatsDashboard();
+          }
+          if (screenId === "screenSearch") {
+            $("globalSearchInput")?.focus();
+          }
+          const targetId = btn.dataset.scrollTarget;
+          if (targetId) {
+            const target = document.getElementById(targetId);
+            if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+          closeSidebarMobile();
+        });
+      });
+
+      document.addEventListener("click", async (e) => {
+        const t = e.target;
+        const prestacionBtn = t.closest?.(".prestacionBtn");
+        if (prestacionBtn?.dataset?.prestacionId) {
+          const prestacion = getPrestacionById(prestacionBtn.dataset.prestacionId);
+          openPrestacionModal(prestacion);
+          return;
+        }
+        if (t.id === "btnAddAcompanante") {
+          appendPasajesAcompananteRow();
+          return;
+        }
+        if (t.id === "btnAddMedicamentoItem") {
+          appendMedicamentoItemRow();
+          return;
+        }
+        const removeBtn = t.closest?.(".removeAcompananteBtn");
+        if (removeBtn) {
+          removeBtn.closest(".acompananteRow")?.remove();
+          updatePasajesAcompanantesCount();
+          return;
+        }
+        const removeMedicamentoBtn = t.closest?.(".removeMedicamentoBtn");
+        if (removeMedicamentoBtn) {
+          removeMedicamentoBtn.closest(".medicamentoItemRow")?.remove();
+          return;
+        }
+        const editPrestacionBtn = t.closest?.(".editPrestacionBtn");
+        if (editPrestacionBtn?.dataset?.prestacionRecordId) {
+          const record = getPrestacionHistoryById(editPrestacionBtn.dataset.prestacionRecordId);
+          if (!record) {
+            $("prestacionesStatus").textContent = "No se encontró la prestación a editar.";
+            return;
+          }
+          const prestacion = await ensurePrestacionForRecord(record);
+          if (!prestacion) {
+            $("prestacionesStatus").textContent = "No se pudo cargar la prestación para editar.";
+            return;
+          }
+          openPrestacionModal(prestacion, record);
+          return;
+        }
+        const deletePrestacionBtn = t.closest?.(".deletePrestacionBtn");
+        if (deletePrestacionBtn?.dataset?.prestacionRecordId) {
+          await deletePrestacion(deletePrestacionBtn.dataset.prestacionRecordId);
+          return;
+        }
+        const caseRow = t.closest?.(".caseRow");
+        if (caseRow?.dataset?.person) {
+          await loadPersonDetail(caseRow.dataset.person);
+          return;
+        }
+        if (t.classList?.contains("saveUserBtn")) {
+          const userId = t.dataset.user;
+          const role = document.querySelector(`.roleSel[data-user="${userId}"]`).value;
+          const viewAll = document.querySelector(`.viewAllSel[data-user="${userId}"]`).value === "true";
+          const defaultAreaId = document.querySelector(`.userAreaSel[data-user="${userId}"]`).value || null;
+          await adminSaveUser(userId, role, viewAll, defaultAreaId);
+        }
+        if (t.classList?.contains("saveAreaBtn")) await adminSaveArea(t.dataset.area);
+        if (t.classList?.contains("deactUserBtn")) await adminSetUserActive(t.dataset.user, false);
+        if (t.classList?.contains("reactUserBtn")) await adminSetUserActive(t.dataset.user, true);
+        if (t.classList?.contains("openPersonBtn")) {
+          const personId = t.dataset.person;
+          const { data: person, error } = await supabase
+            .from("persons")
+            .select("id, dni, apellido_nombre, fecha_nacimiento, domicilio, telefono, estado_civil, trabaja_actualmente, created_at, updated_at")
+            .eq("id", personId)
+            .maybeSingle();
+          if (error || !person) {
+            $("peopleStatus").textContent = `Error abriendo persona: ${error?.message ?? "No encontrada."}`;
+            return;
+          }
+          await selectActivePerson(person);
+          await loadPersonDetail(personId);
+        }
+        if (t.classList?.contains("btnViewPerson")) {
+          const personId = t.dataset.person;
+          if (personId) await loadPersonDetail(personId);
+        }
+      });
+
+      document.addEventListener("submit", async (e) => {
+        const form = e.target;
+        if (form?.id !== "prestacionModalForm") return;
+        e.preventDefault();
+        const prestacion = getPrestacionById(form.dataset.prestacionId);
+        if (!prestacion) {
+          $("prestacionesStatus").textContent = "Prestación inválida para este caso.";
+          return;
+        }
+        const code = String(form.dataset.prestacionCode || prestacion.code || "").toUpperCase();
+        const payload = collectPrestacionFormData(code);
+        if (payload.error) {
+          $("prestacionesStatus").textContent = payload.error;
+          return;
+        }
+        const existingId = form.dataset.existingId || null;
+        await savePrestacion(prestacion.id, lastCaseAreaId || prestacion.area_id, payload.datos, payload.observaciones, existingId);
+      });
+
+      statusNodeIds.forEach((id) => {
+        const el = $(id);
+        if (!el) return;
+        new MutationObserver(refreshLoadingIndicators).observe(el, { childList: true, characterData: true, subtree: true });
+      });
+      refreshLoadingIndicators();
+
+      window.addEventListener("resize", () => {
+        if (!window.matchMedia("(max-width: 920px)").matches) {
+          $("sidebar").classList.remove("open");
+          $("sidebarBackdrop").classList.remove("open");
+        }
+      });
+
+      window.addEventListener("error", (e) => {
+        console.error("[GLOBAL ERROR]", e.message, e.filename, e.lineno, e.colno);
+      });
+    }
+
+    initEventListeners();
 
     const { data: { session } } = await supabase.auth.getSession();
     if (session) {
       setAuthUI(true);
       await loadProfile();
       await loadAreas();
+      applyAreaAccessControl();
+      resetPrestacionesUI();
     } else {
       setAuthUI(false);
+      resetPrestacionesUI();
     }
   </script>
 </body>
